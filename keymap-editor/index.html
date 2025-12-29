@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofle Keymap Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎹 Sofle Keymap Editor</h1>
+            <p class="subtitle">Editor visual para ZMK firmware</p>
+        </header>
+
+        <div class="controls">
+            <div class="layer-selector">
+                <label>Capa:</label>
+                <button class="layer-btn active" data-layer="0">Layer 0</button>
+                <button class="layer-btn" data-layer="1">Layer 1</button>
+                <button class="layer-btn" data-layer="2">Layer 2</button>
+                <button class="layer-btn" data-layer="3">Layer 3</button>
+                <button class="layer-btn" data-layer="4">Layer 4</button>
+            </div>
+            
+            <div class="actions">
+                <button id="importBtn" class="btn btn-secondary">📥 Importar</button>
+                <button id="exportBtn" class="btn btn-primary">💾 Guardar Keymap</button>
+                <button id="resetBtn" class="btn btn-danger">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="keyboard-container">
+                <div class="keyboard-half left-half">
+                    <div class="half-label">Izquierda</div>
+                    <div id="leftKeyboard" class="keyboard-grid"></div>
+                </div>
+                
+                <div class="center-column">
+                    <div class="encoder-section">
+                        <div class="encoder-label">Encoder</div>
+                        <div class="encoder-controls">
+                            <div class="encoder-key" data-key="encoder-up">↑</div>
+                            <div class="encoder-key" data-key="encoder-down">↓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="keyboard-half right-half">
+                    <div class="half-label">Derecha</div>
+                    <div id="rightKeyboard" class="keyboard-grid"></div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="key-info">
+                    <h3>Tecla Seleccionada</h3>
+                    <div id="selectedKeyInfo" class="info-content">
+                        <p class="placeholder">Haz clic en una tecla para editarla</p>
+                    </div>
+                </div>
+
+                <div class="keycode-search">
+                    <h3>Buscar Keycode</h3>
+                    <input type="text" id="keycodeSearch" placeholder="Buscar (ej: 'A', 'ctrl', 'F1')...">
+                    <div id="keycodeResults" class="keycode-list"></div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Acciones Rápidas</h3>
+                    <div class="quick-buttons">
+                        <button class="quick-btn" data-code="&trans">Trans</button>
+                        <button class="quick-btn" data-code="&none">None</button>
+                        <button class="quick-btn" data-code="&mo 1">MO(1)</button>
+                        <button class="quick-btn" data-code="&mo 2">MO(2)</button>
+                        <button class="quick-btn" data-code="&kp LSHFT">Shift</button>
+                        <button class="quick-btn" data-code="&kp LCTRL">Ctrl</button>
+                        <button class="quick-btn" data-code="&kp LALT">Alt</button>
+                        <button class="quick-btn" data-code="&kp LGUI">GUI</button>
+                    </div>
+                </div>
+
+                <div class="rgb-controls">
+                    <h3>🌈 Control RGB</h3>
+                    <div class="rgb-buttons">
+                        <button class="rgb-btn rgb-on" data-code="&rgb_ug RGB_ON">🔆 ON</button>
+                        <button class="rgb-btn rgb-off" data-code="&rgb_ug RGB_OFF">⚫ OFF</button>
+                        <button class="rgb-btn rgb-toggle" data-code="&rgb_ug RGB_TOG">🔄 Toggle</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_BRI">☀️ Brillo +</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_BRD">🌙 Brillo -</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_EFF">➡️ Efecto +</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_EFR">⬅️ Efecto -</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_SPI">⚡ Speed +</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_SPD">🐌 Speed -</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_HUI">🎨 Hue +</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_HUD">🎨 Hue -</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_SAI">💧 Sat +</button>
+                        <button class="rgb-btn" data-code="&rgb_ug RGB_SAD">💧 Sat -</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Modal</h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="keycodes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
