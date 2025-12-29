@@ -295,6 +295,22 @@ class KeymapEditor {
         this.updateKeyInfo();
     }
 
+    switchTab(tabName) {
+        // Ocultar todas las pestañas
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Desactivar todos los botones de pestaña
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Activar la pestaña seleccionada
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    }
+
     exportKeymap() {
         let output = `#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 25
@@ -497,14 +513,16 @@ class KeymapEditor {
             });
         });
 
-        document.querySelectorAll('.quick-btn').forEach(btn => {
+        // Manejadores de pestañas
+        document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const code = btn.dataset.code;
-                this.setKeycode(code);
+                const tabName = btn.dataset.tab;
+                this.switchTab(tabName);
             });
         });
 
-        document.querySelectorAll('.rgb-btn').forEach(btn => {
+        // Manejadores de botones de keycodes
+        document.querySelectorAll('.keycode-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const code = btn.dataset.code;
                 this.setKeycode(code);
