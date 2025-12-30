@@ -47,8 +47,8 @@ class KeymapEditor {
                 '&trans', '&trans', '&trans', '&trans', '&trans', '&trans',
                 '&mkp LCLK', '&trans', '&trans', '&trans', '&trans', '&trans'
             ],
-            3: Array(60).fill('&trans'),
-            4: Array(60).fill('&trans')
+            3: Array(64).fill('&trans'),
+            4: Array(64).fill('&trans')
         };
         
         return defaultKeymap;
@@ -404,19 +404,19 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            // Asegurar que la capa tenga exactamente 63 teclas
+            // Asegurar que la capa tenga exactamente 64 teclas (según el layout físico)
             let keys = [...this.keymap[layer]];
-            while (keys.length < 63) {
+            while (keys.length < 64) {
                 keys.push('&trans');
             }
-            keys = keys.slice(0, 63); // Asegurar que no haya más de 63
+            keys = keys.slice(0, 64); // Asegurar que no haya más de 64
             
             const rows = [
                 keys.slice(0, 13).join('  '),
                 keys.slice(13, 26).join('  '),
                 keys.slice(26, 39).join('  '),
                 keys.slice(39, 52).join('  '),
-                keys.slice(52, 63).join('  ')
+                keys.slice(52, 64).join('  ')
             ];
             
             rows.forEach(row => {
@@ -490,10 +490,10 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    this.keymap[index] = keys.slice(0, 63);
+                    this.keymap[index] = keys.slice(0, 64);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 63) {
+                    while (this.keymap[index].length < 64) {
                         this.keymap[index].push('&trans');
                     }
                     layersImported++;
