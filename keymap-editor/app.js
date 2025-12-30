@@ -24,7 +24,7 @@ class KeymapEditor {
                 '&kp LSHFT', '&kp Z', '&kp X', '&kp C', '&kp V', '&kp B',
                 '&kp N', '&kp M', '&kp COMMA', '&kp DOT', '&kp FSLH', '&kp ENTER',
                 '&kp C_MUTE', '&kp LCTRL', '&kp LGUI', '&kp LALT', '&mo 1', '&kp SPACE',
-                '&kp ENTER', '&kp SPACE', '&kp ENTER', '&mo 2', '&kp RSHFT', '&kp DEL'
+                '&kp SPACE', '&kp ENTER', '&mo 2', '&kp RALT', '&kp RCTRL', '&kp DEL'
             ],
             1: [
                 '&kp GRAVE', '&kp F1', '&kp F2', '&kp F3', '&kp F4', '&kp F5',
@@ -36,7 +36,7 @@ class KeymapEditor {
                 '&trans', '&rgb_ug RGB_OFF', '&rgb_ug RGB_ON', '&rgb_ug RGB_EFF', '&rgb_ug RGB_EFR', '&rgb_ug RGB_SPI',
                 '&rgb_ug RGB_BRI', '&rgb_ug RGB_BRD', '&kp INSERT', '&kp F11', '&kp F12', '&trans',
                 '&kp C_MUTE', '&trans', '&trans', '&trans', '&trans', '&trans',
-                '&mkp LCLK', '&trans', '&trans', '&trans', '&trans', '&trans'
+                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans', '&trans'
             ],
             2: [
                 '&kp TILDE', '&bt BT_SEL 0', '&bt BT_SEL 1', '&bt BT_SEL 2', '&bt BT_SEL 3', '&bt BT_SEL 4',
@@ -48,10 +48,10 @@ class KeymapEditor {
                 '&trans', '&sys_reset', '&trans', '&bootloader', '&trans', '&trans',
                 '&trans', '&trans', '&sys_reset', '&soft_off', '&bootloader', '&trans',
                 '&trans', '&trans', '&trans', '&trans', '&trans', '&trans',
-                '&mkp LCLK', '&trans', '&trans', '&trans', '&trans', '&trans'
+                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans', '&trans'
             ],
-            3: Array(58).fill('&trans'),
-            4: Array(58).fill('&trans')
+            3: Array(60).fill('&trans'),
+            4: Array(60).fill('&trans')
         };
         
         return defaultKeymap;
@@ -211,14 +211,14 @@ class KeymapEditor {
             12, 13, 14, 15, 16, 17, // Fila 1
             24, 25, 26, 27, 28, 29, // Fila 2
             36, 37, 38, 39, 40, 41, // Fila 3
-            48, 49, 50, 51, 52      // Fila 4 (5 teclas)
+            48, 49, 50, 51, 52, 53  // Fila 4 (6 teclas)
         ];
         const rightKeys = [
             6, 7, 8, 9, 10, 11,     // Fila 0
             18, 19, 20, 21, 22, 23, // Fila 1
             30, 31, 32, 33, 34, 35, // Fila 2
             42, 43, 44, 45, 46, 47, // Fila 3
-            53, 54, 55, 56, 57      // Fila 4 (5 teclas)
+            54, 55, 56, 57, 58, 59  // Fila 4 (6 teclas)
         ];
 
         leftKeys.forEach(keyIndex => {
@@ -310,12 +310,13 @@ class KeymapEditor {
             40: { x: 250, y: 185 },
             41: { x: 310, y: 190 },
             
-            // Fila 4 - Thumb cluster (índices 48-52, 5 teclas)
-            48: { x: 70, y: 250 },   // C_MUTE
-            49: { x: 130, y: 250 },  // LCTRL
-            50: { x: 190, y: 250 },  // LGUI
-            51: { x: 250, y: 255 },  // LALT
-            52: { x: 310, y: 265 },  // mo 1
+            // Fila 4 - Thumb cluster (índices 48-53, 6 teclas)
+            48: { x: 10, y: 250 },   // C_MUTE
+            49: { x: 70, y: 250 },   // LCTRL
+            50: { x: 130, y: 250 },  // LGUI
+            51: { x: 190, y: 250 },  // LALT
+            52: { x: 250, y: 255 },  // mo 1
+            53: { x: 310, y: 265 },  // SPACE
             
             // LADO DERECHO
             // Fila 0 - Number row (índices 6-11)
@@ -350,12 +351,13 @@ class KeymapEditor {
             46: { x: 250, y: 180 },
             47: { x: 310, y: 190 },
             
-            // Fila 4 - Thumb cluster (índices 53-57, 5 teclas)
-            53: { x: 50, y: 265 },   // mo 2
-            54: { x: 110, y: 255 },  // SPACE
-            55: { x: 170, y: 250 },  // ENTER
-            56: { x: 230, y: 250 },  // RSHFT
-            57: { x: 290, y: 250 }   // DEL
+            // Fila 4 - Thumb cluster (índices 54-59, 6 teclas)
+            54: { x: 50, y: 265 },   // SPACE
+            55: { x: 110, y: 255 },  // ENTER
+            56: { x: 170, y: 250 },  // mo 2
+            57: { x: 230, y: 250 },  // RALT
+            58: { x: 290, y: 250 },  // RCTRL
+            59: { x: 350, y: 250 }   // DEL
         };
         
         return positions[index] || { x: 0, y: 0 };
@@ -667,17 +669,17 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            // Asegurar que la capa tenga exactamente 58 teclas (sin encoders/joystick)
+            // Asegurar que la capa tenga exactamente 60 teclas (sin encoders)
             let keys = [...this.keymap[layer]];
-            while (keys.length < 58) {
+            while (keys.length < 60) {
                 keys.push('&trans');
             }
-            keys = keys.slice(0, 58); // Asegurar que no haya más de 58
+            keys = keys.slice(0, 60); // Asegurar que no haya más de 60
             
-            // Mapear las 58 teclas a la matriz física de 64 posiciones
+            // Mapear las 60 teclas a la matriz física de 64 posiciones
             // La matriz física tiene col 6 reservada (encoder) en todas las filas
             // Filas 0-3: col 0-5, 7-13 = 13 posiciones (falta col 6)
-            // Fila 4: col 0-5, 7-12 = 12 posiciones (falta col 6 y col 13)
+            // Fila 4: col 0-5, 7-12 = 13 posiciones (falta col 6)
             const exportKeys = [
                 // Fila 0: teclas 0-5, &none (col 6), teclas 6-11 (col 7-12 y col 13)
                 ...keys.slice(0, 6), '&none', ...keys.slice(6, 12),
@@ -687,8 +689,8 @@ class KeymapEditor {
                 ...keys.slice(24, 30), '&none', ...keys.slice(30, 36),
                 // Fila 3: teclas 36-41, &none (col 6), teclas 42-47 (col 7-12 y col 13)
                 ...keys.slice(36, 42), '&none', ...keys.slice(42, 48),
-                // Fila 4: teclas 48-52, &none (col 6), teclas 53-57 (col 7-11, sin col 12 ni 13)
-                ...keys.slice(48, 53), '&none', ...keys.slice(53, 58)
+                // Fila 4: teclas 48-53, &none (col 6), teclas 54-59 (col 7-12)
+                ...keys.slice(48, 54), '&none', ...keys.slice(54, 60)
             ];
             
             const rows = [
@@ -696,7 +698,7 @@ class KeymapEditor {
                 exportKeys.slice(13, 26).join('  '),  // Fila 1: 6 + &none + 6 = 13
                 exportKeys.slice(26, 39).join('  '),  // Fila 2: 6 + &none + 6 = 13
                 exportKeys.slice(39, 52).join('  '),  // Fila 3: 6 + &none + 6 = 13
-                exportKeys.slice(52, 64).join('  ')   // Fila 4: 5 + &none + 5 = 11 (12 en matriz con col 12)
+                exportKeys.slice(52, 65).join('  ')   // Fila 4: 6 + &none + 6 = 13
             ];
             
             rows.forEach(row => {
@@ -772,15 +774,15 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    // Si hay más de 58 teclas, eliminar las posiciones de los encoders
-                    // Formato correcto: 13 posiciones por fila 0-3, 12 posiciones para fila 4
-                    // Total: 13+13+13+13+12 = 64 posiciones
-                    // Posiciones &none (col 6): 6 (fila 0), 19 (fila 1), 32 (fila 2), 45 (fila 3), 57 (fila 4)
+                    // Si hay más de 60 teclas, eliminar las posiciones de los encoders
+                    // Formato correcto: 13 posiciones por fila 0-4
+                    // Total: 13+13+13+13+13 = 65 posiciones
+                    // Posiciones &none (col 6): 6 (fila 0), 19 (fila 1), 32 (fila 2), 45 (fila 3), 58 (fila 4)
                     if (keys.length >= 64) {
                         console.log(`Formato con encoders detectado. Total teclas: ${keys.length}`);
                         // Eliminar &none de atrás hacia adelante para no alterar índices
-                        // Fila 4: posición 57 (encoder col 6)
-                        if (keys.length > 57) keys.splice(57, 1);
+                        // Fila 4: posición 58 (encoder col 6)
+                        if (keys.length > 58) keys.splice(58, 1);
                         // Fila 3: posición 45 (encoder col 6)
                         if (keys.length > 45) keys.splice(45, 1);
                         // Fila 2: posición 32 (encoder col 6)
@@ -792,10 +794,10 @@ class KeymapEditor {
                         console.log(`Encoders eliminados. Teclas restantes: ${keys.length}`);
                     }
                     
-                    this.keymap[index] = keys.slice(0, 58);
+                    this.keymap[index] = keys.slice(0, 60);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 58) {
+                    while (this.keymap[index].length < 60) {
                         this.keymap[index].push('&trans');
                     }
                     layersImported++;
@@ -819,7 +821,7 @@ class KeymapEditor {
             return {
                 success: true,
                 layersImported: layersImported,
-                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 58} teclas configuradas`
+                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 60} teclas configuradas`
             };
         } catch (error) {
             return {
