@@ -37,11 +37,35 @@
 
     behaviors {
         // RGB behaviors para capas
-        rgb_layer_0: rgb_ug RGB_ON_EFFECT_RAINBOW_SWIRL;
-        rgb_layer_1: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(120, 100, 100); // Verde
-        rgb_layer_2: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(240, 100, 100); // Azul
-        rgb_layer_3: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(0, 100, 100);   // Rojo
-        rgb_layer_4: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(60, 100, 100);  // Amarillo
+        rgb_layer_0: behavior_rgb_ug {
+            compatible = "zmk,behavior-rgb-ug";
+            #binding-cells = <0>;
+            param-cmd = "RGB_ON_EFFECT_RAINBOW_SWIRL";
+        };
+        rgb_layer_1: behavior_rgb_ug {
+            compatible = "zmk,behavior-rgb-ug";
+            #binding-cells = <0>;
+            param-cmd = "RGB_ON_EFFECT_SOLID_COLOR";
+            param-rgb = <&rgb_ug RGB_COLOR_HSV(120, 100, 100)>; // Verde
+        };
+        rgb_layer_2: behavior_rgb_ug {
+            compatible = "zmk,behavior-rgb-ug";
+            #binding-cells = <0>;
+            param-cmd = "RGB_ON_EFFECT_SOLID_COLOR";
+            param-rgb = <&rgb_ug RGB_COLOR_HSV(240, 100, 100)>; // Azul
+        };
+        rgb_layer_3: behavior_rgb_ug {
+            compatible = "zmk,behavior-rgb-ug";
+            #binding-cells = <0>;
+            param-cmd = "RGB_ON_EFFECT_SOLID_COLOR";
+            param-rgb = <&rgb_ug RGB_COLOR_HSV(0, 100, 100)>;   // Rojo
+        };
+        rgb_layer_4: behavior_rgb_ug {
+            compatible = "zmk,behavior-rgb-ug";
+            #binding-cells = <0>;
+            param-cmd = "RGB_ON_EFFECT_SOLID_COLOR";
+            param-rgb = <&rgb_ug RGB_COLOR_HSV(60, 100, 100)>;  // Amarillo
+        };
     };
 
     combos {
