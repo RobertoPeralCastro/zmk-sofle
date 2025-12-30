@@ -6,4 +6,3 @@ tools/
 zephyr/
 eyelash_sofle/
 keymap-editor/test-event.html
-build-local.ps1
