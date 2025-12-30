@@ -80,7 +80,7 @@ keymap {
 
         layer_1 {
             bindings = <
-                &tog 1  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
+                &mo 1  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
                 &trans  &kp GRAVE  &mkp LCLK  &mkp MCLK  &mkp RCLK  &mkp MB4  &none  &kp PG_UP  &kp END  &kp UP  &kp HOME  &kp MINUS  &kp EQUAL
                 &trans  &kp TILDE  &trans  &trans  &trans  &mkp MB5  &none  &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LBKT  &kp RBKT
                 &trans  &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI  &none  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11  &kp F12  &trans
@@ -92,7 +92,7 @@ keymap {
 
         layer_2 {
             bindings = <
-                &tog 2  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
+                &mo 2  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
                 &trans  &bt BT_CLR  &bt BT_CLR_ALL  &trans  &trans  &trans  &none  &trans  &trans  &kp F11  &kp F12  &kp UNDER  &kp PLUS
                 &trans  &out OUT_USB  &out OUT_BLE  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &kp LBRC  &kp RBRC
                 &trans  &sys_reset  &trans  &bootloader  &trans  &trans  &none  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
@@ -104,7 +104,7 @@ keymap {
 
         layer_3 {
             bindings = <
-                &tog 3  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
+                &mo 3  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
@@ -116,7 +116,7 @@ keymap {
 
         layer_4 {
             bindings = <
-                &tog 4  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
+                &mo 4  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
