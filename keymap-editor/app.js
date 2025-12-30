@@ -66,17 +66,33 @@ class KeymapEditor {
 
     initializePhysicalKeyMap() {
         return {
+            // Fila 0 - Number row
             'Escape': 0, 'Digit1': 1, 'Digit2': 2, 'Digit3': 3, 'Digit4': 4, 'Digit5': 5,
-            'Digit6': 7, 'Digit7': 8, 'Digit8': 9, 'Digit9': 10, 'Digit0': 11, 'Backspace': 12,
+            'ArrowUp': 6, 'Digit6': 7, 'Digit7': 8, 'Digit8': 9, 'Digit9': 10, 'Digit0': 11, 'Backspace': 12,
+            
+            // Fila 1 - Top letter row
             'Tab': 13, 'KeyQ': 14, 'KeyW': 15, 'KeyE': 16, 'KeyR': 17, 'KeyT': 18,
-            'KeyY': 20, 'KeyU': 21, 'KeyI': 22, 'KeyO': 23, 'KeyP': 24, 'Backslash': 25,
+            'ArrowDown': 19, 'KeyY': 20, 'KeyU': 21, 'KeyI': 22, 'KeyO': 23, 'KeyP': 24, 'Backslash': 25,
+            
+            // Fila 2 - Home row
             'CapsLock': 26, 'KeyA': 27, 'KeyS': 28, 'KeyD': 29, 'KeyF': 30, 'KeyG': 31,
-            'KeyH': 33, 'KeyJ': 34, 'KeyK': 35, 'KeyL': 36, 'Semicolon': 37, 'Quote': 38,
+            'ArrowLeft': 32, 'KeyH': 33, 'KeyJ': 34, 'KeyK': 35, 'KeyL': 36, 'Semicolon': 37, 'Quote': 38,
+            
+            // Fila 3 - Bottom letter row
             'ShiftLeft': 39, 'KeyZ': 40, 'KeyX': 41, 'KeyC': 42, 'KeyV': 43, 'KeyB': 44,
-            'KeyN': 46, 'KeyM': 47, 'Comma': 48, 'Period': 49, 'Slash': 50, 'Enter': 51,
-            'ControlLeft': 53, 'MetaLeft': 54, 'AltLeft': 55, 'Space': 57,
-            'ShiftRight': 60, 'Delete': 61,
-            'ArrowUp': 6, 'ArrowDown': 19, 'ArrowLeft': 32, 'ArrowRight': 45
+            'ArrowRight': 45, 'KeyN': 46, 'KeyM': 47, 'Comma': 48, 'Period': 49, 'Slash': 50, 'Enter': 51,
+            
+            // Fila 4 - Thumb cluster
+            // Posición 52 es C_MUTE (encoder/joystick - no tiene tecla física estándar)
+            'ControlLeft': 53, 'MetaLeft': 54, 'AltLeft': 55,
+            // Posición 56 es mo 1 (no tiene tecla física estándar en teclado normal)
+            'Space': 57,
+            'Delete': 58,
+            // Posición 59 es otro Space (tecla del pulgar derecho)
+            // Posición 60 es Enter del lado derecho (ya mapeado arriba como 51)
+            // Posición 61 es mo 2 (no tiene tecla física estándar)
+            'ShiftRight': 62
+            // Posición 63 es &trans (no tiene tecla física)
         };
     }
 
