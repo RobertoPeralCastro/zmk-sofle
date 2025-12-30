@@ -888,21 +888,18 @@ class KeymapEditor {
             const percentage = ((localColumn - 1) / 5) * 100;
             handle.style.left = `${percentage}%`;
             
-            // Actualizar indicadores visuales - alinear con columnas reales del teclado
-            document.querySelectorAll('.col-indicator').forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === column - 1);
-                
-                // Posicionar los indicadores según la distribución real del teclado
-                if (index < 6) {
-                    // Columnas 1-6: teclado izquierdo (6 columnas)
-                    const leftPercentage = (index / 5) * 100;
-                    indicator.style.left = `${leftPercentage}%`;
-                } else {
-                    // Columnas 7-12: teclado derecho (6 columnas)
-                    const rightPercentage = ((index - 6) / 5) * 100;
-                    indicator.style.left = `${rightPercentage}%`;
-                    indicator.style.right = 'auto';
-                }
+            // Actualizar indicadores visuales - cada slider maneja sus propios indicadores
+            const leftIndicators = columnSliderLeft.querySelectorAll('.col-indicator');
+            const rightIndicators = columnSliderRight.querySelectorAll('.col-indicator');
+            
+            // Actualizar indicadores del slider izquierdo (columnas 1-6)
+            leftIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === localColumn - 1);
+            });
+            
+            // Actualizar indicadores del slider derecho (columnas 7-12)
+            rightIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === localColumn - 1);
             });
         };
         
