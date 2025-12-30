@@ -759,9 +759,13 @@ class KeymapEditor {
                 console.log(`Bindings (primeros 100 chars):`, bindingsText.substring(0, 100));
                 
                 // Extraer todos los keycodes completos
-                // Formato: &behavior PARAM1 PARAM2 o &behavior PARAM o &behavior
-                const keyRegex = /&[\w_]+(?:\s+[\w_]+)*(?=\s+&|\s*$|\s*\n)/g;
+                // Formato: &behavior PARAM1 PARAM2 o &behavior PARAM o &behavior o &none
+                // Mejorado para capturar también &none y otros behaviors sin parámetros
+                const keyRegex = /&[\w_]+(?:\s+[\w_]+)*/g;
                 let keys = bindingsText.match(keyRegex) || [];
+                
+                // Limpiar cada keycode (eliminar espacios extra al final)
+                keys = keys.map(k => k.trim());
                 
                 // Si no encuentra nada con el regex anterior, intentar otro enfoque
                 if (keys.length === 0) {
