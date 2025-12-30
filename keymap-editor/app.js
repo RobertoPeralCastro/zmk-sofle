@@ -112,6 +112,14 @@ class KeymapEditor {
             'F1': 'F1', 'F2': 'F2', 'F3': 'F3', 'F4': 'F4', 'F5': 'F5', 'F6': 'F6',
             'F7': 'F7', 'F8': 'F8', 'F9': 'F9', 'F10': 'F10', 'F11': 'F11', 'F12': 'F12',
             
+            // Media
+            'C_MUTE': 'AudioVolumeMute',
+            'C_VOL_UP': 'AudioVolumeUp',
+            'C_VOL_DN': 'AudioVolumeDown',
+            'C_PP': 'MediaPlayPause',
+            'C_NEXT': 'MediaTrackNext',
+            'C_PREV': 'MediaTrackPrevious',
+            
             // Otras
             'CAPS': 'CapsLock', 'HOME': 'Home', 'END': 'End',
             'PG_UP': 'PageUp', 'PG_DN': 'PageDown',
@@ -126,10 +134,25 @@ class KeymapEditor {
         const physicalMap = {};
         
         this.keymap[0].forEach((binding, index) => {
-            // Extraer el keycode del binding (ej: "&kp SPACE" -> "SPACE")
-            const match = binding.match(/&kp\s+(\w+)/);
-            if (match) {
-                const zmkKey = match[1];
+            let zmkKey = null;
+            
+            // Extraer el keycode del binding
+            // Casos: "&kp SPACE", "&kp LS(N7)", "&kp RA(APOS)", "&mo 1", etc.
+            
+            // Caso 1: &kp con modificador: &kp LS(N7) o &kp RA(APOS)
+            const modMatch = binding.match(/&kp\s+(LS|RS|RA|LA|LC|RC|LG|RG)\((\w+)\)/);
+            if (modMatch) {
+                // Para combinaciones, usar la tecla base
+                zmkKey = modMatch[2];
+            } else {
+                // Caso 2: &kp simple: &kp SPACE, &kp C_MUTE, etc.
+                const simpleMatch = binding.match(/&kp\s+([\w_]+)/);
+                if (simpleMatch) {
+                    zmkKey = simpleMatch[1];
+                }
+            }
+            
+            if (zmkKey) {
                 const eventCode = this.zmkToEventCode[zmkKey];
                 
                 if (eventCode) {
