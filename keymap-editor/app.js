@@ -23,8 +23,8 @@ class KeymapEditor {
                 '&kp H', '&kp J', '&kp K', '&kp L', '&kp SEMI', '&kp APOS',
                 '&kp LSHFT', '&kp Z', '&kp X', '&kp C', '&kp V', '&kp B',
                 '&kp N', '&kp M', '&kp COMMA', '&kp DOT', '&kp FSLH', '&kp ENTER',
-                '&kp C_MUTE', '&kp LCTRL', '&kp LGUI', '&kp LALT', '&mo 1', '&kp SPACE',
-                '&kp SPACE', '&kp ENTER', '&mo 2', '&kp RALT', '&kp RCTRL', '&kp DEL'
+                '&kp C_MUTE', '&kp LCTRL', '&kp LGUI', '&kp LALT', '&mo 1',
+                '&kp SPACE', '&kp ENTER', '&mo 2', '&kp RALT', '&kp RCTRL'
             ],
             1: [
                 '&kp GRAVE', '&kp F1', '&kp F2', '&kp F3', '&kp F4', '&kp F5',
@@ -35,8 +35,8 @@ class KeymapEditor {
                 '&kp PG_DN', '&kp LEFT', '&kp DOWN', '&kp RIGHT', '&kp LBKT', '&kp RBKT',
                 '&trans', '&rgb_ug RGB_OFF', '&rgb_ug RGB_ON', '&rgb_ug RGB_EFF', '&rgb_ug RGB_EFR', '&rgb_ug RGB_SPI',
                 '&rgb_ug RGB_BRI', '&rgb_ug RGB_BRD', '&kp INSERT', '&kp F11', '&kp F12', '&trans',
-                '&kp C_MUTE', '&trans', '&trans', '&trans', '&trans', '&trans',
-                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans', '&trans'
+                '&kp C_MUTE', '&trans', '&trans', '&trans', '&trans',
+                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans'
             ],
             2: [
                 '&kp TILDE', '&bt BT_SEL 0', '&bt BT_SEL 1', '&bt BT_SEL 2', '&bt BT_SEL 3', '&bt BT_SEL 4',
@@ -47,11 +47,11 @@ class KeymapEditor {
                 '&trans', '&trans', '&trans', '&trans', '&kp LBRC', '&kp RBRC',
                 '&trans', '&sys_reset', '&trans', '&bootloader', '&trans', '&trans',
                 '&trans', '&trans', '&sys_reset', '&soft_off', '&bootloader', '&trans',
-                '&trans', '&trans', '&trans', '&trans', '&trans', '&trans',
-                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans', '&trans'
+                '&trans', '&trans', '&trans', '&trans', '&trans',
+                '&trans', '&mkp LCLK', '&trans', '&trans', '&trans'
             ],
-            3: Array(60).fill('&trans'),
-            4: Array(60).fill('&trans')
+            3: Array(58).fill('&trans'),
+            4: Array(58).fill('&trans')
         };
         
         return defaultKeymap;
@@ -211,14 +211,14 @@ class KeymapEditor {
             12, 13, 14, 15, 16, 17, // Fila 1
             24, 25, 26, 27, 28, 29, // Fila 2
             36, 37, 38, 39, 40, 41, // Fila 3
-            48, 49, 50, 51, 52, 53  // Fila 4 (6 teclas)
+            48, 49, 50, 51, 52      // Fila 4 (5 teclas)
         ];
         const rightKeys = [
             6, 7, 8, 9, 10, 11,     // Fila 0
             18, 19, 20, 21, 22, 23, // Fila 1
             30, 31, 32, 33, 34, 35, // Fila 2
             42, 43, 44, 45, 46, 47, // Fila 3
-            54, 55, 56, 57, 58, 59  // Fila 4 (6 teclas)
+            53, 54, 55, 56, 57      // Fila 4 (5 teclas)
         ];
 
         leftKeys.forEach(keyIndex => {
@@ -669,14 +669,14 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            // Asegurar que la capa tenga exactamente 60 teclas (sin encoders)
+            // Asegurar que la capa tenga exactamente 58 teclas (sin encoders)
             let keys = [...this.keymap[layer]];
-            while (keys.length < 60) {
+            while (keys.length < 58) {
                 keys.push('&trans');
             }
-            keys = keys.slice(0, 60); // Asegurar que no haya más de 60
+            keys = keys.slice(0, 58); // Asegurar que no haya más de 58
             
-            // Mapear las 60 teclas a la matriz física de 64 posiciones
+            // Mapear las 58 teclas a la matriz física de 64 posiciones
             // Layout físico: 13+13+13+13+12 = 64 posiciones
             // Filas 0-3: 6 teclas + &none (encoder) + 6 teclas = 13 posiciones
             // Fila 4: &none (encoder izq) + 5 teclas + &none (encoder der) + 5 teclas = 12 posiciones
@@ -806,10 +806,10 @@ class KeymapEditor {
                         }
                     }
                     
-                    this.keymap[index] = keys.slice(0, 60);
+                    this.keymap[index] = keys.slice(0, 58);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 60) {
+                    while (this.keymap[index].length < 58) {
                         this.keymap[index].push('&trans');
                     }
                     layersImported++;
@@ -833,7 +833,7 @@ class KeymapEditor {
             return {
                 success: true,
                 layersImported: layersImported,
-                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 60} teclas configuradas`
+                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 58} teclas configuradas`
             };
         } catch (error) {
             return {
