@@ -62,9 +62,9 @@ layers:
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
-  - {t: /, s: '?'}
-  - I
-  - '?'
+  - {t: Sft+7, s: Sft+&}
+  - RGUI
+  - {t: ., s: '>'}
   layer1:
   - {t: '`', s: '~'}
   - F1
