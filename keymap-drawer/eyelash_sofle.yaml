@@ -60,11 +60,11 @@ layers:
   - {t: '1', h: toggle}
   - '2'
   - {t: '$$mdi:minus-circle-outline$$', type: none}
-  - L
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
   - {t: AltGr+', s: AltGr+"}
   - {t: AltGr+`, s: AltGr+~}
+  - {t: Sft+8, s: Sft+*}
   '1':
   - {t: '`', s: '~'}
   - F1
