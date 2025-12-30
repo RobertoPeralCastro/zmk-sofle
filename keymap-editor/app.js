@@ -674,17 +674,30 @@ class KeymapEditor {
             }
             keys = keys.slice(0, 58); // Asegurar que no haya más de 58
             
-            // Añadir 6 teclas &none al final para completar 64 teclas que espera el firmware
-            // Estas teclas no aparecen en la interfaz pero son necesarias para la matriz física
-            const exportKeys = [...keys, '&none', '&none', '&none', '&none', '&none', '&none'];
+            // Mapear las 58 teclas a la matriz física de 64 posiciones
+            // La matriz física tiene encoder/joystick en col 6 de filas 0-3
+            // Fila 4 solo tiene encoder en col 6 (sin col 13)
+            // Layout: [0-5, encoder, 6-11, joystick] = 14 posiciones por fila 0-3
+            //         [0-5, encoder, 6-11] = 13 posiciones para fila 4
+            const exportKeys = [
+                // Fila 0: teclas 0-5, &none (encoder col 6), teclas 6-11, &none (joystick col 13)
+                ...keys.slice(0, 6), '&none', ...keys.slice(6, 12), '&none',
+                // Fila 1: teclas 12-17, &none (encoder col 6), teclas 18-23, &none (joystick col 13)
+                ...keys.slice(12, 18), '&none', ...keys.slice(18, 24), '&none',
+                // Fila 2: teclas 24-29, &none (encoder col 6), teclas 30-35, &none (joystick col 13)
+                ...keys.slice(24, 30), '&none', ...keys.slice(30, 36), '&none',
+                // Fila 3: teclas 36-41, &none (encoder col 6), teclas 42-47, &none (joystick col 13)
+                ...keys.slice(36, 42), '&none', ...keys.slice(42, 48), '&none',
+                // Fila 4: teclas 48-52, &none (encoder col 6), teclas 53-57 (sin col 13)
+                ...keys.slice(48, 53), '&none', ...keys.slice(53, 58)
+            ];
             
             const rows = [
-                exportKeys.slice(0, 12).join('  '),
-                exportKeys.slice(12, 24).join('  '),
-                exportKeys.slice(24, 36).join('  '),
-                exportKeys.slice(36, 48).join('  '),
-                exportKeys.slice(48, 60).join('  '),
-                exportKeys.slice(60, 64).join('  ')  // Última fila con las 4 teclas &none restantes
+                exportKeys.slice(0, 14).join('  '),   // Fila 0: 6 + &none + 6 + &none = 14
+                exportKeys.slice(14, 28).join('  '),  // Fila 1: 6 + &none + 6 + &none = 14
+                exportKeys.slice(28, 42).join('  '),  // Fila 2: 6 + &none + 6 + &none = 14
+                exportKeys.slice(42, 56).join('  '),  // Fila 3: 6 + &none + 6 + &none = 14
+                exportKeys.slice(56, 69).join('  ')   // Fila 4: 5 + &none + 5 = 11 (pero son 13 en matriz)
             ];
             
             rows.forEach(row => {
@@ -761,13 +774,25 @@ class KeymapEditor {
                 
                 if (keys.length > 0) {
                     // Si hay más de 58 teclas, eliminar las posiciones de los encoders/joystick
-                    // Encoders/Joystick están en posiciones: 6, 19, 32, 45 (cada 13 teclas en formato antiguo)
-                    if (keys.length >= 65) {
-                        // Eliminar encoders de atrás hacia adelante para no alterar índices
-                        keys.splice(45, 1); // Encoder/Joystick fila 3
-                        keys.splice(32, 1); // Encoder/Joystick fila 2
-                        keys.splice(19, 1); // Encoder/Joystick fila 1
-                        keys.splice(6, 1);  // Encoder/Joystick fila 0
+                    // Nuevo formato: 14 posiciones por fila 0-3, 13 posiciones para fila 4
+                    // Posiciones &none: 6, 13 (fila 0), 20, 27 (fila 1), 34, 41 (fila 2), 48, 55 (fila 3), 62 (fila 4)
+                    if (keys.length >= 64) {
+                        console.log(`Formato con encoders/joystick detectado. Total teclas: ${keys.length}`);
+                        // Eliminar &none de atrás hacia adelante para no alterar índices
+                        // Fila 4: posición 61 (encoder col 6) - sin joystick col 13
+                        if (keys.length > 61) keys.splice(61, 1);
+                        // Fila 3: posiciones 48 (encoder col 6) y 55 (joystick col 13)
+                        if (keys.length > 55) keys.splice(55, 1);
+                        if (keys.length > 48) keys.splice(48, 1);
+                        // Fila 2: posiciones 34 (encoder col 6) y 41 (joystick col 13)
+                        if (keys.length > 41) keys.splice(41, 1);
+                        if (keys.length > 34) keys.splice(34, 1);
+                        // Fila 1: posiciones 20 (encoder col 6) y 27 (joystick col 13)
+                        if (keys.length > 27) keys.splice(27, 1);
+                        if (keys.length > 20) keys.splice(20, 1);
+                        // Fila 0: posiciones 6 (encoder col 6) y 13 (joystick col 13)
+                        if (keys.length > 13) keys.splice(13, 1);
+                        if (keys.length > 6) keys.splice(6, 1);
                         console.log(`Encoders/Joystick eliminados. Teclas restantes: ${keys.length}`);
                     }
                     
