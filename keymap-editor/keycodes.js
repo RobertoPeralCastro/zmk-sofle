@@ -182,6 +182,18 @@ const ZMK_KEYCODES = {
     'RGBSAI': { code: '&rgb_ug RGB_SAI', desc: 'RGB saturación +' },
     'RGBSAD': { code: '&rgb_ug RGB_SAD', desc: 'RGB saturación -' },
 
+    // RGB Colores fijos (sólidos)
+    'RGBRED': { code: '&rgb_ug RGB_COLOR_HSV(0, 100, 100)', desc: 'RGB Rojo sólido' },
+    'RGBGREEN': { code: '&rgb_ug RGB_COLOR_HSV(120, 100, 100)', desc: 'RGB Verde sólido' },
+    'RGBBLUE': { code: '&rgb_ug RGB_COLOR_HSV(240, 100, 100)', desc: 'RGB Azul sólido' },
+    'RGBYELLOW': { code: '&rgb_ug RGB_COLOR_HSV(60, 100, 100)', desc: 'RGB Amarillo sólido' },
+    'RGBMAGENTA': { code: '&rgb_ug RGB_COLOR_HSV(300, 100, 100)', desc: 'RGB Magenta sólido' },
+    'RGBCYAN': { code: '&rgb_ug RGB_COLOR_HSV(180, 100, 100)', desc: 'RGB Cian sólido' },
+    'RGBORANGE': { code: '&rgb_ug RGB_COLOR_HSV(30, 100, 100)', desc: 'RGB Naranja sólido' },
+    'RGBPURPLE': { code: '&rgb_ug RGB_COLOR_HSV(270, 100, 100)', desc: 'RGB Púrpura sólido' },
+    'RGBWHITE': { code: '&rgb_ug RGB_COLOR_HSV(0, 0, 100)', desc: 'RGB Blanco sólido' },
+    'RGBPINK': { code: '&rgb_ug RGB_COLOR_HSV(330, 100, 100)', desc: 'RGB Rosa sólido' },
+
     // Mouse
     'MCLK': { code: '&mkp LCLK', desc: 'Click izquierdo' },
     'RCLK': { code: '&mkp RCLK', desc: 'Click derecho' },
