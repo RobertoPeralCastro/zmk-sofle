@@ -657,7 +657,36 @@ class KeymapEditor {
         };
     };
 
-    keymap {
+    layer-state {
+    compatible = "zmk,layer-state";
+
+    // Layer 0 (BASE): LEDs apagados
+    state-0 {
+        bindings = <&rgb_pk RGB_OFF>;
+    };
+
+    // Layer 1: Verde brillante
+    state-1 {
+        bindings = <&rgb_pk RGB_ON>, <&rgb_pk RGB_COLOR_HSV(120, 100, 100)>;
+    };
+
+    // Layer 2: Azul brillante
+    state-2 {
+        bindings = <&rgb_pk RGB_ON>, <&rgb_pk RGB_COLOR_HSV(240, 100, 100)>;
+    };
+
+    // Layer 3: Rojo brillante
+    state-3 {
+        bindings = <&rgb_pk RGB_ON>, <&rgb_pk RGB_COLOR_HSV(0, 100, 100)>;
+    };
+
+    // Layer 4: Amarillo brillante
+    state-4 {
+        bindings = <&rgb_pk RGB_ON>, <&rgb_pk RGB_COLOR_HSV(60, 100, 100)>;
+    };
+};
+
+keymap {
         compatible = "zmk,keymap";
 
 `;
