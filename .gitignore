@@ -4,5 +4,5 @@ modules/
 tools/
 .west/
 zephyr/
-# eyelash_sofle/  # Comentado para permitir modificaciones del firmware
+eyelash_sofle/
 keymap-editor/test-event.html
