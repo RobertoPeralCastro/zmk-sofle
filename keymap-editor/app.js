@@ -774,24 +774,31 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    // Si hay más de 60 teclas, eliminar las posiciones de los encoders
-                    // Formato correcto: 13 posiciones por fila 0-4
-                    // Total: 13+13+13+13+13 = 65 posiciones
-                    // Posiciones &none (col 6): 6 (fila 0), 19 (fila 1), 32 (fila 2), 45 (fila 3), 58 (fila 4)
-                    if (keys.length >= 64) {
+                    // Si hay más de 60 teclas, eliminar las posiciones de los encoders (&none)
+                    // Formato exportado: 13 posiciones por fila 0-4 = 65 total
+                    // Posiciones &none (col 6): 6, 19, 32, 45, 58
+                    if (keys.length === 65) {
                         console.log(`Formato con encoders detectado. Total teclas: ${keys.length}`);
-                        // Eliminar &none de atrás hacia adelante para no alterar índices
-                        // Fila 4: posición 58 (encoder col 6)
-                        if (keys.length > 58) keys.splice(58, 1);
-                        // Fila 3: posición 45 (encoder col 6)
-                        if (keys.length > 45) keys.splice(45, 1);
-                        // Fila 2: posición 32 (encoder col 6)
-                        if (keys.length > 32) keys.splice(32, 1);
-                        // Fila 1: posición 19 (encoder col 6)
-                        if (keys.length > 19) keys.splice(19, 1);
-                        // Fila 0: posición 6 (encoder col 6)
-                        if (keys.length > 6) keys.splice(6, 1);
-                        console.log(`Encoders eliminados. Teclas restantes: ${keys.length}`);
+                        console.log(`Verificando posiciones de encoder...`);
+                        
+                        // Verificar que las posiciones esperadas contengan &none
+                        const encoderPositions = [6, 19, 32, 45, 58];
+                        const hasEncoders = encoderPositions.every(pos => 
+                            keys[pos] && (keys[pos] === '&none' || keys[pos].includes('none'))
+                        );
+                        
+                        if (hasEncoders) {
+                            console.log(`Encoders (&none) encontrados en posiciones correctas`);
+                            // Eliminar de atrás hacia adelante para no alterar índices
+                            keys.splice(58, 1); // Fila 4
+                            keys.splice(45, 1); // Fila 3
+                            keys.splice(32, 1); // Fila 2
+                            keys.splice(19, 1); // Fila 1
+                            keys.splice(6, 1);  // Fila 0
+                            console.log(`Encoders eliminados. Teclas restantes: ${keys.length}`);
+                        } else {
+                            console.log(`No se encontraron &none en las posiciones esperadas`);
+                        }
                     }
                     
                     this.keymap[index] = keys.slice(0, 60);
