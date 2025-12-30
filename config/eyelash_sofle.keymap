@@ -83,8 +83,8 @@ keymap {
                 &mo 1  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
                 &trans  &kp GRAVE  &mkp LCLK  &mkp MCLK  &mkp RCLK  &mkp MB4  &none  &kp PG_UP  &kp END  &kp UP  &kp HOME  &kp MINUS  &kp EQUAL
                 &trans  &kp TILDE  &trans  &trans  &trans  &mkp MB5  &none  &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LBKT  &kp RBKT
-                &trans  &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI  &none  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11  &kp F12  &trans
-                &none  &kp C_MUTE  &trans  &trans  &trans  &trans  &none  &trans  &mkp LCLK  &trans  &trans  &trans
+                &trans  &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_COLOR_HSV(0, 100, 100)  &rgb_ug RGB_COLOR_HSV(120, 100, 100)  &rgb_ug RGB_COLOR_HSV(240, 100, 100)  &none  &rgb_ug RGB_COLOR_HSV(60, 100, 100)  &rgb_ug RGB_COLOR_HSV(300, 100, 100)  &kp INSERT  &kp F11  &kp F12  &trans
+                &none  &kp C_MUTE  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &rgb_ug RGB_SAT  &rgb_ug RGB_SAD  &none  &trans  &mkp LCLK  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
             // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
