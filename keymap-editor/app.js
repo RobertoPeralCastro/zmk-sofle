@@ -773,24 +773,27 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    // Si hay más de 59 teclas, eliminar las posiciones de los encoders
+                    // Si hay más de 59 teclas, eliminar las posiciones de los encoders (&none)
                     // Formato correcto: 13+13+13+13+12 = 64 posiciones
                     // Posiciones &none (col 6): 6 (fila 0), 19 (fila 1), 32 (fila 2), 45 (fila 3), 58 (fila 4)
                     if (keys.length >= 64) {
                         console.log(`Formato con encoders detectado. Total teclas: ${keys.length}`);
                         // Eliminar &none de atrás hacia adelante para no alterar índices
                         // Fila 4: posición 58 (encoder col 6)
-                        if (keys.length > 58) keys.splice(58, 1);
+                        if (keys.length > 58 && keys[58] === '&none') keys.splice(58, 1);
                         // Fila 3: posición 45 (encoder col 6)
-                        if (keys.length > 45) keys.splice(45, 1);
+                        if (keys.length > 45 && keys[45] === '&none') keys.splice(45, 1);
                         // Fila 2: posición 32 (encoder col 6)
-                        if (keys.length > 32) keys.splice(32, 1);
+                        if (keys.length > 32 && keys[32] === '&none') keys.splice(32, 1);
                         // Fila 1: posición 19 (encoder col 6)
-                        if (keys.length > 19) keys.splice(19, 1);
+                        if (keys.length > 19 && keys[19] === '&none') keys.splice(19, 1);
                         // Fila 0: posición 6 (encoder col 6)
-                        if (keys.length > 6) keys.splice(6, 1);
+                        if (keys.length > 6 && keys[6] === '&none') keys.splice(6, 1);
                         console.log(`Encoders eliminados. Teclas restantes: ${keys.length}`);
                     }
+                    
+                    // Filtrar cualquier &none restante que pueda haber quedado
+                    keys = keys.filter(key => key !== '&none');
                     
                     this.keymap[index] = keys.slice(0, 59);
                     
