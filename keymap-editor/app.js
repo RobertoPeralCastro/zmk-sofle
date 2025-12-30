@@ -311,12 +311,11 @@ class KeymapEditor {
             41: { x: 310, y: 190 },
             
             // Fila 4 - Thumb cluster (índices 48-53, 6 teclas)
-            48: { x: 10, y: 250 },   // C_MUTE
-            49: { x: 70, y: 250 },   // LCTRL
-            50: { x: 130, y: 250 },  // LGUI
-            51: { x: 190, y: 250 },  // LALT
-            52: { x: 250, y: 255 },  // mo 1
-            53: { x: 310, y: 265 },  // SPACE
+            48: { x: 70, y: 250 },   // C_MUTE
+            49: { x: 130, y: 250 },   // LCTRL
+            50: { x: 190, y: 250 },  // LGUI
+            51: { x: 250, y: 250 },  // LALT
+            52: { x: 320, y: 255 },  // mo 1
             
             // LADO DERECHO
             // Fila 0 - Number row (índices 6-11)
@@ -352,12 +351,11 @@ class KeymapEditor {
             47: { x: 310, y: 190 },
             
             // Fila 4 - Thumb cluster (índices 54-59, 6 teclas)
-            54: { x: 110, y: 255 },  // SPACE
-            55: { x: 170, y: 250 },  // ENTER
-            56: { x: 230, y: 250 },  // mo 2
-            57: { x: 50, y: 265 },   // RALT (primera posición)
-            58: { x: 290, y: 250 },  // RCTRL
-            59: { x: 350, y: 250 }   // DEL
+            53: { x: 0, y: 265 },  // SPACE
+            54: { x: 60, y: 265 },   // SPACE
+            55: { x: 120, y: 255 },  // ENTER
+            56: { x: 180, y: 250 },  // mo 2
+            57: { x: 240, y: 250 }
         };
         
         return positions[index] || { x: 0, y: 0 };
