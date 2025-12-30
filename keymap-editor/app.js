@@ -97,6 +97,10 @@ class KeymapEditor {
             'GRAVE': 'Backquote', 'COMMA': 'Comma', 'DOT': 'Period',
             'FSLH': 'Slash', 'QMARK': 'Slash',
             
+            // Símbolos españoles con combinaciones
+            'LS(COMMA)': 'Comma',  // Punto y coma en español (Shift+Coma)
+            'LS(DOT)': 'Period',   // Dos puntos en español (Shift+Punto)
+            
             // Flechas
             'UP_ARROW': 'ArrowUp', 'DOWN_ARROW': 'ArrowDown',
             'LEFT_ARROW': 'ArrowLeft', 'RIGHT_ARROW': 'ArrowRight',
