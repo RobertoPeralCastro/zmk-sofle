@@ -25,7 +25,6 @@
         zmk,underglow = &led_strip;
         zmk,physical-layout = &eyelash_sofle_layout;
         zmk,backlight = &backlight;
-        zmk,layer-state = &layer_state;
     };
 
 	left_encoder: encoder_left {
@@ -42,10 +41,6 @@
 		compatible = "zmk,keymap-sensors";
 		sensors = <&left_encoder>;
 	};
-
-    layer_state: layer_state {
-        compatible = "zmk,layer-state";
-    };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
