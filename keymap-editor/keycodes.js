@@ -26,6 +26,7 @@ const ZMK_KEYCODES = {
     'X': { code: '&kp X', desc: 'Letra X' },
     'Y': { code: '&kp Y', desc: 'Letra Y' },
     'Z': { code: '&kp Z', desc: 'Letra Z' },
+    'Ñ': { code: '&kp SEMI', desc: 'Letra Ñ' },
 
     // Números
     '0': { code: '&kp N0', desc: 'Número 0' },
@@ -115,6 +116,29 @@ const ZMK_KEYCODES = {
     'LT': { code: '&kp LT', desc: 'Menor que <' },
     'GT': { code: '&kp GT', desc: 'Mayor que >' },
     'TILDE': { code: '&kp TILDE', desc: 'Tilde ~' },
+
+    // Símbolos específicos teclado español
+    'ES_SLASH': { code: '&kp LS(N7)', desc: 'Barra / (español)' },
+    'ES_LPAR': { code: '&kp LS(N8)', desc: 'Paréntesis ( (español)' },
+    'ES_RPAR': { code: '&kp LS(N9)', desc: 'Paréntesis ) (español)' },
+    'ES_EQUAL': { code: '&kp LS(N0)', desc: 'Igual = (español)' },
+    'ES_QMARK': { code: '&kp LS(APOS)', desc: 'Interrogación ? (español)' },
+    'ES_EXCL': { code: '&kp LS(N1)', desc: 'Exclamación ! (español)' },
+    'ES_DQUOT': { code: '&kp LS(N2)', desc: 'Comillas " (español)' },
+    'ES_HASH': { code: '&kp RA(N3)', desc: 'Almohadilla # (español)' },
+    'ES_DLLR': { code: '&kp LS(N4)', desc: 'Dólar $ (español)' },
+    'ES_PRCNT': { code: '&kp LS(N5)', desc: 'Porcentaje % (español)' },
+    'ES_AMPS': { code: '&kp LS(N6)', desc: 'Ampersand & (español)' },
+    'ES_UNDER': { code: '&kp LS(MINUS)', desc: 'Guión bajo _ (español)' },
+    'ES_LBRC': { code: '&kp RA(APOS)', desc: 'Llave { (español)' },
+    'ES_RBRC': { code: '&kp RA(RBKT)', desc: 'Llave } (español)' },
+    'ES_LBKT': { code: '&kp RA(GRAVE)', desc: 'Corchete [ (español)' },
+    'ES_RBKT': { code: '&kp RA(PLUS)', desc: 'Corchete ] (español)' },
+    'ES_PIPE': { code: '&kp RA(N1)', desc: 'Barra vertical | (español)' },
+    'ES_AT': { code: '&kp RA(N2)', desc: 'Arroba @ (español)' },
+    'ES_BSLH': { code: '&kp RA(GRAVE)', desc: 'Barra invertida \\ (español)' },
+    'ES_TILDE': { code: '&kp RA(N4)', desc: 'Tilde ~ (español)' },
+    'ES_EURO': { code: '&kp RA(N5)', desc: 'Euro € (español)' },
 
     // Caps/Locks
     'CAPS': { code: '&kp CAPS', desc: 'Bloq Mayús' },

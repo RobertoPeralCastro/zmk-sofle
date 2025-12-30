@@ -74,6 +74,7 @@ class KeymapEditor {
             'M': 'KeyM', 'N': 'KeyN', 'O': 'KeyO', 'P': 'KeyP', 'Q': 'KeyQ', 'R': 'KeyR',
             'S': 'KeyS', 'T': 'KeyT', 'U': 'KeyU', 'V': 'KeyV', 'W': 'KeyW', 'X': 'KeyX',
             'Y': 'KeyY', 'Z': 'KeyZ',
+            'SEMI': 'Semicolon',  // Ñ en teclado español
             
             // Números
             'N0': 'Digit0', 'N1': 'Digit1', 'N2': 'Digit2', 'N3': 'Digit3', 'N4': 'Digit4',
