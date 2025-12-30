@@ -2,8 +2,11 @@ class KeymapEditor {
     constructor() {
         this.currentLayer = 0;
         this.selectedKey = null;
+        this.selectedEncoder = null; // 'left', 'right', 'click'
+        this.selectedJoystick = null; // 'up', 'down', 'left', 'right', 'click'
         this.keymap = this.initializeKeymap();
         this.encoderBindings = this.initializeEncoderBindings();
+        this.joystickBindings = this.initializeJoystickBindings();
         this.physicalKeyMap = this.initializePhysicalKeyMap();
         
         this.init();
@@ -12,43 +15,43 @@ class KeymapEditor {
     initializeKeymap() {
         const defaultKeymap = {
             0: [
-                '&kp ESC', '&kp N1', '&kp N2', '&kp N3', '&kp N4', '&kp N5', '&kp UP_ARROW',
+                '&kp ESC', '&kp N1', '&kp N2', '&kp N3', '&kp N4', '&kp N5',
                 '&kp N6', '&kp N7', '&kp N8', '&kp N9', '&kp N0', '&kp BSPC',
-                '&kp TAB', '&kp Q', '&kp W', '&kp E', '&kp R', '&kp T', '&kp DOWN_ARROW',
+                '&kp TAB', '&kp Q', '&kp W', '&kp E', '&kp R', '&kp T',
                 '&kp Y', '&kp U', '&kp I', '&kp O', '&kp P', '&kp BSLH',
-                '&kp CAPS', '&kp A', '&kp S', '&kp D', '&kp F', '&kp G', '&kp LEFT_ARROW',
+                '&kp CAPS', '&kp A', '&kp S', '&kp D', '&kp F', '&kp G',
                 '&kp H', '&kp J', '&kp K', '&kp L', '&kp SEMI', '&kp APOS',
-                '&kp LSHFT', '&kp Z', '&kp X', '&kp C', '&kp V', '&kp B', '&kp RIGHT_ARROW',
+                '&kp LSHFT', '&kp Z', '&kp X', '&kp C', '&kp V', '&kp B',
                 '&kp N', '&kp M', '&kp COMMA', '&kp DOT', '&kp FSLH', '&kp ENTER',
                 '&kp C_MUTE', '&kp LCTRL', '&kp LGUI', '&kp LALT', '&mo 1', '&kp SPACE',
                 '&kp ENTER', '&kp SPACE', '&kp ENTER', '&mo 2', '&kp RSHFT', '&kp DEL'
             ],
             1: [
-                '&kp GRAVE', '&kp F1', '&kp F2', '&kp F3', '&kp F4', '&kp F5', '&mmv MOVE_UP',
+                '&kp GRAVE', '&kp F1', '&kp F2', '&kp F3', '&kp F4', '&kp F5',
                 '&kp F6', '&kp F7', '&kp F8', '&kp F9', '&kp F10', '&trans',
-                '&trans', '&kp GRAVE', '&mkp LCLK', '&mkp MCLK', '&mkp RCLK', '&mkp MB4', '&mmv MOVE_DOWN',
+                '&trans', '&kp GRAVE', '&mkp LCLK', '&mkp MCLK', '&mkp RCLK', '&mkp MB4',
                 '&kp PG_UP', '&kp END', '&kp UP', '&kp HOME', '&kp MINUS', '&kp EQUAL',
-                '&trans', '&kp TILDE', '&trans', '&trans', '&trans', '&mkp MB5', '&mmv MOVE_LEFT',
+                '&trans', '&kp TILDE', '&trans', '&trans', '&trans', '&mkp MB5',
                 '&kp PG_DN', '&kp LEFT', '&kp DOWN', '&kp RIGHT', '&kp LBKT', '&kp RBKT',
-                '&trans', '&rgb_ug RGB_OFF', '&rgb_ug RGB_ON', '&rgb_ug RGB_EFF', '&rgb_ug RGB_EFR', '&rgb_ug RGB_SPI', '&mmv MOVE_RIGHT',
+                '&trans', '&rgb_ug RGB_OFF', '&rgb_ug RGB_ON', '&rgb_ug RGB_EFF', '&rgb_ug RGB_EFR', '&rgb_ug RGB_SPI',
                 '&rgb_ug RGB_BRI', '&rgb_ug RGB_BRD', '&kp INSERT', '&kp F11', '&kp F12', '&trans',
                 '&kp C_MUTE', '&trans', '&trans', '&trans', '&trans', '&trans',
                 '&mkp LCLK', '&trans', '&trans', '&trans', '&trans', '&trans'
             ],
             2: [
-                '&kp TILDE', '&bt BT_SEL 0', '&bt BT_SEL 1', '&bt BT_SEL 2', '&bt BT_SEL 3', '&bt BT_SEL 4', '&mmv MOVE_UP',
+                '&kp TILDE', '&bt BT_SEL 0', '&bt BT_SEL 1', '&bt BT_SEL 2', '&bt BT_SEL 3', '&bt BT_SEL 4',
                 '&kp F6', '&kp F7', '&kp F8', '&kp F9', '&kp F10', '&trans',
-                '&trans', '&bt BT_CLR', '&bt BT_CLR_ALL', '&trans', '&trans', '&trans', '&mmv MOVE_DOWN',
+                '&trans', '&bt BT_CLR', '&bt BT_CLR_ALL', '&trans', '&trans', '&trans',
                 '&trans', '&trans', '&kp F11', '&kp F12', '&kp UNDER', '&kp PLUS',
-                '&trans', '&out OUT_USB', '&out OUT_BLE', '&trans', '&trans', '&trans', '&mmv MOVE_LEFT',
+                '&trans', '&out OUT_USB', '&out OUT_BLE', '&trans', '&trans', '&trans',
                 '&trans', '&trans', '&trans', '&trans', '&kp LBRC', '&kp RBRC',
-                '&trans', '&sys_reset', '&trans', '&bootloader', '&trans', '&trans', '&mmv MOVE_RIGHT',
+                '&trans', '&sys_reset', '&trans', '&bootloader', '&trans', '&trans',
                 '&trans', '&trans', '&sys_reset', '&soft_off', '&bootloader', '&trans',
                 '&trans', '&trans', '&trans', '&trans', '&trans', '&trans',
                 '&mkp LCLK', '&trans', '&trans', '&trans', '&trans', '&trans'
             ],
-            3: Array(64).fill('&trans'),
-            4: Array(64).fill('&trans')
+            3: Array(58).fill('&trans'),
+            4: Array(58).fill('&trans')
         };
         
         return defaultKeymap;
@@ -61,6 +64,16 @@ class KeymapEditor {
             2: { up: '&msc SCRL_UP', down: '&msc SCRL_DOWN' },
             3: { up: '&msc SCRL_UP', down: '&msc SCRL_DOWN' },
             4: { up: '&msc SCRL_UP', down: '&msc SCRL_DOWN' }
+        };
+    }
+
+    initializeJoystickBindings() {
+        return {
+            0: { up: '&kp UP_ARROW', down: '&kp DOWN_ARROW', left: '&kp LEFT_ARROW', right: '&kp RIGHT_ARROW', click: '&mkp LCLK' },
+            1: { up: '&mmv MOVE_UP', down: '&mmv MOVE_DOWN', left: '&mmv MOVE_LEFT', right: '&mmv MOVE_RIGHT', click: '&mkp LCLK' },
+            2: { up: '&mmv MOVE_UP', down: '&mmv MOVE_DOWN', left: '&mmv MOVE_LEFT', right: '&mmv MOVE_RIGHT', click: '&mkp LCLK' },
+            3: { up: '&mmv MOVE_UP', down: '&mmv MOVE_DOWN', left: '&mmv MOVE_LEFT', right: '&mmv MOVE_RIGHT', click: '&mkp LCLK' },
+            4: { up: '&mmv MOVE_UP', down: '&mmv MOVE_DOWN', left: '&mmv MOVE_LEFT', right: '&mmv MOVE_RIGHT', click: '&mkp LCLK' }
         };
     }
 
@@ -176,6 +189,7 @@ class KeymapEditor {
     init() {
         this.renderKeyboard();
         this.attachEventListeners();
+        this.attachEncoderJoystickListeners();
         this.updateDisplay();
     }
 
@@ -186,8 +200,26 @@ class KeymapEditor {
         leftKeyboard.innerHTML = '';
         rightKeyboard.innerHTML = '';
 
-        const leftKeys = [0, 1, 2, 3, 4, 5, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 39, 40, 41, 42, 43, 44, 52, 53, 54, 55, 56, 57];
-        const rightKeys = [6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25, 32, 33, 34, 35, 36, 37, 38, 45, 46, 47, 48, 49, 50, 51, 58, 59, 60, 61, 62, 63];
+        // Layout físico real: 4 filas de 6 teclas + 1 fila de 5 teclas por lado
+        // Fila 0: índices 0-5 (izq), 6-11 (der)
+        // Fila 1: índices 12-17 (izq), 18-23 (der)
+        // Fila 2: índices 24-29 (izq), 30-35 (der)
+        // Fila 3: índices 36-41 (izq), 42-47 (der)
+        // Fila 4: índices 48-52 (izq), 53-57 (der)
+        const leftKeys = [
+            0, 1, 2, 3, 4, 5,      // Fila 0
+            12, 13, 14, 15, 16, 17, // Fila 1
+            24, 25, 26, 27, 28, 29, // Fila 2
+            36, 37, 38, 39, 40, 41, // Fila 3
+            48, 49, 50, 51, 52      // Fila 4 (5 teclas)
+        ];
+        const rightKeys = [
+            6, 7, 8, 9, 10, 11,     // Fila 0
+            18, 19, 20, 21, 22, 23, // Fila 1
+            30, 31, 32, 33, 34, 35, // Fila 2
+            42, 43, 44, 45, 46, 47, // Fila 3
+            53, 54, 55, 56, 57      // Fila 4 (5 teclas)
+        ];
 
         leftKeys.forEach(keyIndex => {
             const key = this.createKeyElement(keyIndex);
@@ -245,7 +277,8 @@ class KeymapEditor {
     getKeyPosition(index) {
         const keySize = 55;
         const positions = {
-            // Row 0 - Number row (left side: 0-5)
+            // LADO IZQUIERDO
+            // Fila 0 - Number row (índices 0-5)
             0: { x: 10, y: 10 },
             1: { x: 70, y: 10 },
             2: { x: 130, y: 0 },
@@ -253,82 +286,76 @@ class KeymapEditor {
             4: { x: 250, y: 5 },
             5: { x: 310, y: 10 },
             
-            // Row 0 - Number row (right side: 6-12)
+            // Fila 1 - Top letter row (índices 12-17)
+            12: { x: 10, y: 70 },
+            13: { x: 70, y: 70 },
+            14: { x: 130, y: 60 },
+            15: { x: 190, y: 60 },
+            16: { x: 250, y: 65 },
+            17: { x: 310, y: 70 },
+            
+            // Fila 2 - Home row (índices 24-29)
+            24: { x: 10, y: 130 },
+            25: { x: 70, y: 130 },
+            26: { x: 130, y: 120 },
+            27: { x: 190, y: 120 },
+            28: { x: 250, y: 125 },
+            29: { x: 310, y: 130 },
+            
+            // Fila 3 - Bottom letter row (índices 36-41)
+            36: { x: 10, y: 190 },
+            37: { x: 70, y: 190 },
+            38: { x: 130, y: 180 },
+            39: { x: 190, y: 180 },
+            40: { x: 250, y: 185 },
+            41: { x: 310, y: 190 },
+            
+            // Fila 4 - Thumb cluster (índices 48-52, 5 teclas)
+            48: { x: 70, y: 250 },   // C_MUTE
+            49: { x: 130, y: 250 },  // LCTRL
+            50: { x: 190, y: 250 },  // LGUI
+            51: { x: 250, y: 255 },  // LALT
+            52: { x: 310, y: 265 },  // mo 1
+            
+            // LADO DERECHO
+            // Fila 0 - Number row (índices 6-11)
             6: { x: 10, y: 10 },
             7: { x: 70, y: 10 },
             8: { x: 130, y: 5 },
             9: { x: 190, y: 0 },
             10: { x: 250, y: 0 },
             11: { x: 310, y: 10 },
-            12: { x: 370, y: 10 },
             
-            // Row 1 - Top letter row (left side: 13-18)
-            13: { x: 10, y: 70 },
-            14: { x: 70, y: 70 },
-            15: { x: 130, y: 60 },
-            16: { x: 190, y: 60 },
-            17: { x: 250, y: 65 },
-            18: { x: 310, y: 70 },
+            // Fila 1 - Top letter row (índices 18-23)
+            18: { x: 10, y: 70 },
+            19: { x: 70, y: 70 },
+            20: { x: 130, y: 65 },
+            21: { x: 190, y: 60 },
+            22: { x: 250, y: 60 },
+            23: { x: 310, y: 70 },
             
-            // Row 1 - Top letter row (right side: 19-25)
-            19: { x: 10, y: 75 },
-            20: { x: 70, y: 70 },
-            21: { x: 130, y: 65 },
-            22: { x: 190, y: 60 },
-            23: { x: 250, y: 60 },
-            24: { x: 310, y: 70 },
-            25: { x: 370, y: 70 },
+            // Fila 2 - Home row (índices 30-35)
+            30: { x: 10, y: 130 },
+            31: { x: 70, y: 130 },
+            32: { x: 130, y: 125 },
+            33: { x: 190, y: 120 },
+            34: { x: 250, y: 120 },
+            35: { x: 310, y: 130 },
             
-            // Row 2 - Home row (left side: 26-31)
-            26: { x: 10, y: 130 },
-            27: { x: 70, y: 130 },
-            28: { x: 130, y: 120 },
-            29: { x: 190, y: 120 },
-            30: { x: 250, y: 125 },
-            31: { x: 310, y: 130 },
+            // Fila 3 - Bottom letter row (índices 42-47)
+            42: { x: 10, y: 190 },
+            43: { x: 70, y: 190 },
+            44: { x: 130, y: 185 },
+            45: { x: 190, y: 180 },
+            46: { x: 250, y: 180 },
+            47: { x: 310, y: 190 },
             
-            // Row 2 - Home row (right side: 32-38)
-            32: { x: 10, y: 130 },
-            33: { x: 70, y: 130 },
-            34: { x: 130, y: 125 },
-            35: { x: 190, y: 120 },
-            36: { x: 250, y: 120 },
-            37: { x: 310, y: 130 },
-            38: { x: 370, y: 130 },
-            
-            // Row 3 - Bottom letter row (left side: 39-44)
-            39: { x: 10, y: 190 },
-            40: { x: 70, y: 190 },
-            41: { x: 130, y: 180 },
-            42: { x: 190, y: 180 },
-            43: { x: 250, y: 185 },
-            44: { x: 310, y: 190 },
-            
-            // Row 3 - Bottom letter row (right side: 45-51)
-            45: { x: 10, y: 195 },
-            46: { x: 70, y: 190 },
-            47: { x: 130, y: 185 },
-            48: { x: 190, y: 180 },
-            49: { x: 250, y: 180 },
-            50: { x: 310, y: 190 },
-            51: { x: 370, y: 190 },
-            
-            // Row 4 - Thumb cluster and bottom row (52-63)
-            // Lado izquierdo: 52-57 (6 teclas)
-            52: { x: 370, y: 240 },  // Encoder/C_MUTE (col 0, posición especial arriba)
-            53: { x: 130, y: 250 },  // LCTRL (col 1)
-            54: { x: 190, y: 250 },  // LGUI (col 2)
-            55: { x: 250, y: 255 },  // LALT (col 3)
-            56: { x: 295, y: 265 },  // mo 1 (col 4, thumb key rotated)
-            57: { x: 340, y: 275 },  // mo 2 (col 5, thumb key rotated)
-            
-            // Lado derecho: 58-63 (6 teclas)
-            58: { x: 10, y: 75 },    // col 7 - Tecla especial arriba (ENTER según keymap)
-            59: { x: 40, y: 275 },   // col 8 - SPACE (thumb key rotated)
-            60: { x: 85, y: 265 },   // col 9 - COMMA (thumb key rotated)
-            61: { x: 130, y: 255 },  // col 10 - LBRC
-            62: { x: 190, y: 250 },  // col 11 - DOT
-            63: { x: 250, y: 250 }   // col 12 - DEL
+            // Fila 4 - Thumb cluster (índices 53-57, 5 teclas)
+            53: { x: 50, y: 265 },   // mo 2
+            54: { x: 110, y: 255 },  // SPACE
+            55: { x: 170, y: 250 },  // ENTER
+            56: { x: 230, y: 250 },  // RSHFT
+            57: { x: 290, y: 250 }   // DEL
         };
         
         return positions[index] || { x: 0, y: 0 };
@@ -336,8 +363,12 @@ class KeymapEditor {
 
     selectKey(index) {
         this.selectedKey = index;
+        this.selectedEncoder = null;
+        this.selectedJoystick = null;
         
         document.querySelectorAll('.key').forEach(k => k.classList.remove('selected'));
+        document.querySelectorAll('.encoder-key').forEach(k => k.classList.remove('selected'));
+        
         const keyElement = document.querySelector(`[data-index="${index}"]`);
         if (keyElement) {
             keyElement.classList.add('selected');
@@ -346,9 +377,92 @@ class KeymapEditor {
         this.updateKeyInfo();
     }
 
+    selectEncoder(direction) {
+        this.selectedEncoder = direction;
+        this.selectedKey = null;
+        this.selectedJoystick = null;
+        
+        document.querySelectorAll('.key').forEach(k => k.classList.remove('selected'));
+        document.querySelectorAll('.encoder-key').forEach(k => k.classList.remove('selected'));
+        
+        const encoderElement = document.querySelector(`[data-key="encoder-${direction}"]`);
+        if (encoderElement) {
+            encoderElement.classList.add('selected');
+        }
+        
+        this.updateKeyInfo();
+    }
+
+    selectJoystick(direction) {
+        this.selectedJoystick = direction;
+        this.selectedKey = null;
+        this.selectedEncoder = null;
+        
+        document.querySelectorAll('.key').forEach(k => k.classList.remove('selected'));
+        document.querySelectorAll('.encoder-key').forEach(k => k.classList.remove('selected'));
+        
+        const joystickElement = document.querySelector(`[data-key="joystick-${direction}"]`);
+        if (joystickElement) {
+            joystickElement.classList.add('selected');
+        }
+        
+        this.updateKeyInfo();
+    }
+
     updateKeyInfo() {
         const infoDiv = document.getElementById('selectedKeyInfo');
         
+        // Encoder seleccionado
+        if (this.selectedEncoder !== null) {
+            const direction = this.selectedEncoder === 'left' ? 'up' : (this.selectedEncoder === 'right' ? 'down' : 'click');
+            let code = '';
+            
+            if (this.selectedEncoder === 'click') {
+                code = '&mkp LCLK'; // El encoder click es fijo
+                infoDiv.innerHTML = `
+                    <p><strong>Elemento:</strong> Encoder Click</p>
+                    <p><strong>Capa:</strong> ${this.currentLayer}</p>
+                    <p><strong>Código:</strong></p>
+                    <p style="font-family: monospace; background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 5px;">${code}</p>
+                    <p style="margin-top: 10px; color: #6c757d;"><em>El click del encoder es fijo</em></p>
+                `;
+            } else {
+                code = this.encoderBindings[this.currentLayer][direction];
+                const display = getKeycodeDisplay(code);
+                infoDiv.innerHTML = `
+                    <p><strong>Elemento:</strong> Encoder ${this.selectedEncoder === 'left' ? 'Izquierda' : 'Derecha'}</p>
+                    <p><strong>Capa:</strong> ${this.currentLayer}</p>
+                    <p><strong>Código actual:</strong></p>
+                    <p style="font-family: monospace; background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 5px;">${code}</p>
+                    <p style="margin-top: 10px;"><strong>Display:</strong> ${display}</p>
+                `;
+            }
+            return;
+        }
+        
+        // Joystick seleccionado
+        if (this.selectedJoystick !== null) {
+            const code = this.joystickBindings[this.currentLayer][this.selectedJoystick];
+            const display = getKeycodeDisplay(code);
+            const directionNames = {
+                'up': 'Arriba',
+                'down': 'Abajo',
+                'left': 'Izquierda',
+                'right': 'Derecha',
+                'click': 'Click'
+            };
+            
+            infoDiv.innerHTML = `
+                <p><strong>Elemento:</strong> Joystick ${directionNames[this.selectedJoystick]}</p>
+                <p><strong>Capa:</strong> ${this.currentLayer}</p>
+                <p><strong>Código actual:</strong></p>
+                <p style="font-family: monospace; background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 5px;">${code}</p>
+                <p style="margin-top: 10px;"><strong>Display:</strong> ${display}</p>
+            `;
+            return;
+        }
+        
+        // Tecla normal seleccionada
         if (this.selectedKey === null) {
             infoDiv.innerHTML = '<p class="placeholder">Haz clic en una tecla para editarla</p>';
             return;
@@ -367,8 +481,30 @@ class KeymapEditor {
     }
 
     setKeycode(code) {
+        // Asignar a encoder
+        if (this.selectedEncoder !== null) {
+            if (this.selectedEncoder === 'click') {
+                alert('El click del encoder es fijo y no se puede cambiar');
+                return;
+            }
+            const direction = this.selectedEncoder === 'left' ? 'up' : 'down';
+            this.encoderBindings[this.currentLayer][direction] = code;
+            this.updateDisplay();
+            this.updateKeyInfo();
+            return;
+        }
+        
+        // Asignar a joystick
+        if (this.selectedJoystick !== null) {
+            this.joystickBindings[this.currentLayer][this.selectedJoystick] = code;
+            this.updateDisplay();
+            this.updateKeyInfo();
+            return;
+        }
+        
+        // Asignar a tecla normal
         if (this.selectedKey === null) {
-            alert('Por favor, selecciona una tecla primero');
+            alert('Por favor, selecciona una tecla, encoder o joystick primero');
             return;
         }
         
@@ -378,6 +514,7 @@ class KeymapEditor {
     }
 
     updateDisplay() {
+        // Actualizar teclas normales
         document.querySelectorAll('.key').forEach(keyElement => {
             const index = parseInt(keyElement.dataset.index);
             const code = this.keymap[this.currentLayer][index];
@@ -391,16 +528,47 @@ class KeymapEditor {
                 keyElement.classList.remove('transparent');
             }
         });
+        
+        // Actualizar encoder (solo las direcciones, no el click)
+        const encoderBindings = this.encoderBindings[this.currentLayer];
+        const encoderLeft = document.querySelector('[data-key="encoder-left"]');
+        const encoderRight = document.querySelector('[data-key="encoder-right"]');
+        
+        if (encoderLeft) {
+            encoderLeft.title = `Girar izquierda: ${getKeycodeDisplay(encoderBindings.up)}`;
+        }
+        if (encoderRight) {
+            encoderRight.title = `Girar derecha: ${getKeycodeDisplay(encoderBindings.down)}`;
+        }
+        
+        // Actualizar joystick
+        const joystickBindings = this.joystickBindings[this.currentLayer];
+        const joystickUp = document.querySelector('[data-key="joystick-up"]');
+        const joystickDown = document.querySelector('[data-key="joystick-down"]');
+        const joystickLeft = document.querySelector('[data-key="joystick-left"]');
+        const joystickRight = document.querySelector('[data-key="joystick-right"]');
+        const joystickClick = document.querySelector('[data-key="joystick-click"]');
+        
+        if (joystickUp) joystickUp.title = `Arriba: ${getKeycodeDisplay(joystickBindings.up)}`;
+        if (joystickDown) joystickDown.title = `Abajo: ${getKeycodeDisplay(joystickBindings.down)}`;
+        if (joystickLeft) joystickLeft.title = `Izquierda: ${getKeycodeDisplay(joystickBindings.left)}`;
+        if (joystickRight) joystickRight.title = `Derecha: ${getKeycodeDisplay(joystickBindings.right)}`;
+        if (joystickClick) joystickClick.title = `Click: ${getKeycodeDisplay(joystickBindings.click)}`;
     }
 
     switchLayer(layer) {
         this.currentLayer = layer;
         this.selectedKey = null;
+        this.selectedEncoder = null;
+        this.selectedJoystick = null;
         
         document.querySelectorAll('.layer-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-layer="${layer}"]`).classList.add('active');
+        
+        document.querySelectorAll('.key').forEach(k => k.classList.remove('selected'));
+        document.querySelectorAll('.encoder-key').forEach(k => k.classList.remove('selected'));
         
         this.updateDisplay();
         this.updateKeyInfo();
@@ -499,38 +667,40 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            // Asegurar que la capa tenga exactamente 64 teclas (según el layout físico)
+            // Asegurar que la capa tenga exactamente 58 teclas (sin encoders/joystick)
             let keys = [...this.keymap[layer]];
-            while (keys.length < 64) {
+            while (keys.length < 58) {
                 keys.push('&trans');
             }
-            keys = keys.slice(0, 64); // Asegurar que no haya más de 64
+            keys = keys.slice(0, 58); // Asegurar que no haya más de 58
             
             const rows = [
-                keys.slice(0, 13).join('  '),
-                keys.slice(13, 26).join('  '),
-                keys.slice(26, 39).join('  '),
-                keys.slice(39, 52).join('  '),
-                keys.slice(52, 64).join('  ')
+                keys.slice(0, 12).join('  '),
+                keys.slice(12, 24).join('  '),
+                keys.slice(24, 36).join('  '),
+                keys.slice(36, 48).join('  '),
+                keys.slice(48, 58).join('  ')
             ];
             
             rows.forEach(row => {
-                output += `${row}\n`;
+                output += `                ${row}\n`;
             });
             
-            output += `            >;\n\n`;
+            output += `            >;\n`;
             
             const encoder = this.encoderBindings[layer];
+            const joystick = this.joystickBindings[layer];
             if (layer === 0) {
                 output += `            sensor-bindings = <&inc_dec_kp ${encoder.up.replace('&kp ', '')} ${encoder.down.replace('&kp ', '')}>;\n`;
             } else {
                 output += `            sensor-bindings = <&scroll_encoder>;\n`;
             }
             
-            output += `            display-name = "${displayName}";\n`;
+            // Agregar joystick bindings como comentario para referencia
+            output += `            // Joystick: UP=${joystick.up} DOWN=${joystick.down} LEFT=${joystick.left} RIGHT=${joystick.right} CLICK=${joystick.click}\n`;
             output += `        };\n\n`;
         }
-
+        
         output += `    };
 };
 `;
@@ -585,10 +755,21 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    this.keymap[index] = keys.slice(0, 64);
+                    // Si hay más de 58 teclas, eliminar las posiciones de los encoders/joystick
+                    // Encoders/Joystick están en posiciones: 6, 19, 32, 45 (cada 13 teclas en formato antiguo)
+                    if (keys.length >= 65) {
+                        // Eliminar encoders de atrás hacia adelante para no alterar índices
+                        keys.splice(45, 1); // Encoder/Joystick fila 3
+                        keys.splice(32, 1); // Encoder/Joystick fila 2
+                        keys.splice(19, 1); // Encoder/Joystick fila 1
+                        keys.splice(6, 1);  // Encoder/Joystick fila 0
+                        console.log(`Encoders/Joystick eliminados. Teclas restantes: ${keys.length}`);
+                    }
+                    
+                    this.keymap[index] = keys.slice(0, 58);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 64) {
+                    while (this.keymap[index].length < 58) {
                         this.keymap[index].push('&trans');
                     }
                     layersImported++;
@@ -612,7 +793,7 @@ class KeymapEditor {
             return {
                 success: true,
                 layersImported: layersImported,
-                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 64} teclas configuradas`
+                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 58} teclas configuradas`
             };
         } catch (error) {
             return {
@@ -626,10 +807,103 @@ class KeymapEditor {
         if (confirm('¿Estás seguro de que quieres resetear el keymap a los valores por defecto?')) {
             this.keymap = this.initializeKeymap();
             this.encoderBindings = this.initializeEncoderBindings();
+            this.joystickBindings = this.initializeJoystickBindings();
             this.selectedKey = null;
             this.updateDisplay();
             this.updateKeyInfo();
         }
+    }
+
+    attachEncoderJoystickListeners() {
+        // Event listeners para el encoder
+        const encoderLeft = document.querySelector('[data-key="encoder-left"]');
+        const encoderRight = document.querySelector('[data-key="encoder-right"]');
+        const encoderClick = document.querySelector('[data-key="encoder-click"]');
+        
+        if (encoderLeft) {
+            encoderLeft.addEventListener('click', () => {
+                this.selectEncoder('left');
+            });
+            
+            // Drag and drop
+            encoderLeft.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                encoderLeft.classList.add('drag-over');
+            });
+            encoderLeft.addEventListener('dragleave', () => {
+                encoderLeft.classList.remove('drag-over');
+            });
+            encoderLeft.addEventListener('drop', (e) => {
+                e.preventDefault();
+                encoderLeft.classList.remove('drag-over');
+                const keycode = e.dataTransfer.getData('text/plain');
+                if (keycode) {
+                    this.selectEncoder('left');
+                    this.setKeycode(keycode);
+                }
+            });
+        }
+        
+        if (encoderRight) {
+            encoderRight.addEventListener('click', () => {
+                this.selectEncoder('right');
+            });
+            
+            // Drag and drop
+            encoderRight.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                encoderRight.classList.add('drag-over');
+            });
+            encoderRight.addEventListener('dragleave', () => {
+                encoderRight.classList.remove('drag-over');
+            });
+            encoderRight.addEventListener('drop', (e) => {
+                e.preventDefault();
+                encoderRight.classList.remove('drag-over');
+                const keycode = e.dataTransfer.getData('text/plain');
+                if (keycode) {
+                    this.selectEncoder('right');
+                    this.setKeycode(keycode);
+                }
+            });
+        }
+        
+        if (encoderClick) {
+            encoderClick.addEventListener('click', () => {
+                this.selectEncoder('click');
+            });
+        }
+        
+        // Event listeners para el joystick
+        const joystickDirections = ['up', 'down', 'left', 'right', 'click'];
+        
+        joystickDirections.forEach(direction => {
+            const joystickElement = document.querySelector(`[data-key="joystick-${direction}"]`);
+            
+            if (joystickElement) {
+                joystickElement.addEventListener('click', () => {
+                    this.selectJoystick(direction);
+                });
+                
+                // Drag and drop
+                joystickElement.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    joystickElement.classList.add('drag-over');
+                });
+                joystickElement.addEventListener('dragleave', () => {
+                    joystickElement.classList.remove('drag-over');
+                });
+                joystickElement.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    joystickElement.classList.remove('drag-over');
+                    const keycode = e.dataTransfer.getData('text/plain');
+                    if (keycode) {
+                        this.selectJoystick(direction);
+                        this.setKeycode(keycode);
+                    }
+                });
+            }
+        });
     }
 
     attachEventListeners() {
