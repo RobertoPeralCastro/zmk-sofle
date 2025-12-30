@@ -352,12 +352,12 @@ class KeymapEditor {
             47: { x: 310, y: 190 },
             
             // Fila 4 - Thumb cluster (índices 54-59, 6 teclas)
-            54: { x: 350, y: 250 },  // SPACE (derecha)
-            55: { x: 290, y: 250 },  // ENTER
+            54: { x: 110, y: 255 },  // SPACE
+            55: { x: 170, y: 250 },  // ENTER
             56: { x: 230, y: 250 },  // mo 2
-            57: { x: 170, y: 250 },  // RALT
-            58: { x: 110, y: 255 },  // RCTRL
-            59: { x: 50, y: 265 }    // DEL (izquierda)
+            57: { x: 50, y: 265 },   // RALT (primera posición)
+            58: { x: 290, y: 250 },  // RCTRL
+            59: { x: 350, y: 250 }   // DEL
         };
         
         return positions[index] || { x: 0, y: 0 };
