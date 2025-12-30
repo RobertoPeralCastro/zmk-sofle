@@ -68,31 +68,37 @@ class KeymapEditor {
         return {
             // Fila 0 - Number row
             'Escape': 0, 'Digit1': 1, 'Digit2': 2, 'Digit3': 3, 'Digit4': 4, 'Digit5': 5,
-            'ArrowUp': 6, 'Digit6': 7, 'Digit7': 8, 'Digit8': 9, 'Digit9': 10, 'Digit0': 11, 'Backspace': 12,
+            'ArrowUp': 6, 'Digit6': 7, 'Digit7': 8, 'Digit8': 9, 'Digit9': 10, 'Digit0': 11, 
+            'Equal': 12,  // Posición 12 - tecla superior derecha del lado derecho
             
             // Fila 1 - Top letter row
             'Tab': 13, 'KeyQ': 14, 'KeyW': 15, 'KeyE': 16, 'KeyR': 17, 'KeyT': 18,
-            'ArrowDown': 19, 'KeyY': 20, 'KeyU': 21, 'KeyI': 22, 'KeyO': 23, 'KeyP': 24, 'Backslash': 25,
+            'ArrowDown': 19, 'KeyY': 20, 'KeyU': 21, 'KeyI': 22, 'KeyO': 23, 'KeyP': 24, 
+            'BracketLeft': 25, 'BracketRight': 25, 'Backslash': 25,  // Posición 25
             
             // Fila 2 - Home row
-            'CapsLock': 26, 'KeyA': 27, 'KeyS': 28, 'KeyD': 29, 'KeyF': 30, 'KeyG': 31,
-            'ArrowLeft': 32, 'KeyH': 33, 'KeyJ': 34, 'KeyK': 35, 'KeyL': 36, 'Semicolon': 37, 'Quote': 38,
+            'CapsLock': 26, 'Backspace': 26,  // Posición 26 puede ser CapsLock o Backspace según tu config
+            'KeyA': 27, 'KeyS': 28, 'KeyD': 29, 'KeyF': 30, 'KeyG': 31,
+            'ArrowLeft': 32, 'KeyH': 33, 'KeyJ': 34, 'KeyK': 35, 'KeyL': 36, 'Semicolon': 37, 
+            'Quote': 38, 'Delete': 38,  // Posición 38 puede ser Quote o Delete
             
             // Fila 3 - Bottom letter row
             'ShiftLeft': 39, 'KeyZ': 40, 'KeyX': 41, 'KeyC': 42, 'KeyV': 43, 'KeyB': 44,
-            'ArrowRight': 45, 'KeyN': 46, 'KeyM': 47, 'Comma': 48, 'Period': 49, 'Slash': 50, 'Enter': 51,
+            'ArrowRight': 45, 'KeyN': 46, 'KeyM': 47, 'Comma': 48, 'Period': 49, 'Slash': 50, 
+            'Enter': 51, 'Backquote': 51,  // Posición 51
             
             // Fila 4 - Thumb cluster
-            // Posición 52 es C_MUTE (encoder/joystick - no tiene tecla física estándar)
+            // Posición 52 es C_MUTE (encoder/joystick)
             'ControlLeft': 53, 'MetaLeft': 54, 'AltLeft': 55,
-            // Posición 56 es mo 1 (no tiene tecla física estándar en teclado normal)
+            // Posición 56 es mo 1
             'Space': 57,
-            'Delete': 58,
-            // Posición 59 es otro Space (tecla del pulgar derecho)
-            // Posición 60 es Enter del lado derecho (ya mapeado arriba como 51)
-            // Posición 61 es mo 2 (no tiene tecla física estándar)
+            // Posición 58 es Enter según tu config actual
+            // Posición 59 es Space
+            // Posición 60 es Comma
+            // Posición 61 es BracketLeft
+            // Posición 62 es Period
             'ShiftRight': 62
-            // Posición 63 es &trans (no tiene tecla física)
+            // Posición 63 es Delete
         };
     }
 
@@ -662,13 +668,17 @@ class KeymapEditor {
             }
         });
 
-        document.addEventListener('keydown', (e) => {
-            this.handlePhysicalKeyPress(e);
-        });
+        // DESACTIVADO: La detección de teclas físicas no funciona con teclados personalizados
+        // como el Sofle porque envían keycodes asignados, no posiciones físicas.
+        // Solo funciona con teclados estándar de PC.
+        
+        // document.addEventListener('keydown', (e) => {
+        //     this.handlePhysicalKeyPress(e);
+        // });
 
-        document.addEventListener('keyup', (e) => {
-            this.handlePhysicalKeyRelease(e);
-        });
+        // document.addEventListener('keyup', (e) => {
+        //     this.handlePhysicalKeyRelease(e);
+        // });
     }
 
     handlePhysicalKeyPress(event) {
