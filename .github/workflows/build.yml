@@ -1,11 +1,50 @@
 name: Build ZMK firmware
 on:
   workflow_dispatch:
+    inputs:
+      board:
+        description: 'Board to build for'
+        required: true
+        default: 'eyelash_sofle_left'
+        type: choice
+        options:
+          - eyelash_sofle_left
+          - eyelash_sofle_right
   push:
     paths-ignore:
       - "keymap-drawer/**"
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:3.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Initialize West
+        run: west init -l config
+      
+      - name: Update
+        run: west update
+      
+      - name: Build Firmware
+        run: |
+          if [ "${{ github.event.inputs.board }}" = "" ]; then
+            # Build both sides if no input
+            west build -b eyelash_sofle_left -d build/left
+            west build -b eyelash_sofle_right -d build/right
+          else
+            # Build specified board
+            west build -b ${{ github.event.inputs.board }} -d build/${{ github.event.inputs.board }}
+          fi
+      
+      - name: Archive Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: build/*/zephyr/*.uf2
 
