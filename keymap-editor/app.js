@@ -888,9 +888,21 @@ class KeymapEditor {
             const percentage = ((localColumn - 1) / 5) * 100;
             handle.style.left = `${percentage}%`;
             
-            // Actualizar indicadores visuales
+            // Actualizar indicadores visuales - alinear con columnas reales del teclado
             document.querySelectorAll('.col-indicator').forEach((indicator, index) => {
                 indicator.classList.toggle('active', index === column - 1);
+                
+                // Posicionar los indicadores según la distribución real del teclado
+                if (index < 6) {
+                    // Columnas 1-6: teclado izquierdo (6 columnas)
+                    const leftPercentage = (index / 5) * 100;
+                    indicator.style.left = `${leftPercentage}%`;
+                } else {
+                    // Columnas 7-12: teclado derecho (6 columnas)
+                    const rightPercentage = ((index - 6) / 5) * 100;
+                    indicator.style.left = `${rightPercentage}%`;
+                    indicator.style.right = 'auto';
+                }
             });
         };
         
