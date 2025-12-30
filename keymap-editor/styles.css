@@ -126,6 +126,17 @@ header h1 {
     transform: translateY(-2px);
 }
 
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+    font-weight: 500;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+}
+
 .main-content {
     display: flex;
     gap: 20px;
@@ -136,8 +147,196 @@ header h1 {
     flex: 1;
     display: flex;
     gap: 20px;
-    align-items: flex-start;
+    position: relative;
+}
+
+.column-slider-container {
+    position: absolute;
+    top: -45px;
+    left: 0;
+    right: 0;
+    height: 35px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+}
+
+.column-slider {
+    flex: 1;
+    position: relative;
+    height: 35px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.column-slider:first-child {
+    margin-right: 5px;
+}
+
+.column-slider:last-child {
+    margin-left: 5px;
+}
+
+.column-slider:hover {
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.column-slider:hover .slider-handle {
+    background: white;
+    color: #667eea;
+}
+
+.column-indicators {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    pointer-events: none;
+}
+
+.col-indicator {
+    width: 20px;
+    height: 20px;
+    background: #6c757d;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 7.5px;
+    transition: all 0.2s ease;
+}
+
+.row-slider-container {
+    position: absolute;
+    top: 0;
+    left: -45px;
+    bottom: 0;
+    width: 35px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row-slider {
+    position: relative;
+    width: 35px;
+    height: 300px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.row-slider:hover {
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    border-color: #667eea;
+    transform: translateX(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.row-slider:hover .slider-handle {
+    background: white;
+    color: #667eea;
+}
+
+.row-indicators {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 0;
+    pointer-events: none;
+}
+
+.row-indicator {
+    width: 20px;
+    height: 20px;
+    background: #6c757d;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 7.5px;
+    transition: all 0.2s ease;
+}
+
+.slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    background: #667eea;
+    color: white;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    z-index: 11;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.slider-handle:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.slider-handle:active {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.column-slider.active .slider-handle,
+.row-slider.active .slider-handle {
+    background: #dc3545;
+    border-color: #dc3545;
+    animation: pulse 0.5s ease-out;
+}
+
+.col-indicator.active,
+.row-indicator.active {
+    background: #dc3545;
+    transform: scale(1.2);
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 .keyboard-half {

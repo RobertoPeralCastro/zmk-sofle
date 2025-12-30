@@ -28,12 +28,51 @@
                 <button id="importFileBtn" class="btn btn-secondary">📁 Importar Archivo</button>
                 <button id="importTextBtn" class="btn btn-secondary">📝 Importar Texto</button>
                 <button id="exportBtn" class="btn btn-primary">💾 Guardar Keymap</button>
+                <button id="clearLayerBtn" class="btn btn-warning">🗑️ Limpiar Capa</button>
                 <button id="resetBtn" class="btn btn-danger">🔄 Reset</button>
             </div>
         </div>
 
         <div class="main-content">
             <div class="keyboard-container">
+                <!-- Slider de columnas (arriba) - Dividido en dos partes -->
+                <div class="column-slider-container">
+                    <div class="column-slider" id="columnSliderLeft">
+                        <div class="slider-handle">📐</div>
+                    </div>
+                    <div class="column-slider" id="columnSliderRight">
+                        <div class="slider-handle">📐</div>
+                    </div>
+                    <div class="column-indicators">
+                        <div class="col-indicator" data-col="1">1</div>
+                        <div class="col-indicator" data-col="2">2</div>
+                        <div class="col-indicator" data-col="3">3</div>
+                        <div class="col-indicator" data-col="4">4</div>
+                        <div class="col-indicator" data-col="5">5</div>
+                        <div class="col-indicator" data-col="6">6</div>
+                        <div class="col-indicator" data-col="7">7</div>
+                        <div class="col-indicator" data-col="8">8</div>
+                        <div class="col-indicator" data-col="9">9</div>
+                        <div class="col-indicator" data-col="10">10</div>
+                        <div class="col-indicator" data-col="11">11</div>
+                        <div class="col-indicator" data-col="12">12</div>
+                    </div>
+                </div>
+
+                <!-- Slider de filas (izquierda) -->
+                <div class="row-slider-container">
+                    <div class="row-slider" id="rowSlider">
+                        <div class="slider-handle">📏</div>
+                    </div>
+                    <div class="row-indicators">
+                        <div class="row-indicator" data-row="1">1</div>
+                        <div class="row-indicator" data-row="2">2</div>
+                        <div class="row-indicator" data-row="3">3</div>
+                        <div class="row-indicator" data-row="4">4</div>
+                        <div class="row-indicator" data-row="5">5</div>
+                    </div>
+                </div>
+
                 <div class="keyboard-half left-half">
                     <div class="half-label">Izquierda</div>
                     <div id="leftKeyboard" class="keyboard-grid"></div>

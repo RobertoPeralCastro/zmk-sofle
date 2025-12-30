@@ -843,6 +843,242 @@ class KeymapEditor {
         }
     }
 
+    clearCurrentLayer() {
+        const layerName = this.currentLayer === 0 ? 'Layer 0' : `Layer ${this.currentLayer}`;
+        if (confirm(`¿Estás seguro de que quieres limpiar la ${layerName}?\n\nEsto asignará &none a todas las teclas de esta capa.`)) {
+            // Asignar &none a todas las teclas de la capa actual
+            this.keymap[this.currentLayer] = Array(58).fill('&none');
+            this.selectedKey = null;
+            this.updateDisplay();
+            this.updateKeyInfo();
+            
+            // Mostrar mensaje de confirmación
+            alert(`✅ ${layerName} limpiada correctamente.\n\nTodas las teclas ahora tienen &none.`);
+        }
+    }
+
+    initializeSliders() {
+        const columnSliderLeft = document.getElementById('columnSliderLeft');
+        const columnSliderRight = document.getElementById('columnSliderRight');
+        const rowSlider = document.getElementById('rowSlider');
+        const columnHandleLeft = columnSliderLeft.querySelector('.slider-handle');
+        const columnHandleRight = columnSliderRight.querySelector('.slider-handle');
+        const rowHandle = rowSlider.querySelector('.slider-handle');
+        
+        let selectedColumn = 1;
+        let selectedRow = 1;
+        let isDragging = null;
+        
+        // Función para actualizar la posición del slider de columnas
+        const updateColumnSlider = (column) => {
+            selectedColumn = column;
+            
+            // Determinar qué slider usar y qué posición
+            const isLeftSlider = column <= 6;
+            const slider = isLeftSlider ? columnSliderLeft : columnSliderRight;
+            const handle = isLeftSlider ? columnHandleLeft : columnHandleRight;
+            const localColumn = isLeftSlider ? column : column - 6;
+            
+            // Resetear ambos sliders
+            columnSliderLeft.classList.remove('active');
+            columnSliderRight.classList.remove('active');
+            slider.classList.add('active');
+            
+            // Actualizar posición en el slider correspondiente
+            const percentage = ((localColumn - 1) / 5) * 100;
+            handle.style.left = `${percentage}%`;
+            
+            // Actualizar indicadores visuales
+            document.querySelectorAll('.col-indicator').forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === column - 1);
+            });
+        };
+        
+        // Función para actualizar la posición del slider de filas
+        const updateRowSlider = (row) => {
+            selectedRow = row;
+            const percentage = ((row - 1) / 4) * 100;
+            rowHandle.style.top = `${percentage}%`;
+            
+            // Actualizar indicadores visuales
+            document.querySelectorAll('.row-indicator').forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === row - 1);
+            });
+        };
+        
+        // Eventos para los sliders de columnas
+        [columnSliderLeft, columnSliderRight].forEach((slider, index) => {
+            const isLeft = index === 0;
+            const handle = isLeft ? columnHandleLeft : columnHandleRight;
+            
+            slider.addEventListener('click', (e) => {
+                const rect = slider.getBoundingClientRect();
+                const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+                const localColumn = Math.round((percentage / 100) * 5) + 1;
+                const globalColumn = isLeft ? localColumn : localColumn + 6;
+                updateColumnSlider(Math.max(1, Math.min(12, globalColumn)));
+            });
+            
+            handle.addEventListener('mousedown', (e) => {
+                isDragging = `column-${isLeft ? 'left' : 'right'}`;
+                handle.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+            
+            handle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.clearColumn(selectedColumn);
+            });
+        });
+        
+        // Eventos para el slider de filas
+        rowSlider.addEventListener('click', (e) => {
+            const rect = rowSlider.getBoundingClientRect();
+            const percentage = ((e.clientY - rect.top) / rect.height) * 100;
+            const row = Math.round((percentage / 100) * 4) + 1;
+            updateRowSlider(Math.max(1, Math.min(5, row)));
+        });
+        
+        // Drag and drop para filas
+        rowHandle.addEventListener('mousedown', (e) => {
+            isDragging = 'row';
+            rowHandle.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+        
+        rowHandle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.clearRow(selectedRow);
+        });
+        
+        // Eventos de mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && isDragging.startsWith('column')) {
+                const isLeft = isDragging === 'column-left';
+                const slider = isLeft ? columnSliderLeft : columnSliderRight;
+                const rect = slider.getBoundingClientRect();
+                const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+                const localColumn = Math.round((percentage / 100) * 5) + 1;
+                const globalColumn = isLeft ? localColumn : localColumn + 6;
+                updateColumnSlider(Math.max(1, Math.min(12, globalColumn)));
+            } else if (isDragging === 'row') {
+                const rect = rowSlider.getBoundingClientRect();
+                const percentage = ((e.clientY - rect.top) / rect.height) * 100;
+                const row = Math.round((percentage / 100) * 4) + 1;
+                updateRowSlider(Math.max(1, Math.min(5, row)));
+            }
+        });
+        
+        // Eventos de mouse up
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                columnHandleLeft.style.cursor = 'grab';
+                columnHandleRight.style.cursor = 'grab';
+                rowHandle.style.cursor = 'grab';
+            }
+        });
+        
+        // Inicializar posiciones
+        updateColumnSlider(1);
+        updateRowSlider(1);
+    }
+    
+    clearRow(row) {
+        const layerName = this.currentLayer === 0 ? 'Layer 0' : `Layer ${this.currentLayer}`;
+        const startIndices = [0, 12, 24, 36, 48];
+        const endIndices = [11, 23, 35, 47, 57];
+        const rowIndex = row - 1;
+        
+        if (confirm(`¿Estás seguro de que quieres limpiar la Fila ${row} de ${layerName}?\n\nEsto asignará &none a las teclas ${startIndices[rowIndex]}-${endIndices[rowIndex]}.`)) {
+            // Animación visual
+            const rowSlider = document.getElementById('rowSlider');
+            rowSlider.classList.add('active');
+            
+            for (let i = startIndices[rowIndex]; i <= endIndices[rowIndex]; i++) {
+                this.keymap[this.currentLayer][i] = '&none';
+            }
+            this.selectedKey = null;
+            this.updateDisplay();
+            this.updateKeyInfo();
+            
+            setTimeout(() => {
+                rowSlider.classList.remove('active');
+            }, 300);
+            
+            // Mostrar mensaje de confirmación
+            this.showNotification(`✅ Fila ${row} de ${layerName} limpiada correctamente.`);
+        }
+    }
+    
+    clearColumn(column) {
+        const layerName = this.currentLayer === 0 ? 'Layer 0' : `Layer ${this.currentLayer}`;
+        const columnIndices = [
+            [0, 12, 24, 36, 48],  // Columna 1
+            [1, 13, 25, 37, 49],  // Columna 2
+            [2, 14, 26, 38, 50],  // Columna 3
+            [3, 15, 27, 39, 51],  // Columna 4
+            [4, 16, 28, 40, 52],  // Columna 5
+            [5, 17, 29, 41, 53],  // Columna 6
+            [6, 18, 30, 42, 54],  // Columna 7
+            [7, 19, 31, 43, 55],  // Columna 8
+            [8, 20, 32, 44, 56],  // Columna 9
+            [9, 21, 33, 45, 57],  // Columna 10
+            [10, 22, 34, 46],     // Columna 11
+            [11, 23, 35, 47]      // Columna 12
+        ];
+        
+        const colIndex = column - 1;
+        const indices = columnIndices[colIndex];
+        
+        if (confirm(`¿Estás seguro de que quieres limpiar la Columna ${column} de ${layerName}?\n\nEsto asignará &none a las teclas: ${indices.join(', ')}.`)) {
+            // Animación visual
+            const columnSlider = document.getElementById('columnSlider');
+            columnSlider.classList.add('active');
+            
+            indices.forEach(index => {
+                this.keymap[this.currentLayer][index] = '&none';
+            });
+            this.selectedKey = null;
+            this.updateDisplay();
+            this.updateKeyInfo();
+            
+            setTimeout(() => {
+                columnSlider.classList.remove('active');
+            }, 300);
+            
+            // Mostrar mensaje de confirmación
+            this.showNotification(`✅ Columna ${column} de ${layerName} limpiada correctamente.`);
+        }
+    }
+    
+    showNotification(message) {
+        // Crear notificación temporal
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-weight: 600;
+            animation: slideIn 0.3s ease-out;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+
     reset() {
         if (confirm('¿Estás seguro de que quieres resetear el keymap a los valores por defecto?')) {
             this.keymap = this.initializeKeymap();
@@ -984,9 +1220,16 @@ class KeymapEditor {
             `);
         });
 
+        document.getElementById('clearLayerBtn').addEventListener('click', () => {
+            this.clearCurrentLayer();
+        });
+
         document.getElementById('resetBtn').addEventListener('click', () => {
             this.reset();
         });
+
+        // Inicializar sliders interactivos
+        this.initializeSliders();
 
         const searchInput = document.getElementById('keycodeSearch');
         const resultsDiv = document.getElementById('keycodeResults');
