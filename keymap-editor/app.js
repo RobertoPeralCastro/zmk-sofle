@@ -100,6 +100,7 @@ class KeymapEditor {
             // Símbolos españoles con combinaciones
             'LS(COMMA)': 'Comma',  // Punto y coma en español (Shift+Coma)
             'LS(DOT)': 'Period',   // Dos puntos en español (Shift+Punto)
+            'LS(RBKT)': 'BracketRight',  // Más + en español (Shift+])
             
             // Flechas
             'UP_ARROW': 'ArrowUp', 'DOWN_ARROW': 'ArrowDown',
