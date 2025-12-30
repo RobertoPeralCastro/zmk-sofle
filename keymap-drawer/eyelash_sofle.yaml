@@ -40,7 +40,7 @@ layers:
   - L
   - {t: ;, s: ':'}
   - $$mdi:backspace-reverse-outline$$
-  - '3'
+  - {t: '3', h: toggle}
   - Z
   - X
   - C
@@ -58,7 +58,7 @@ layers:
   - $$mdi:apple-keyboard-shift$$
   - $$mdi:apple-keyboard-option$$
   - {t: '1', h: toggle}
-  - '2'
+  - {t: '2', h: toggle}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
@@ -188,7 +188,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {type: held}
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:minus-circle-outline$$', type: none}
   - {t: '$$mdi:transfer$$', type: trans}
   - $$mdi:mouse-left-click-outline$$
@@ -235,7 +235,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {type: held}
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
