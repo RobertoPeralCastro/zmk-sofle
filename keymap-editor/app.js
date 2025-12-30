@@ -621,6 +621,13 @@ class KeymapEditor {
 &soft_off { hold-time-ms = <2000>; };
 
 / {
+    // NOTA: Esta exportación incluye todas las secciones necesarias:
+    // - Configuración de pointing y soft_off
+    // - Scroll encoder behaviors
+    // - Combos (softoff)
+    // - Macros (SHIFT_MCLK)
+    // - Layer-state RGB por capa
+    // NO eliminar ninguna sección al importar/exportar
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
