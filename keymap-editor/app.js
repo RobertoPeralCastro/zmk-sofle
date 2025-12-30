@@ -674,12 +674,17 @@ class KeymapEditor {
             }
             keys = keys.slice(0, 58); // Asegurar que no haya más de 58
             
+            // Añadir 6 teclas &none al final para completar 64 teclas que espera el firmware
+            // Estas teclas no aparecen en la interfaz pero son necesarias para la matriz física
+            const exportKeys = [...keys, '&none', '&none', '&none', '&none', '&none', '&none'];
+            
             const rows = [
-                keys.slice(0, 12).join('  '),
-                keys.slice(12, 24).join('  '),
-                keys.slice(24, 36).join('  '),
-                keys.slice(36, 48).join('  '),
-                keys.slice(48, 58).join('  ')
+                exportKeys.slice(0, 12).join('  '),
+                exportKeys.slice(12, 24).join('  '),
+                exportKeys.slice(24, 36).join('  '),
+                exportKeys.slice(36, 48).join('  '),
+                exportKeys.slice(48, 60).join('  '),
+                exportKeys.slice(60, 64).join('  ')  // Última fila con las 4 teclas &none restantes
             ];
             
             rows.forEach(row => {
