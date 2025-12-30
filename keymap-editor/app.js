@@ -102,33 +102,49 @@ class KeymapEditor {
         });
 
         rightKeys.forEach(keyIndex => {
-            const key = this.createKeyElement(keyIndex);
+            const key = this.createKeyElement(keyIndex, 'right');
             rightKeyboard.appendChild(key);
         });
     }
 
-    createKeyElement(index) {
+    createKeyElement(index, side) {
         const key = document.createElement('div');
         key.className = 'key';
         key.dataset.index = index;
-        
-        const code = this.keymap[this.currentLayer][index];
-        const display = getKeycodeDisplay(code);
+        key.dataset.side = side;
         
         const position = this.getKeyPosition(index);
         key.style.left = `${position.x}px`;
         key.style.top = `${position.y}px`;
         
-        key.innerHTML = `
-            <div class="key-label">${display}</div>
-            <div class="key-code">${index}</div>
-        `;
+        const label = document.createElement('div');
+        label.className = 'key-label';
+        key.appendChild(label);
         
-        if (code === '&trans') {
-            key.classList.add('transparent');
-        }
-        
-        key.addEventListener('click', () => this.selectKey(index));
+        key.addEventListener('click', () => {
+            this.selectKey(index, side);
+        });
+
+        // Hacer la tecla droppable
+        key.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            key.classList.add('drag-over');
+        });
+
+        key.addEventListener('dragleave', () => {
+            key.classList.remove('drag-over');
+        });
+
+        key.addEventListener('drop', (e) => {
+            e.preventDefault();
+            key.classList.remove('drag-over');
+            
+            const keycode = e.dataTransfer.getData('text/plain');
+            if (keycode) {
+                this.selectKey(index, side);
+                this.setKeycode(keycode);
+            }
+        });
         
         return key;
     }
@@ -423,34 +439,84 @@ class KeymapEditor {
 
     importKeymap(keymapText) {
         try {
-            const layerRegex = /bindings = <\s*([\s\S]*?)>/g;
-            const matches = [...keymapText.matchAll(layerRegex)];
+            // Buscar el bloque keymap completo
+            const keymapBlockRegex = /keymap\s*{[\s\S]*?compatible\s*=\s*"zmk,keymap";([\s\S]*?)};/;
+            const keymapBlock = keymapText.match(keymapBlockRegex);
             
-            if (matches.length === 0) {
+            if (!keymapBlock) {
+                throw new Error('No se encontró el bloque keymap en el archivo');
+            }
+            
+            // Buscar todas las capas (layer0, layer_1, etc.)
+            const layerBlockRegex = /(layer[_0-9]*)\s*{[\s\S]*?bindings\s*=\s*<([\s\S]*?)>;/g;
+            const layerMatches = [...keymapBlock[1].matchAll(layerBlockRegex)];
+            
+            console.log('Capas encontradas:', layerMatches.length);
+            
+            if (layerMatches.length === 0) {
                 throw new Error('No se encontraron capas en el keymap');
             }
             
-            matches.forEach((match, layerIndex) => {
-                if (layerIndex >= 5) return;
+            let layersImported = 0;
+            
+            layerMatches.forEach((match, index) => {
+                if (index >= 5) return;
                 
-                const bindingsText = match[1];
-                const keys = bindingsText
-                    .split(/\s+/)
-                    .filter(k => k.trim() && k.startsWith('&'))
-                    .slice(0, 63);
+                const layerName = match[1];
+                const bindingsText = match[2];
+                
+                console.log(`Procesando ${layerName}...`);
+                console.log(`Bindings (primeros 100 chars):`, bindingsText.substring(0, 100));
+                
+                // Extraer todos los keycodes completos
+                // Formato: &behavior PARAM1 PARAM2 o &behavior PARAM o &behavior
+                const keyRegex = /&[\w_]+(?:\s+[\w_]+)*(?=\s+&|\s*$|\s*\n)/g;
+                let keys = bindingsText.match(keyRegex) || [];
+                
+                // Si no encuentra nada con el regex anterior, intentar otro enfoque
+                if (keys.length === 0) {
+                    // Dividir por & y reconstruir
+                    const parts = bindingsText.split('&').filter(p => p.trim());
+                    keys = parts.map(p => '&' + p.trim().split(/\s+/).slice(0, 3).join(' '));
+                }
+                
+                console.log(`${layerName}: ${keys.length} teclas encontradas`);
+                console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    this.keymap[layerIndex] = keys;
-                    while (this.keymap[layerIndex].length < 63) {
-                        this.keymap[layerIndex].push('&trans');
+                    this.keymap[index] = keys.slice(0, 63);
+                    
+                    // Completar con &trans si faltan
+                    while (this.keymap[index].length < 63) {
+                        this.keymap[index].push('&trans');
                     }
+                    layersImported++;
                 }
             });
             
+            // Importar encoder bindings si existen
+            const encoderRegex = /sensor-bindings = <&inc_dec_kp\s+(\w+)\s+(\w+)>/;
+            const encoderMatch = keymapText.match(encoderRegex);
+            if (encoderMatch) {
+                this.encoderBindings[0] = {
+                    up: `&kp ${encoderMatch[1]}`,
+                    down: `&kp ${encoderMatch[2]}`
+                };
+            }
+            
             this.updateDisplay();
-            alert('Keymap importado exitosamente');
+            this.updateKeyInfo();
+            
+            return {
+                success: true,
+                layersImported: layersImported,
+                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 63} teclas configuradas`
+            };
         } catch (error) {
-            alert('Error al importar: ' + error.message);
+            return {
+                success: false,
+                message: '❌ Error al importar: ' + error.message
+            };
         }
     }
 
@@ -476,7 +542,25 @@ class KeymapEditor {
             await this.saveKeymapToFile();
         });
 
-        document.getElementById('importBtn').addEventListener('click', () => {
+        document.getElementById('importFileBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const text = await file.text();
+                    const result = this.importKeymap(text);
+                    alert(result.message);
+                    e.target.value = ''; // Reset input
+                } catch (error) {
+                    alert('❌ Error al leer el archivo: ' + error.message);
+                }
+            }
+        });
+
+        document.getElementById('importTextBtn').addEventListener('click', () => {
             this.showModal('Importar Keymap', `
                 <p>Pega el contenido de tu archivo .keymap:</p>
                 <textarea id="importText" placeholder="Pega aquí el contenido del archivo .keymap..."></textarea>
@@ -523,9 +607,24 @@ class KeymapEditor {
 
         // Manejadores de botones de keycodes
         document.querySelectorAll('.keycode-btn').forEach(btn => {
+            // Click para asignar
             btn.addEventListener('click', () => {
                 const code = btn.dataset.code;
                 this.setKeycode(code);
+            });
+
+            // Drag and drop
+            btn.setAttribute('draggable', 'true');
+            
+            btn.addEventListener('dragstart', (e) => {
+                const code = btn.dataset.code;
+                e.dataTransfer.setData('text/plain', code);
+                e.dataTransfer.effectAllowed = 'copy';
+                btn.classList.add('dragging');
+            });
+
+            btn.addEventListener('dragend', () => {
+                btn.classList.remove('dragging');
             });
         });
 
@@ -587,8 +686,13 @@ class KeymapEditor {
     importFromModal() {
         const text = document.getElementById('importText').value;
         if (text.trim()) {
-            this.importKeymap(text);
-            document.getElementById('modal').style.display = 'none';
+            const result = this.importKeymap(text);
+            if (result.success) {
+                document.getElementById('modal').style.display = 'none';
+                alert(result.message);
+            } else {
+                alert(result.message);
+            }
         } else {
             alert('Por favor, pega el contenido del keymap');
         }
@@ -597,65 +701,70 @@ class KeymapEditor {
     async saveKeymapToFile() {
         const keymapContent = this.exportKeymap();
         const filename = 'eyelash_sofle.keymap';
-        
-        // Intentar usar File System Access API para abrir el diálogo en la carpeta correcta
-        if ('showSaveFilePicker' in window) {
-            try {
-                // Obtener handle de la carpeta config si ya se ha usado antes
-                const opts = {
-                    suggestedName: filename,
-                    types: [{
-                        description: 'ZMK Keymap Files',
-                        accept: { 'text/plain': ['.keymap'] }
-                    }]
-                };
-
-                const handle = await window.showSaveFilePicker(opts);
-                const writable = await handle.createWritable();
-                await writable.write(keymapContent);
-                await writable.close();
-
-                alert(`✅ Keymap guardado exitosamente!\n\nArchivo: ${filename}\n\n💡 Ahora haz commit y push a GitHub para generar el UF2`);
-                return;
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    return; // Usuario canceló
-                }
-                console.log('File System Access API no disponible, usando descarga normal');
-            }
-        }
-
-        // Fallback: descarga normal
-        this.downloadKeymap(keymapContent, filename);
-        
         const configPathAbsolute = 'c:\\Users\\rosli\\sofle\\zmk-sofle\\config';
         
-        this.showModal('Keymap Descargado', `
+        // Primero mostrar el modal con instrucciones
+        this.showModal('Guardar Keymap', `
             <div style="text-align: left;">
-                <h3>✅ Archivo descargado: ${filename}</h3>
+                <h3>💾 Guardando keymap...</h3>
                 
-                <p><strong>📁 Muévelo a esta carpeta:</strong></p>
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; word-break: break-all; user-select: all;">
+                <p><strong>📁 Guarda el archivo en esta carpeta:</strong></p>
+                <div id="pathDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; word-break: break-all; user-select: all; cursor: pointer;" onclick="navigator.clipboard.writeText('${configPathAbsolute}').then(() => { this.style.background = '#d4edda'; setTimeout(() => this.style.background = '#f8f9fa', 1000); })">
                     ${configPathAbsolute}
                 </div>
+                <p style="font-size: 0.9rem; color: #6c757d; margin-top: -5px;">👆 Haz clic en la ruta para copiarla</p>
                 
-                <button class="btn btn-primary" onclick="navigator.clipboard.writeText('${configPathAbsolute}').then(() => alert('✅ Ruta copiada! Pégala en el Explorador de Windows'))">
-                    📋 Copiar Ruta
-                </button>
+                <div style="display: flex; gap: 10px; margin: 20px 0;">
+                    <button class="btn btn-primary" id="copyPathBtn" style="flex: 1;">
+                        📋 Copiar Ruta
+                    </button>
+                    <button class="btn btn-secondary" id="downloadFileBtn" style="flex: 1;">
+                        💾 Descargar Archivo
+                    </button>
+                </div>
                 
                 <hr style="margin: 20px 0;">
                 
-                <h4>⚠️ Pasos rápidos:</h4>
+                <h4>⚠️ Pasos a seguir:</h4>
                 <ol style="line-height: 1.8;">
-                    <li><strong>Haz clic en "Copiar Ruta"</strong> arriba</li>
+                    <li><strong>Copia la ruta</strong> haciendo clic en el botón o en el texto</li>
+                    <li><strong>Descarga el archivo</strong> con el botón de arriba</li>
                     <li><strong>Abre el Explorador</strong> (Win + E)</li>
                     <li><strong>Pega la ruta</strong> en la barra de direcciones (Ctrl + V) y Enter</li>
-                    <li><strong>Si existe archivo anterior</strong>, renómbralo como backup</li>
-                    <li><strong>Arrastra el archivo descargado</strong> a esa carpeta</li>
-                    <li><strong>Commit y push</strong> a GitHub</li>
+                    <li><strong>Si existe archivo anterior</strong>, renómbralo como backup (ej: eyelash_sofle_backup.keymap)</li>
+                    <li><strong>Mueve el archivo descargado</strong> a esa carpeta</li>
+                    <li><strong>Commit y push</strong> a GitHub para generar el UF2</li>
                 </ol>
             </div>
         `);
+
+        // Añadir event listeners después de mostrar el modal
+        setTimeout(() => {
+            document.getElementById('copyPathBtn').addEventListener('click', () => {
+                navigator.clipboard.writeText(configPathAbsolute).then(() => {
+                    const btn = document.getElementById('copyPathBtn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '✅ Ruta Copiada!';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                    }, 2000);
+                });
+            });
+
+            document.getElementById('downloadFileBtn').addEventListener('click', () => {
+                this.downloadKeymap(keymapContent, filename);
+                const btn = document.getElementById('downloadFileBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Descargado!';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }, 100);
     }
 
     downloadKeymap(content, filename) {

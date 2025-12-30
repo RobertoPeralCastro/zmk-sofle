@@ -200,7 +200,6 @@ header h1 {
     background: linear-gradient(145deg, #667eea, #764ba2);
     color: white;
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
 .key.pressed {
@@ -212,6 +211,15 @@ header h1 {
     animation: keyPulse 0.3s ease-out;
 }
 
+.key.drag-over {
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(102, 126, 234, 0.8);
+    animation: dragPulse 0.6s ease-in-out infinite;
+}
+
 @keyframes keyPulse {
     0% {
         transform: translateY(0) scale(1);
@@ -221,6 +229,15 @@ header h1 {
     }
     100% {
         transform: translateY(-5px) scale(1.05);
+    }
+}
+
+@keyframes dragPulse {
+    0%, 100% {
+        box-shadow: 0 0 25px rgba(102, 126, 234, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(102, 126, 234, 1);
     }
 }
 
@@ -563,6 +580,16 @@ header h1 {
     border-color: #667eea;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.keycode-btn.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.keycode-btn {
+    cursor: grab;
 }
 
 .keycode-btn.rgb-on {
