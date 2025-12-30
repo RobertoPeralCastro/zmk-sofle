@@ -677,20 +677,20 @@ class KeymapEditor {
             keys = keys.slice(0, 60); // Asegurar que no haya más de 60
             
             // Mapear las 60 teclas a la matriz física de 64 posiciones
-            // La matriz física tiene col 6 reservada (encoder) en todas las filas
-            // Filas 0-3: col 0-5, 7-13 = 13 posiciones (falta col 6)
-            // Fila 4: col 0-5, 7-12 = 13 posiciones (falta col 6)
+            // Layout físico: 13+13+13+13+12 = 64 posiciones
+            // Filas 0-3: 6 teclas + &none (encoder) + 6 teclas = 13 posiciones
+            // Fila 4: &none (encoder izq) + 5 teclas + &none (encoder der) + 5 teclas = 12 posiciones
             const exportKeys = [
-                // Fila 0: teclas 0-5, &none (col 6), teclas 6-11 (col 7-12 y col 13)
+                // Fila 0: teclas 0-5, &none (col 6), teclas 6-11
                 ...keys.slice(0, 6), '&none', ...keys.slice(6, 12),
-                // Fila 1: teclas 12-17, &none (col 6), teclas 18-23 (col 7-12 y col 13)
+                // Fila 1: teclas 12-17, &none (col 6), teclas 18-23
                 ...keys.slice(12, 18), '&none', ...keys.slice(18, 24),
-                // Fila 2: teclas 24-29, &none (col 6), teclas 30-35 (col 7-12 y col 13)
+                // Fila 2: teclas 24-29, &none (col 6), teclas 30-35
                 ...keys.slice(24, 30), '&none', ...keys.slice(30, 36),
-                // Fila 3: teclas 36-41, &none (col 6), teclas 42-47 (col 7-12 y col 13)
+                // Fila 3: teclas 36-41, &none (col 6), teclas 42-47
                 ...keys.slice(36, 42), '&none', ...keys.slice(42, 48),
-                // Fila 4: teclas 48-53, &none (col 6), teclas 54-59 (col 7-12)
-                ...keys.slice(48, 54), '&none', ...keys.slice(54, 60)
+                // Fila 4: &none (encoder izq), teclas 48-52, &none (encoder der), teclas 53-57
+                '&none', ...keys.slice(48, 53), '&none', ...keys.slice(53, 58)
             ];
             
             const rows = [
@@ -698,7 +698,7 @@ class KeymapEditor {
                 exportKeys.slice(13, 26).join('  '),  // Fila 1: 6 + &none + 6 = 13
                 exportKeys.slice(26, 39).join('  '),  // Fila 2: 6 + &none + 6 = 13
                 exportKeys.slice(39, 52).join('  '),  // Fila 3: 6 + &none + 6 = 13
-                exportKeys.slice(52, 65).join('  ')   // Fila 4: 6 + &none + 6 = 13
+                exportKeys.slice(52, 64).join('  ')   // Fila 4: &none + 5 + &none + 5 = 12
             ];
             
             rows.forEach(row => {
@@ -778,15 +778,15 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    // Si hay más de 60 teclas, eliminar las posiciones de los encoders (&none)
-                    // Formato exportado: 13 posiciones por fila 0-4 = 65 total
-                    // Posiciones &none (col 6): 6, 19, 32, 45, 58
-                    if (keys.length === 65) {
+                    // Si hay 64 teclas, eliminar las posiciones de los encoders (&none)
+                    // Formato exportado: 13+13+13+13+12 = 64 posiciones
+                    // Posiciones &none: 6, 19, 32, 45 (filas 0-3), 52, 58 (fila 4)
+                    if (keys.length === 64) {
                         console.log(`Formato con encoders detectado. Total teclas: ${keys.length}`);
                         console.log(`Verificando posiciones de encoder...`);
                         
                         // Verificar que las posiciones esperadas contengan &none
-                        const encoderPositions = [6, 19, 32, 45, 58];
+                        const encoderPositions = [6, 19, 32, 45, 52, 58];
                         const hasEncoders = encoderPositions.every(pos => 
                             keys[pos] && (keys[pos] === '&none' || keys[pos].includes('none'))
                         );
@@ -794,7 +794,8 @@ class KeymapEditor {
                         if (hasEncoders) {
                             console.log(`Encoders (&none) encontrados en posiciones correctas`);
                             // Eliminar de atrás hacia adelante para no alterar índices
-                            keys.splice(58, 1); // Fila 4
+                            keys.splice(58, 1); // Fila 4 - encoder derecho
+                            keys.splice(52, 1); // Fila 4 - encoder izquierdo
                             keys.splice(45, 1); // Fila 3
                             keys.splice(32, 1); // Fila 2
                             keys.splice(19, 1); // Fila 1
