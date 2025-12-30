@@ -65,41 +65,83 @@ class KeymapEditor {
     }
 
     initializePhysicalKeyMap() {
-        return {
-            // Fila 0 - Number row
-            'Escape': 0, 'Digit1': 1, 'Digit2': 2, 'Digit3': 3, 'Digit4': 4, 'Digit5': 5,
-            'ArrowUp': 6, 'Digit6': 7, 'Digit7': 8, 'Digit8': 9, 'Digit9': 10, 'Digit0': 11, 
-            'Equal': 12,  // Posición 12 - tecla superior derecha del lado derecho
+        // Mapeo estático de ZMK keycodes a event.code del navegador
+        // Este mapeo se usa para generar dinámicamente el physicalKeyMap
+        this.zmkToEventCode = {
+            // Letras
+            'A': 'KeyA', 'B': 'KeyB', 'C': 'KeyC', 'D': 'KeyD', 'E': 'KeyE', 'F': 'KeyF',
+            'G': 'KeyG', 'H': 'KeyH', 'I': 'KeyI', 'J': 'KeyJ', 'K': 'KeyK', 'L': 'KeyL',
+            'M': 'KeyM', 'N': 'KeyN', 'O': 'KeyO', 'P': 'KeyP', 'Q': 'KeyQ', 'R': 'KeyR',
+            'S': 'KeyS', 'T': 'KeyT', 'U': 'KeyU', 'V': 'KeyV', 'W': 'KeyW', 'X': 'KeyX',
+            'Y': 'KeyY', 'Z': 'KeyZ',
             
-            // Fila 1 - Top letter row
-            'Tab': 13, 'KeyQ': 14, 'KeyW': 15, 'KeyE': 16, 'KeyR': 17, 'KeyT': 18,
-            'ArrowDown': 19, 'KeyY': 20, 'KeyU': 21, 'KeyI': 22, 'KeyO': 23, 'KeyP': 24, 
-            'BracketLeft': 25, 'BracketRight': 25, 'Backslash': 25,  // Posición 25
+            // Números
+            'N0': 'Digit0', 'N1': 'Digit1', 'N2': 'Digit2', 'N3': 'Digit3', 'N4': 'Digit4',
+            'N5': 'Digit5', 'N6': 'Digit6', 'N7': 'Digit7', 'N8': 'Digit8', 'N9': 'Digit9',
             
-            // Fila 2 - Home row
-            'CapsLock': 26, 'Backspace': 26,  // Posición 26 puede ser CapsLock o Backspace según tu config
-            'KeyA': 27, 'KeyS': 28, 'KeyD': 29, 'KeyF': 30, 'KeyG': 31,
-            'ArrowLeft': 32, 'KeyH': 33, 'KeyJ': 34, 'KeyK': 35, 'KeyL': 36, 'Semicolon': 37, 
-            'Quote': 38, 'Delete': 38,  // Posición 38 puede ser Quote o Delete
+            // Teclas especiales
+            'ESC': 'Escape', 'TAB': 'Tab', 'SPACE': 'Space', 'ENTER': 'Enter',
+            'BSPC': 'Backspace', 'DEL': 'Delete',
             
-            // Fila 3 - Bottom letter row
-            'ShiftLeft': 39, 'KeyZ': 40, 'KeyX': 41, 'KeyC': 42, 'KeyV': 43, 'KeyB': 44,
-            'ArrowRight': 45, 'KeyN': 46, 'KeyM': 47, 'Comma': 48, 'Period': 49, 'Slash': 50, 
-            'Enter': 51, 'Backquote': 51,  // Posición 51
+            // Modificadores
+            'LSHFT': 'ShiftLeft', 'RSHFT': 'ShiftRight',
+            'LCTRL': 'ControlLeft', 'RCTRL': 'ControlRight',
+            'LALT': 'AltLeft', 'RALT': 'AltRight',
+            'LGUI': 'MetaLeft', 'RGUI': 'MetaRight',
             
-            // Fila 4 - Thumb cluster
-            // Posición 52 es C_MUTE (encoder/joystick)
-            'ControlLeft': 53, 'MetaLeft': 54, 'AltLeft': 55,
-            // Posición 56 es mo 1
-            'Space': 57,
-            // Posición 58 es Enter según tu config actual
-            // Posición 59 es Space
-            // Posición 60 es Comma
-            // Posición 61 es BracketLeft
-            // Posición 62 es Period
-            'ShiftRight': 62
-            // Posición 63 es Delete
+            // Símbolos
+            'MINUS': 'Minus', 'EQUAL': 'Equal', 'PLUS': 'Equal',
+            'LBKT': 'BracketLeft', 'RBKT': 'BracketRight',
+            'BSLH': 'Backslash', 'SEMI': 'Semicolon', 'APOS': 'Quote',
+            'GRAVE': 'Backquote', 'COMMA': 'Comma', 'DOT': 'Period',
+            'FSLH': 'Slash', 'QMARK': 'Slash',
+            
+            // Flechas
+            'UP_ARROW': 'ArrowUp', 'DOWN_ARROW': 'ArrowDown',
+            'LEFT_ARROW': 'ArrowLeft', 'RIGHT_ARROW': 'ArrowRight',
+            'UP': 'ArrowUp', 'DOWN': 'ArrowDown',
+            'LEFT': 'ArrowLeft', 'RIGHT': 'ArrowRight',
+            
+            // Funciones
+            'F1': 'F1', 'F2': 'F2', 'F3': 'F3', 'F4': 'F4', 'F5': 'F5', 'F6': 'F6',
+            'F7': 'F7', 'F8': 'F8', 'F9': 'F9', 'F10': 'F10', 'F11': 'F11', 'F12': 'F12',
+            
+            // Otras
+            'CAPS': 'CapsLock', 'HOME': 'Home', 'END': 'End',
+            'PG_UP': 'PageUp', 'PG_DN': 'PageDown',
+            'INSERT': 'Insert'
         };
+        
+        return this.generatePhysicalKeyMap();
+    }
+    
+    generatePhysicalKeyMap() {
+        // Generar el mapeo dinámicamente basándose en el keymap actual (capa 0)
+        const physicalMap = {};
+        
+        this.keymap[0].forEach((binding, index) => {
+            // Extraer el keycode del binding (ej: "&kp SPACE" -> "SPACE")
+            const match = binding.match(/&kp\s+(\w+)/);
+            if (match) {
+                const zmkKey = match[1];
+                const eventCode = this.zmkToEventCode[zmkKey];
+                
+                if (eventCode) {
+                    // Si ya existe este eventCode, no lo sobrescribimos
+                    // (la primera ocurrencia tiene prioridad)
+                    if (!physicalMap[eventCode]) {
+                        physicalMap[eventCode] = index;
+                    }
+                }
+            }
+        });
+        
+        return physicalMap;
+    }
+    
+    updatePhysicalKeyMap() {
+        // Regenerar el mapeo cuando se importa un nuevo keymap
+        this.physicalKeyMap = this.generatePhysicalKeyMap();
     }
 
     init() {
@@ -536,11 +578,12 @@ class KeymapEditor {
             
             this.updateDisplay();
             this.updateKeyInfo();
+            this.updatePhysicalKeyMap(); // Regenerar el mapeo de teclas físicas
             
             return {
                 success: true,
                 layersImported: layersImported,
-                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 63} teclas configuradas`
+                message: `✅ Importado exitosamente!\n\n📊 ${layersImported} capa(s) importada(s)\n🎹 ${layersImported * 64} teclas configuradas`
             };
         } catch (error) {
             return {
@@ -686,29 +729,58 @@ class KeymapEditor {
     }
 
     handlePhysicalKeyPress(event) {
-        const keyIndex = this.physicalKeyMap[event.code];
+        event.preventDefault();
         
-        if (keyIndex !== undefined) {
-            event.preventDefault();
-            
-            const keyElement = document.querySelector(`[data-index="${keyIndex}"]`);
-            if (keyElement) {
-                keyElement.classList.add('pressed');
-            }
+        // Buscar el keycode que corresponde a la tecla presionada
+        const pressedKeyIndex = this.physicalKeyMap[event.code];
+        
+        if (pressedKeyIndex === undefined) {
+            return;
         }
+        
+        // Obtener el keycode asignado a esa posición en la capa actual
+        const keycode = this.keymap[this.currentLayer][pressedKeyIndex];
+        
+        if (!keycode) {
+            return;
+        }
+        
+        // Iluminar TODAS las teclas que tengan el mismo keycode en la capa actual
+        this.keymap[this.currentLayer].forEach((code, index) => {
+            if (code === keycode) {
+                const keyElement = document.querySelector(`[data-index="${index}"]`);
+                if (keyElement) {
+                    keyElement.classList.add('pressed');
+                }
+            }
+        });
     }
 
     handlePhysicalKeyRelease(event) {
-        const keyIndex = this.physicalKeyMap[event.code];
+        const pressedKeyIndex = this.physicalKeyMap[event.code];
         
-        if (keyIndex !== undefined) {
-            const keyElement = document.querySelector(`[data-index="${keyIndex}"]`);
-            if (keyElement) {
-                setTimeout(() => {
-                    keyElement.classList.remove('pressed');
-                }, 150);
-            }
+        if (pressedKeyIndex === undefined) {
+            return;
         }
+        
+        // Obtener el keycode asignado a esa posición
+        const keycode = this.keymap[this.currentLayer][pressedKeyIndex];
+        
+        if (!keycode) {
+            return;
+        }
+        
+        // Apagar TODAS las teclas que tengan el mismo keycode
+        this.keymap[this.currentLayer].forEach((code, index) => {
+            if (code === keycode) {
+                const keyElement = document.querySelector(`[data-index="${index}"]`);
+                if (keyElement) {
+                    setTimeout(() => {
+                        keyElement.classList.remove('pressed');
+                    }, 150);
+                }
+            }
+        });
     }
 
     showModal(title, content) {
