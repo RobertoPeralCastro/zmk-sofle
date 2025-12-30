@@ -160,7 +160,9 @@ header h1 {
     display: flex;
     gap: 20px;
     padding: 0 0;
-    width: 100%;
+    width: 820px; /* 420px (izq) + 20px gap + 380px (der) */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .column-slider {
@@ -177,11 +179,12 @@ header h1 {
 .column-slider:first-child {
     width: 420px; /* Ancho del teclado izquierdo */
     margin-left: 0; /* Alineado con el borde izquierdo */
+    margin-right: 0; /* Sin margen derecho */
 }
 
 .column-slider:last-child {
     width: 380px; /* Ancho del teclado derecho */
-    margin-left: auto; /* Empujado a la derecha */
+    margin-left: 0; /* Sin margen izquierdo */
     margin-right: 0; /* Alineado con el borde derecho */
 }
 
