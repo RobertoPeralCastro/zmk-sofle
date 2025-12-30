@@ -93,8 +93,8 @@ class KeymapEditor {
         leftKeyboard.innerHTML = '';
         rightKeyboard.innerHTML = '';
 
-        const leftKeys = [0, 1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 19, 26, 27, 28, 29, 30, 31, 32, 39, 40, 41, 42, 43, 44, 45, 52, 53, 54, 55, 56, 57];
-        const rightKeys = [7, 8, 9, 10, 11, 12, 20, 21, 22, 23, 24, 25, 33, 34, 35, 36, 37, 38, 46, 47, 48, 49, 50, 51, 58, 59, 60, 61, 62];
+        const leftKeys = [0, 1, 2, 3, 4, 5, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 39, 40, 41, 42, 43, 44, 52, 53, 54, 55, 56, 57];
+        const rightKeys = [6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25, 32, 33, 34, 35, 36, 37, 38, 45, 46, 47, 48, 49, 50, 51, 58, 59, 60, 61, 62, 63];
 
         leftKeys.forEach(keyIndex => {
             const key = this.createKeyElement(keyIndex);
@@ -152,88 +152,87 @@ class KeymapEditor {
     getKeyPosition(index) {
         const keySize = 55;
         const positions = {
-            // Row 0 - Number row (left side)
+            // Row 0 - Number row (left side: 0-5)
             0: { x: 10, y: 10 },
             1: { x: 70, y: 10 },
             2: { x: 130, y: 0 },
             3: { x: 190, y: 0 },
             4: { x: 250, y: 5 },
             5: { x: 310, y: 10 },
-            6: { x: 370, y: 15 },
             
-            // Row 0 - Number row (right side)
-            7: { x: 10, y: 15 },
-            8: { x: 70, y: 10 },
-            9: { x: 130, y: 5 },
-            10: { x: 190, y: 0 },
-            11: { x: 250, y: 0 },
-            12: { x: 310, y: 10 },
+            // Row 0 - Number row (right side: 6-12)
+            6: { x: 10, y: 10 },
+            7: { x: 70, y: 10 },
+            8: { x: 130, y: 5 },
+            9: { x: 190, y: 0 },
+            10: { x: 250, y: 0 },
+            11: { x: 310, y: 10 },
+            12: { x: 370, y: 10 },
             
-            // Row 1 - Top letter row (left side)
+            // Row 1 - Top letter row (left side: 13-18)
             13: { x: 10, y: 70 },
             14: { x: 70, y: 70 },
             15: { x: 130, y: 60 },
             16: { x: 190, y: 60 },
             17: { x: 250, y: 65 },
             18: { x: 310, y: 70 },
-            19: { x: 370, y: 75 },
             
-            // Row 1 - Top letter row (right side)
-            20: { x: 10, y: 75 },
-            21: { x: 70, y: 70 },
-            22: { x: 130, y: 65 },
-            23: { x: 190, y: 60 },
-            24: { x: 250, y: 60 },
-            25: { x: 310, y: 70 },
+            // Row 1 - Top letter row (right side: 19-25)
+            19: { x: 10, y: 75 },
+            20: { x: 70, y: 70 },
+            21: { x: 130, y: 65 },
+            22: { x: 190, y: 60 },
+            23: { x: 250, y: 60 },
+            24: { x: 310, y: 70 },
+            25: { x: 370, y: 70 },
             
-            // Row 2 - Home row (left side)
+            // Row 2 - Home row (left side: 26-31)
             26: { x: 10, y: 130 },
             27: { x: 70, y: 130 },
             28: { x: 130, y: 120 },
             29: { x: 190, y: 120 },
             30: { x: 250, y: 125 },
             31: { x: 310, y: 130 },
-            32: { x: 370, y: 135 },
             
-            // Row 2 - Home row (right side)
-            33: { x: 10, y: 135 },
-            34: { x: 70, y: 130 },
-            35: { x: 130, y: 125 },
-            36: { x: 190, y: 120 },
-            37: { x: 250, y: 120 },
-            38: { x: 310, y: 130 },
+            // Row 2 - Home row (right side: 32-38)
+            32: { x: 10, y: 130 },
+            33: { x: 70, y: 130 },
+            34: { x: 130, y: 125 },
+            35: { x: 190, y: 120 },
+            36: { x: 250, y: 120 },
+            37: { x: 310, y: 130 },
+            38: { x: 370, y: 130 },
             
-            // Row 3 - Bottom letter row (left side)
+            // Row 3 - Bottom letter row (left side: 39-44)
             39: { x: 10, y: 190 },
             40: { x: 70, y: 190 },
             41: { x: 130, y: 180 },
             42: { x: 190, y: 180 },
             43: { x: 250, y: 185 },
             44: { x: 310, y: 190 },
-            45: { x: 370, y: 195 },
             
-            // Row 3 - Bottom letter row (right side)
-            46: { x: 10, y: 195 },
-            47: { x: 70, y: 190 },
-            48: { x: 130, y: 185 },
-            49: { x: 190, y: 180 },
-            50: { x: 250, y: 180 },
-            51: { x: 310, y: 190 },
+            // Row 3 - Bottom letter row (right side: 45-51)
+            45: { x: 10, y: 195 },
+            46: { x: 70, y: 190 },
+            47: { x: 130, y: 185 },
+            48: { x: 190, y: 180 },
+            49: { x: 250, y: 180 },
+            50: { x: 310, y: 190 },
+            51: { x: 370, y: 190 },
             
-            // Row 4 - Thumb cluster and bottom row (left side)
+            // Row 4 - Thumb cluster and bottom row (52-63)
             52: { x: 370, y: 240 },
             53: { x: 130, y: 250 },
             54: { x: 190, y: 250 },
             55: { x: 250, y: 255 },
             56: { x: 295, y: 265 },
             57: { x: 340, y: 275 },
-            
-            // Row 4 - Thumb cluster and bottom row (right side)
             58: { x: 40, y: 275 },
             59: { x: 85, y: 265 },
             60: { x: 130, y: 255 },
             61: { x: 190, y: 250 },
-            62: { x: 250, y: 250 }
+            62: { x: 250, y: 250 },
+            63: { x: 310, y: 250 }
         };
         
         return positions[index] || { x: 0, y: 0 };
