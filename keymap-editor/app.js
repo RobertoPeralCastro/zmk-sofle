@@ -244,20 +244,20 @@ class KeymapEditor {
             
             // Row 4 - Thumb cluster and bottom row (52-63)
             // Lado izquierdo: 52-57 (6 teclas)
-            52: { x: 370, y: 240 },  // Encoder/C_MUTE (posición especial arriba)
-            53: { x: 130, y: 250 },  // LCTRL
-            54: { x: 190, y: 250 },  // LGUI
-            55: { x: 250, y: 255 },  // LALT
-            56: { x: 295, y: 265 },  // mo 1 (thumb key rotated)
-            57: { x: 340, y: 275 },  // mo 2 (thumb key rotated)
+            52: { x: 370, y: 240 },  // Encoder/C_MUTE (col 0, posición especial arriba)
+            53: { x: 130, y: 250 },  // LCTRL (col 1)
+            54: { x: 190, y: 250 },  // LGUI (col 2)
+            55: { x: 250, y: 255 },  // LALT (col 3)
+            56: { x: 295, y: 265 },  // mo 1 (col 4, thumb key rotated)
+            57: { x: 340, y: 275 },  // mo 2 (col 5, thumb key rotated)
             
-            // Lado derecho: 58-63 (6 teclas, pero visualmente solo 5 en la fila inferior)
-            58: { x: 40, y: 275 },   // ENTER (thumb key rotated)
-            59: { x: 85, y: 265 },   // SPACE (thumb key rotated)
-            60: { x: 130, y: 255 },  // COMMA
-            61: { x: 190, y: 250 },  // LBRC
-            62: { x: 250, y: 250 },  // DOT
-            63: { x: 310, y: 250 }   // DEL
+            // Lado derecho: 58-63 (6 teclas)
+            58: { x: 10, y: 75 },    // col 7 - Tecla especial arriba (ENTER según keymap)
+            59: { x: 40, y: 275 },   // col 8 - SPACE (thumb key rotated)
+            60: { x: 85, y: 265 },   // col 9 - COMMA (thumb key rotated)
+            61: { x: 130, y: 255 },  // col 10 - LBRC
+            62: { x: 190, y: 250 },  // col 11 - DOT
+            63: { x: 250, y: 250 }   // col 12 - DEL
         };
         
         return positions[index] || { x: 0, y: 0 };
