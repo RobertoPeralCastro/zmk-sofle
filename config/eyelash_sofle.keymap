@@ -36,6 +36,12 @@
     };
 
     behaviors {
+        // RGB behaviors para capas
+        rgb_layer_0: rgb_ug RGB_ON_EFFECT_RAINBOW_SWIRL;
+        rgb_layer_1: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(120, 100, 100); // Verde
+        rgb_layer_2: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(240, 100, 100); // Azul
+        rgb_layer_3: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(0, 100, 100);   // Rojo
+        rgb_layer_4: rgb_ug RGB_ON_EFFECT_SOLID_COLOR &rgb_ug RGB_COLOR_HSV(60, 100, 100);  // Amarillo
     };
 
     combos {
@@ -79,7 +85,7 @@
 
         layer_1 {
             bindings = <
-                &rgb_ug RGB_TOG  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
+                &rgb_layer_1  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
                 &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &none  &none  &none  &none  &none  &none  &none  &none  &none
                 &rgb_ug RGB_EFR  &rgb_ug RGB_EFF  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
                 &rgb_ug RGB_SPD  &rgb_ug RGB_SPI  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
@@ -91,7 +97,7 @@
 
         layer_2 {
             bindings = <
-                &kp TILDE  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
+                &rgb_layer_2  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
                 &trans  &bt BT_CLR  &bt BT_CLR_ALL  &trans  &trans  &trans  &none  &trans  &trans  &kp F11  &kp F12  &kp UNDER  &kp PLUS
                 &trans  &out OUT_USB  &out OUT_BLE  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &kp LBRC  &kp RBRC
                 &trans  &sys_reset  &trans  &bootloader  &trans  &trans  &none  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
@@ -103,7 +109,7 @@
 
         layer_3 {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
+                &rgb_layer_3  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
@@ -115,7 +121,7 @@
 
         layer_4 {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
+                &rgb_layer_4  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans  &trans
