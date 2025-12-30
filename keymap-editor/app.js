@@ -671,17 +671,18 @@ class KeymapEditor {
             }
         });
 
-        // DESACTIVADO: La detección de teclas físicas no funciona con teclados personalizados
-        // como el Sofle porque envían keycodes asignados, no posiciones físicas.
-        // Solo funciona con teclados estándar de PC.
+        // Detección de teclas físicas
+        // NOTA: Con teclados personalizados como el Sofle, esto detecta el keycode asignado,
+        // no la posición física real. Puede iluminar teclas incorrectas si tienes
+        // el mismo keycode asignado en múltiples posiciones.
         
-        // document.addEventListener('keydown', (e) => {
-        //     this.handlePhysicalKeyPress(e);
-        // });
+        document.addEventListener('keydown', (e) => {
+            this.handlePhysicalKeyPress(e);
+        });
 
-        // document.addEventListener('keyup', (e) => {
-        //     this.handlePhysicalKeyRelease(e);
-        // });
+        document.addEventListener('keyup', (e) => {
+            this.handlePhysicalKeyRelease(e);
+        });
     }
 
     handlePhysicalKeyPress(event) {
