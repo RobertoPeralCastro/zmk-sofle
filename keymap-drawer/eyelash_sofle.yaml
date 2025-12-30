@@ -67,7 +67,7 @@ layers:
   - {t: Sft+8, s: Sft+*}
   '1':
   - RGB TOG
-  - F1
+  - RGB COLOR HSV(0, 0, 100)
   - F2
   - F3
   - F4
