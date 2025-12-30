@@ -404,7 +404,13 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            const keys = this.keymap[layer];
+            // Asegurar que la capa tenga exactamente 63 teclas
+            let keys = [...this.keymap[layer]];
+            while (keys.length < 63) {
+                keys.push('&trans');
+            }
+            keys = keys.slice(0, 63); // Asegurar que no haya más de 63
+            
             const rows = [
                 keys.slice(0, 13).join('  '),
                 keys.slice(13, 26).join('  '),
@@ -702,6 +708,7 @@ class KeymapEditor {
         const keymapContent = this.exportKeymap();
         const filename = 'eyelash_sofle.keymap';
         const configPathAbsolute = 'c:\\Users\\rosli\\sofle\\zmk-sofle\\config';
+        const configPathDisplay = configPathAbsolute.replace(/\\\\/g, '\\');
         
         // Primero mostrar el modal con instrucciones
         this.showModal('Guardar Keymap', `
@@ -709,8 +716,8 @@ class KeymapEditor {
                 <h3>💾 Guardando keymap...</h3>
                 
                 <p><strong>📁 Guarda el archivo en esta carpeta:</strong></p>
-                <div id="pathDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; word-break: break-all; user-select: all; cursor: pointer;" onclick="navigator.clipboard.writeText('${configPathAbsolute}').then(() => { this.style.background = '#d4edda'; setTimeout(() => this.style.background = '#f8f9fa', 1000); })">
-                    ${configPathAbsolute}
+                <div id="pathDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; word-break: break-all; user-select: all; cursor: pointer;">
+                    ${configPathDisplay}
                 </div>
                 <p style="font-size: 0.9rem; color: #6c757d; margin-top: -5px;">👆 Haz clic en la ruta para copiarla</p>
                 
@@ -740,8 +747,22 @@ class KeymapEditor {
 
         // Añadir event listeners después de mostrar el modal
         setTimeout(() => {
+            // Click en el pathDisplay para copiar
+            document.getElementById('pathDisplay').addEventListener('click', () => {
+                navigator.clipboard.writeText(configPathDisplay).then(() => {
+                    const pathDiv = document.getElementById('pathDisplay');
+                    pathDiv.style.background = '#d4edda';
+                    pathDiv.style.borderColor = '#28a745';
+                    setTimeout(() => {
+                        pathDiv.style.background = '#f8f9fa';
+                        pathDiv.style.borderColor = '';
+                    }, 1000);
+                });
+            });
+            
+            // Botón de copiar ruta
             document.getElementById('copyPathBtn').addEventListener('click', () => {
-                navigator.clipboard.writeText(configPathAbsolute).then(() => {
+                navigator.clipboard.writeText(configPathDisplay).then(() => {
                     const btn = document.getElementById('copyPathBtn');
                     const originalText = btn.innerHTML;
                     btn.innerHTML = '✅ Ruta Copiada!';
