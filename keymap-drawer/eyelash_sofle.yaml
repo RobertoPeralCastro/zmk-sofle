@@ -49,8 +49,8 @@ layers:
   - $$mdi:arrow-right-bold$$
   - N
   - M
-  - $$mdi:keyboard-space$$
-  - '?'
+  - {t: ',', s: <}
+  - {t: ., s: '>'}
   - {t: ;, s: ':'}
   - {t: '`', s: '~'}
   - $$mdi:volume-off$$
@@ -62,9 +62,9 @@ layers:
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
-  - {t: ',', s: <}
-  - RGUI
-  - {t: ., s: '>'}
+  - {t: /, s: '?'}
+  - I
+  - '?'
   layer1:
   - {t: '`', s: '~'}
   - F1
