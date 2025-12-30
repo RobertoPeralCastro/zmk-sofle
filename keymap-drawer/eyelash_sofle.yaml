@@ -51,8 +51,8 @@ layers:
   - M
   - {t: ',', s: <}
   - {t: ., s: '>'}
-  - {t: '-', s: _}
-  - $$mdi:volume-off$$
+  - {t: 'Sft+,', s: Sft+<}
+  - {t: '`', s: '~'}
   - $$mdi:volume-off$$
   - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-shift$$
@@ -63,7 +63,7 @@ layers:
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
   - {t: AltGr+', s: AltGr+"}
-  - ':'
+  - {t: 'AltGr+]', s: 'AltGr+}'}
   - {t: Sft+', s: Sft+"}
   layer1:
   - {t: '`', s: '~'}
