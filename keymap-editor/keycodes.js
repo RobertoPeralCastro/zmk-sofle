@@ -132,7 +132,7 @@ const ZMK_KEYCODES = {
     'ES_UNDER': { code: '&kp LS(MINUS)', desc: 'Guión bajo _ (español)' },
     'ES_LBRC': { code: '&kp RA(APOS)', desc: 'Llave { (español)' },
     'ES_RBRC': { code: '&kp RA(RBKT)', desc: 'Llave } (español)' },
-    'ES_LBKT': { code: '&kp LC(LBKT)', desc: 'Corchete [ (español)' },
+    'ES_LBKT': { code: '&kp RALT(LBKT)', desc: 'Corchete [ (español)' },
     'ES_RBKT': { code: '&kp RA(PLUS)', desc: 'Corchete ] (español)' },
     'ES_PIPE': { code: '&kp RA(N1)', desc: 'Barra vertical | (español)' },
     'ES_AT': { code: '&kp RA(N2)', desc: 'Arroba @ (español)' },
