@@ -86,10 +86,10 @@
 
         layer_1 {
             bindings = <
-                &rgb_ug RGB_TOG  &rgb_ug RGB_COLOR_HSV(0, 0, 100)  &kp F2  &kp F3  &kp F4  &kp F5  &none  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
-                &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
-                &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
-                &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
+                &rgb_ug RGB_TOG  &rgb_ug RGB_COLOR_HSV(0, 0, 100)  &rgb_ug RGB_COLOR_HSV(120, 100, 100)  &rgb_ug RGB_COLOR_HSV(0, 100, 100)  &rgb_ug RGB_COLOR_HSV(240, 100, 100)  &rgb_ug RGB_COLOR_HSV(300, 100, 100)  &none  &rgb_ug RGB_COLOR_HSV(180, 100, 100)  &rgb_ug RGB_COLOR_HSV(30, 100, 100)  &rgb_ug RGB_COLOR_HSV(270, 100, 100)  &rgb_ug RGB_COLOR_HSV(60, 100, 100)  &none  &none
+                &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
+                &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
+                &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
                 &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none  &none
             >;
             sensor-bindings = <&scroll_encoder>;
