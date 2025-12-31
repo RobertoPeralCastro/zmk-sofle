@@ -832,32 +832,42 @@ class KeymapEditor {
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
                 
                 if (keys.length > 0) {
-                    // Si hay 64 teclas, eliminar las posiciones de los encoders (&none)
+                    // Si hay 64 teclas, procesar el formato exportado con joystick
                     // Formato exportado: 13+13+13+13+12 = 64 posiciones
-                    // Posiciones &none: 6, 19, 32, 45 (filas 0-3), 52, 58 (fila 4)
+                    // Posiciones joystick: 6, 19, 32, 45 (filas 0-3)
+                    // Posiciones encoders: 52, 58 (fila 4)
                     if (keys.length === 64) {
-                        console.log(`Formato con encoders detectado. Total teclas: ${keys.length}`);
-                        console.log(`Verificando posiciones de encoder...`);
+                        console.log(`Formato exportado detectado. Total teclas: ${keys.length}`);
+                        console.log(`Procesando posiciones de joystick y encoders...`);
                         
-                        // Verificar que las posiciones esperadas contengan &none
-                        const encoderPositions = [6, 19, 32, 45, 52, 58];
-                        const hasEncoders = encoderPositions.every(pos => 
-                            keys[pos] && (keys[pos] === '&none' || keys[pos].includes('none'))
-                        );
+                        // Extraer valores del joystick de las posiciones 6, 19, 32, 45
+                        const joystickValues = [
+                            keys[6] || '&none',   // Joystick ↑
+                            keys[19] || '&none',  // Joystick ↓
+                            keys[32] || '&none',  // Joystick ←
+                            keys[45] || '&none'   // Joystick →
+                        ];
                         
-                        if (hasEncoders) {
-                            console.log(`Encoders (&none) encontrados en posiciones correctas`);
-                            // Eliminar de atrás hacia adelante para no alterar índices
-                            keys.splice(58, 1); // Fila 4 - encoder derecho
-                            keys.splice(52, 1); // Fila 4 - encoder izquierdo
-                            keys.splice(45, 1); // Fila 3
-                            keys.splice(32, 1); // Fila 2
-                            keys.splice(19, 1); // Fila 1
-                            keys.splice(6, 1);  // Fila 0
-                            console.log(`Encoders eliminados. Teclas restantes: ${keys.length}`);
-                        } else {
-                            console.log(`No se encontraron &none en las posiciones esperadas`);
-                        }
+                        // Eliminar posiciones de encoders (&none en fila 4)
+                        const encoderPositions = [58, 52]; // Eliminar de atrás hacia adelante
+                        encoderPositions.forEach(pos => {
+                            if (keys[pos] && (keys[pos] === '&none' || keys[pos].includes('none'))) {
+                                keys.splice(pos, 1);
+                            }
+                        });
+                        
+                        // Eliminar posiciones del joystick (6, 19, 32, 45) - de atrás hacia adelante
+                        const joystickPositions = [45, 32, 19, 6];
+                        joystickPositions.forEach(pos => {
+                            keys.splice(pos, 1);
+                        });
+                        
+                        console.log(`Joystick values:`, joystickValues);
+                        console.log(`Teclas físicas restantes: ${keys.length}`);
+                        
+                        // Agregar valores del joystick al final (posiciones 58-61)
+                        keys.push(...joystickValues);
+                        console.log(`Array total con joystick: ${keys.length} teclas`);
                     }
                     
                     this.keymap[index] = keys.slice(0, 62);
