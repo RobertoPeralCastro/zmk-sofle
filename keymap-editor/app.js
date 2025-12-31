@@ -394,14 +394,39 @@ class KeymapEditor {
     }
 
     selectJoystick(direction) {
-        this.selectedJoystick = direction;
-        this.selectedKey = null;
-        this.selectedEncoder = null;
+        const joystickElement = document.querySelector(`[data-key="joystick-${direction}"]`);
+        const virtualPosition = parseInt(joystickElement.dataset.position);
         
+        if (virtualPosition === -1) {
+            // Centro del joystick - no hacer nada
+            return;
+        }
+        
+        // Mapear posiciones virtuales a posiciones virtuales del keymap (índices 58-61)
+        const positionMap = {
+            100: 58,  // Joystick ↑ → Posición virtual 58
+            101: 59,  // Joystick ↓ → Posición virtual 59
+            102: 60,  // Joystick ← → Posición virtual 60
+            103: 61   // Joystick → → Posición virtual 61
+        };
+        
+        const realPosition = positionMap[virtualPosition];
+        
+        // Seleccionar la tecla real correspondiente
+        this.selectedKey = realPosition;
+        this.selectedEncoder = null;
+        this.selectedJoystick = direction;
+        
+        // Actualizar selección visual
         document.querySelectorAll('.key').forEach(k => k.classList.remove('selected'));
         document.querySelectorAll('.encoder-key').forEach(k => k.classList.remove('selected'));
+        document.querySelectorAll('.joystick-key').forEach(k => k.classList.remove('selected'));
         
-        const joystickElement = document.querySelector(`[data-key="joystick-${direction}"]`);
+        const keyElement = document.querySelector(`[data-index="${realPosition}"]`);
+        if (keyElement) {
+            keyElement.classList.add('selected');
+        }
+        
         if (joystickElement) {
             joystickElement.classList.add('selected');
         }
@@ -440,9 +465,9 @@ class KeymapEditor {
             return;
         }
         
-        // Joystick seleccionado
-        if (this.selectedJoystick !== null) {
-            const code = this.joystickBindings[this.currentLayer][this.selectedJoystick];
+        // Joystick seleccionado (pero realmente es una tecla)
+        if (this.selectedJoystick !== null && this.selectedKey !== null) {
+            const code = this.keymap[this.currentLayer][this.selectedKey];
             const display = getKeycodeDisplay(code);
             const directionNames = {
                 'up': 'Arriba',
@@ -453,7 +478,7 @@ class KeymapEditor {
             };
             
             infoDiv.innerHTML = `
-                <p><strong>Elemento:</strong> Joystick ${directionNames[this.selectedJoystick]}</p>
+                <p><strong>Elemento:</strong> Joystick ${directionNames[this.selectedJoystick]} (Pos ${this.selectedKey})</p>
                 <p><strong>Capa:</strong> ${this.currentLayer}</p>
                 <p><strong>Código actual:</strong></p>
                 <p style="font-family: monospace; background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 5px;">${code}</p>
@@ -494,9 +519,9 @@ class KeymapEditor {
             return;
         }
         
-        // Asignar a joystick
-        if (this.selectedJoystick !== null) {
-            this.joystickBindings[this.currentLayer][this.selectedJoystick] = code;
+        // Asignar a joystick (que en realidad es una tecla)
+        if (this.selectedJoystick !== null && this.selectedKey !== null) {
+            this.keymap[this.currentLayer][this.selectedKey] = code;
             this.updateDisplay();
             this.updateKeyInfo();
             return;
@@ -541,19 +566,43 @@ class KeymapEditor {
             encoderRight.title = `Girar derecha: ${getKeycodeDisplay(encoderBindings.down)}`;
         }
         
-        // Actualizar joystick
-        const joystickBindings = this.joystickBindings[this.currentLayer];
+        // Actualizar joystick tooltips con valores reales de las teclas (mapeando posiciones virtuales)
+        const positionMap = {
+            100: 58,  // Joystick ↑ → Posición virtual 58
+            101: 59,  // Joystick ↓ → Posición virtual 59
+            102: 60,  // Joystick ← → Posición virtual 60
+            103: 61   // Joystick → → Posición virtual 61
+        };
+        
         const joystickUp = document.querySelector('[data-key="joystick-up"]');
         const joystickDown = document.querySelector('[data-key="joystick-down"]');
         const joystickLeft = document.querySelector('[data-key="joystick-left"]');
         const joystickRight = document.querySelector('[data-key="joystick-right"]');
-        const joystickClick = document.querySelector('[data-key="joystick-click"]');
         
-        if (joystickUp) joystickUp.title = `Arriba: ${getKeycodeDisplay(joystickBindings.up)}`;
-        if (joystickDown) joystickDown.title = `Abajo: ${getKeycodeDisplay(joystickBindings.down)}`;
-        if (joystickLeft) joystickLeft.title = `Izquierda: ${getKeycodeDisplay(joystickBindings.left)}`;
-        if (joystickRight) joystickRight.title = `Derecha: ${getKeycodeDisplay(joystickBindings.right)}`;
-        if (joystickClick) joystickClick.title = `Click: ${getKeycodeDisplay(joystickBindings.click)}`;
+        if (joystickUp) {
+            const virtualPos = parseInt(joystickUp.dataset.position);
+            const realPos = positionMap[virtualPos];
+            const code = this.keymap[this.currentLayer][realPos];
+            joystickUp.title = `Arriba (Pos ${realPos}): ${getKeycodeDisplay(code)}`;
+        }
+        if (joystickDown) {
+            const virtualPos = parseInt(joystickDown.dataset.position);
+            const realPos = positionMap[virtualPos];
+            const code = this.keymap[this.currentLayer][realPos];
+            joystickDown.title = `Abajo (Pos ${realPos}): ${getKeycodeDisplay(code)}`;
+        }
+        if (joystickLeft) {
+            const virtualPos = parseInt(joystickLeft.dataset.position);
+            const realPos = positionMap[virtualPos];
+            const code = this.keymap[this.currentLayer][realPos];
+            joystickLeft.title = `Izquierda (Pos ${realPos}): ${getKeycodeDisplay(code)}`;
+        }
+        if (joystickRight) {
+            const virtualPos = parseInt(joystickRight.dataset.position);
+            const realPos = positionMap[virtualPos];
+            const code = this.keymap[this.currentLayer][realPos];
+            joystickRight.title = `Derecha (Pos ${realPos}): ${getKeycodeDisplay(code)}`;
+        }
     }
 
     switchLayer(layer) {
@@ -674,28 +723,28 @@ class KeymapEditor {
             output += `        ${layerName} {\n`;
             output += `            bindings = <\n`;
             
-            // Asegurar que la capa tenga exactamente 58 teclas (sin encoders)
+            // Asegurar que la capa tenga exactamente 62 teclas (58 físicas + 4 virtuales del joystick)
             let keys = [...this.keymap[layer]];
-            while (keys.length < 58) {
+            while (keys.length < 62) {
                 keys.push('&trans');
             }
-            keys = keys.slice(0, 58); // Asegurar que no haya más de 58
+            keys = keys.slice(0, 62); // Asegurar que no haya más de 62
             
             // Mapear las 58 teclas a la matriz física de 64 posiciones
             // Layout físico: 13+13+13+13+12 = 64 posiciones
             // Filas 0-3: 6 teclas + &none (encoder) + 6 teclas = 13 posiciones
             // Fila 4: &none (encoder izq) + 5 teclas + &none (encoder der) + 5 teclas = 12 posiciones
             const exportKeys = [
-                // Fila 0: teclas 0-5, &none (col 6), teclas 6-11
-                ...keys.slice(0, 6), '&none', ...keys.slice(6, 12),
-                // Fila 1: teclas 12-17, &none (col 6), teclas 18-23
-                ...keys.slice(12, 18), '&none', ...keys.slice(18, 24),
-                // Fila 2: teclas 24-29, &none (col 6), teclas 30-35
-                ...keys.slice(24, 30), '&none', ...keys.slice(30, 36),
-                // Fila 3: teclas 36-41, &none (col 6), teclas 42-47
-                ...keys.slice(36, 42), '&none', ...keys.slice(42, 48),
+                // Fila 0: teclas 0-5, tecla joystick (virtual 58), teclas 6-11
+                keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[58] || '&none', keys[6], keys[7], keys[8], keys[9], keys[10], keys[11],
+                // Fila 1: teclas 12-17, tecla joystick (virtual 59), teclas 18-23
+                keys[12], keys[13], keys[14], keys[15], keys[16], keys[17], keys[59] || '&none', keys[18], keys[19], keys[20], keys[21], keys[22], keys[23],
+                // Fila 2: teclas 24-29, tecla joystick (virtual 60), teclas 30-35
+                keys[24], keys[25], keys[26], keys[27], keys[28], keys[29], keys[60] || '&none', keys[30], keys[31], keys[32], keys[33], keys[34], keys[35],
+                // Fila 3: teclas 36-41, tecla joystick (virtual 61), teclas 42-47
+                keys[36], keys[37], keys[38], keys[39], keys[40], keys[41], keys[61] || '&none', keys[42], keys[43], keys[44], keys[45], keys[46], keys[47],
                 // Fila 4: &none (encoder izq), teclas 48-52, &none (encoder der), teclas 53-57
-                '&none', ...keys.slice(48, 53), '&none', ...keys.slice(53, 58)
+                '&none', keys[48], keys[49], keys[50], keys[51], keys[52], '&none', keys[53], keys[54], keys[55], keys[56], keys[57]
             ];
             
             const rows = [
@@ -811,10 +860,10 @@ class KeymapEditor {
                         }
                     }
                     
-                    this.keymap[index] = keys.slice(0, 58);
+                    this.keymap[index] = keys.slice(0, 62);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 58) {
+                    while (this.keymap[index].length < 62) {
                         this.keymap[index].push('&trans');
                     }
                     layersImported++;
