@@ -783,19 +783,39 @@ class KeymapEditor {
 
     importKeymap(keymapText) {
         try {
-            // Buscar el bloque keymap completo
-            const keymapBlockRegex = /keymap\s*{[\s\S]*?compatible\s*=\s*"zmk,keymap";([\s\S]*?)};/;
-            const keymapBlock = keymapText.match(keymapBlockRegex);
+            // Buscar el bloque keymap completo - capturar desde compatible hasta el final
+            const keymapStartRegex = /keymap\s*{[\s\S]*?compatible\s*=\s*"zmk,keymap";/;
+            const keymapStartMatch = keymapText.match(keymapStartRegex);
+            
+            if (!keymapStartMatch) {
+                throw new Error('No se encontró el bloque keymap en el archivo');
+            }
+            
+            // Extraer todo desde el inicio del keymap hasta el final
+            const startIndex = keymapText.indexOf(keymapStartMatch[0]) + keymapStartMatch[0].length;
+            const keymapContent = keymapText.substring(startIndex);
+            
+            // Encontrar el final del keymap (último };)
+            const lastBraceIndex = keymapContent.lastIndexOf('};');
+            const keymapBlock = keymapContent.substring(0, lastBraceIndex);
             
             if (!keymapBlock) {
                 throw new Error('No se encontró el bloque keymap en el archivo');
             }
             
+            console.log('Bloque keymap capturado, longitud:', keymapBlock.length);
+            console.log('Primeros 200 caracteres del bloque:', keymapBlock.substring(0, 200));
+            
             // Buscar todas las capas (layer0, layer_1, etc.)
             const layerBlockRegex = /(layer[_0-9]*)\s*{[\s\S]*?bindings\s*=\s*<([\s\S]*?)>;/g;
-            const layerMatches = [...keymapBlock[1].matchAll(layerBlockRegex)];
+            const layerMatches = [...keymapBlock.matchAll(layerBlockRegex)];
             
             console.log('Capas encontradas:', layerMatches.length);
+            
+            // Mostrar detalles de cada capa encontrada
+            layerMatches.forEach((match, index) => {
+                console.log(`Capa ${index}: nombre="${match[1]}", longitud=${match[2].length}`);
+            });
             
             if (layerMatches.length === 0) {
                 throw new Error('No se encontraron capas en el keymap');
@@ -809,24 +829,46 @@ class KeymapEditor {
                 const layerName = match[1];
                 const bindingsText = match[2];
                 
-                console.log(`Procesando ${layerName}...`);
+                // Mapear nombre de capa a índice del array
+                let layerIndex;
+                if (layerName === 'layer0') {
+                    layerIndex = 0;
+                } else if (layerName === 'layer_1') {
+                    layerIndex = 1;
+                } else if (layerName === 'layer_2') {
+                    layerIndex = 2;
+                } else if (layerName === 'layer_3') {
+                    layerIndex = 3;
+                } else if (layerName === 'layer_4') {
+                    layerIndex = 4;
+                } else {
+                    console.log(`Capa no reconocida: ${layerName}, saltando...`);
+                    return;
+                }
+                
+                console.log(`Procesando ${layerName} -> índice ${layerIndex}...`);
                 console.log(`Bindings (primeros 100 chars):`, bindingsText.substring(0, 100));
                 
-                // Extraer todos los keycodes completos
-                // Formato: &behavior PARAM1 PARAM2 o &behavior PARAM o &behavior PARAM(ARG) o &none
-                // Mejorado para capturar también paréntesis en modificadores como LS(N7), RA(APOS)
-                const keyRegex = /&[\w_]+(?:\s+[\w_]+(?:\([^)]+\))?)*(?:\s+[\w_]+(?:\([^)]+\))?)*/g;
-                let keys = bindingsText.match(keyRegex) || [];
+                // Extraer todos los keycodes completos usando un enfoque más robusto
+                // Dividir por & y procesar cada parte individualmente
+                const parts = bindingsText.split('&').filter(p => p.trim());
+                let keys = [];
                 
-                // Limpiar cada keycode (eliminar espacios extra al final)
-                keys = keys.map(k => k.trim());
-                
-                // Si no encuentra nada con el regex anterior, intentar otro enfoque
-                if (keys.length === 0) {
-                    // Dividir por & y reconstruir
-                    const parts = bindingsText.split('&').filter(p => p.trim());
-                    keys = parts.map(p => '&' + p.trim().split(/\s+/).slice(0, 3).join(' '));
-                }
+                parts.forEach(part => {
+                    const trimmed = part.trim();
+                    if (trimmed) {
+                        // Reconstruir el keycode completo manteniendo todos los parámetros
+                        const words = trimmed.split(/\s+/);
+                        let keycode = '&' + words[0];
+                        
+                        // Agregar todos los parámetros restantes
+                        for (let i = 1; i < words.length; i++) {
+                            keycode += ' ' + words[i];
+                        }
+                        
+                        keys.push(keycode);
+                    }
+                });
                 
                 console.log(`${layerName}: ${keys.length} teclas encontradas`);
                 console.log(`Primeras 5 teclas:`, keys.slice(0, 5));
@@ -870,11 +912,11 @@ class KeymapEditor {
                         console.log(`Array total con joystick: ${keys.length} teclas`);
                     }
                     
-                    this.keymap[index] = keys.slice(0, 62);
+                    this.keymap[layerIndex] = keys.slice(0, 62);
                     
                     // Completar con &trans si faltan
-                    while (this.keymap[index].length < 62) {
-                        this.keymap[index].push('&trans');
+                    while (this.keymap[layerIndex].length < 62) {
+                        this.keymap[layerIndex].push('&trans');
                     }
                     layersImported++;
                 }
