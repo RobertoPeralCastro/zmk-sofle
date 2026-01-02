@@ -1469,73 +1469,80 @@ class KeymapEditor {
     async saveKeymapToFile() {
         const keymapContent = this.exportKeymap();
         const filename = 'eyelash_sofle.keymap';
-        const configPathAbsolute = 'c:\\Users\\rosli\\sofle\\zmk-sofle\\config';
-        const configPathDisplay = configPathAbsolute.replace(/\\\\/g, '\\');
         
         // Primero mostrar el modal con instrucciones
         this.showModal('Guardar Keymap', `
             <div style="text-align: left;">
                 <h3>💾 Guardando keymap...</h3>
                 
-                <p><strong>📁 Guarda el archivo en esta carpeta:</strong></p>
-                <div id="pathDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; word-break: break-all; user-select: all; cursor: pointer;">
-                    ${configPathDisplay}
-                </div>
-                <p style="font-size: 0.9rem; color: #6c757d; margin-top: -5px;">👆 Haz clic en la ruta para copiarla</p>
-                
                 <div style="display: flex; gap: 10px; margin: 20px 0;">
-                    <button class="btn btn-primary" id="copyPathBtn" style="flex: 1;">
-                        📋 Copiar Ruta
-                    </button>
-                    <button class="btn btn-secondary" id="downloadFileBtn" style="flex: 1;">
+                    <button class="btn btn-primary" id="downloadFileBtn" style="flex: 1;">
                         💾 Descargar Archivo
                     </button>
                 </div>
                 
                 <hr style="margin: 20px 0;">
                 
-                <h4>⚠️ Pasos a seguir:</h4>
-                <ol style="line-height: 1.8;">
-                    <li><strong>Copia la ruta</strong> haciendo clic en el botón o en el texto</li>
-                    <li><strong>Descarga el archivo</strong> con el botón de arriba</li>
-                    <li><strong>Abre el Explorador</strong> (Win + E)</li>
-                    <li><strong>Pega la ruta</strong> en la barra de direcciones (Ctrl + V) y Enter</li>
-                    <li><strong>Si existe archivo anterior</strong>, renómbralo como backup (ej: eyelash_sofle_backup.keymap)</li>
-                    <li><strong>Mueve el archivo descargado</strong> a esa carpeta</li>
-                    <li><strong>Commit y push</strong> a GitHub para generar el UF2</li>
+                <h4>🔧 ¿Cómo actualizar tu firmware?</h4>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <h5 style="margin: 0 0 10px 0; color: #1976d2;">📋 PREREQUISITOS:</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li>Tener <strong>Git</strong> instalado</li>
+                        <li>Tener acceso al repositorio <strong>RobertoPeralCastro/zmk-sofle</strong></li>
+                        <li>Tener <strong>GitHub CLI</strong> o acceso con token</li>
+                    </ul>
+                </div>
+                
+                <h5 style="color: #2e7d32;">🚀 PASO 1: Clonar el repositorio</h5>
+                <div style="background: #f5f5f5; padding: 12px; border-radius: 6px; font-family: monospace; margin: 10px 0; user-select: all;">
+                    git clone https://github.com/RobertoPeralCastro/zmk-sofle.git<br>
+                    cd zmk-sofle
+                </div>
+                
+                <h5 style="color: #2e7d32;">📁 PASO 2: Reemplazar el keymap</h5>
+                <ol style="line-height: 1.6; margin: 10px 0;">
+                    <li>Descarga el archivo con el botón de arriba</li>
+                    <li>Si existe <code>config/eyelash_sofle.keymap</code>, haz backup:</li>
                 </ol>
+                <div style="background: #f5f5f5; padding: 12px; border-radius: 6px; font-family: monospace; margin: 10px 0; user-select: all;">
+                    cp config/eyelash_sofle.keymap config/eyelash_sofle_backup.keymap
+                </div>
+                <ol start="3" style="line-height: 1.6; margin: 10px 0;">
+                    <li>Mueve tu archivo descargado a <code>config/eyelash_sofle.keymap</code></li>
+                </ol>
+                
+                <h5 style="color: #2e7d32;">⬆️ PASO 3: Subir cambios</h5>
+                <div style="background: #f5f5f5; padding: 12px; border-radius: 6px; font-family: monospace; margin: 10px 0; user-select: all;">
+                    git add config/eyelash_sofle.keymap<br>
+                    git commit -m "Update keymap configuration"<br>
+                    git push origin main
+                </div>
+                
+                <h5 style="color: #2e7d32;">🔥 PASO 4: Generar firmware</h5>
+                <p>GitHub Actions construirá automáticamente tu firmware y generará el archivo UF2.</p>
+                <ul style="line-height: 1.6;">
+                    <li>Ve a <strong>Actions</strong> en GitHub</li>
+                    <li>Espera a que termine el <strong>build</strong></li>
+                    <li>Descarga el archivo <strong>.uf2</strong> desde los artifacts</li>
+                </ul>
+                
+                <h5 style="color: #d32f2f;">📱 PASO 5: Flashear teclado</h5>
+                <ol style="line-height: 1.6;">
+                    <li>Pon tu Sofle en <strong>modo bootloader</strong> (botón reset)</li>
+                    <li>Conéctalo via USB - aparecerá como unidad <strong>ZMK-DFU</strong></li>
+                    <li>Arrastra el archivo <strong>.uf2</strong> a esa unidad</li>
+                    <li>El teclado reiniciará con tu nuevo keymap</li>
+                </ol>
+                
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                    <strong>💡 TIP:</strong> Guarda este archivo .keymap como backup. Si necesitas hacer cambios, solo repite los pasos 2-5.
+                </div>
             </div>
         `);
 
         // Añadir event listeners después de mostrar el modal
         setTimeout(() => {
-            // Click en el pathDisplay para copiar
-            document.getElementById('pathDisplay').addEventListener('click', () => {
-                navigator.clipboard.writeText(configPathDisplay).then(() => {
-                    const pathDiv = document.getElementById('pathDisplay');
-                    pathDiv.style.background = '#d4edda';
-                    pathDiv.style.borderColor = '#28a745';
-                    setTimeout(() => {
-                        pathDiv.style.background = '#f8f9fa';
-                        pathDiv.style.borderColor = '';
-                    }, 1000);
-                });
-            });
-            
-            // Botón de copiar ruta
-            document.getElementById('copyPathBtn').addEventListener('click', () => {
-                navigator.clipboard.writeText(configPathDisplay).then(() => {
-                    const btn = document.getElementById('copyPathBtn');
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '✅ Ruta Copiada!';
-                    btn.style.background = '#28a745';
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.style.background = '';
-                    }, 2000);
-                });
-            });
-
             document.getElementById('downloadFileBtn').addEventListener('click', () => {
                 this.downloadKeymap(keymapContent, filename);
                 const btn = document.getElementById('downloadFileBtn');
