@@ -221,6 +221,12 @@ class KeymapEditor {
             53, 54, 55, 56, 57      // Fila 4 (5 teclas)
         ];
 
+        // Añadir botones de borrado de filas al inicio
+        for (let row = 1; row <= 5; row++) {
+            const rowBtn = this.createRowButton(row);
+            leftKeyboard.appendChild(rowBtn);
+        }
+
         leftKeys.forEach(keyIndex => {
             const key = this.createKeyElement(keyIndex);
             leftKeyboard.appendChild(key);
@@ -230,6 +236,82 @@ class KeymapEditor {
             const key = this.createKeyElement(keyIndex, 'right');
             rightKeyboard.appendChild(key);
         });
+
+        // Añadir botones de borrado de columnas
+        this.addColumnButtons(leftKeyboard, rightKeyboard);
+    }
+
+    createRowButton(row) {
+        const btn = document.createElement('button');
+        btn.className = 'row-btn';
+        btn.dataset.row = row;
+        btn.innerHTML = '×<br>→'; // Icono de borrado con flecha hacia la derecha
+        
+        // Posicionar el botón alineado con la fila
+        const rowPositions = [
+            { x: -60, y: 0 },   // Fila 1
+            { x: -60, y: 60 },  // Fila 2
+            { x: -60, y: 120 }, // Fila 3
+            { x: -60, y: 180 }, // Fila 4
+            { x: -60, y: 240 }  // Fila 5
+        ];
+        const pos = rowPositions[row - 1];
+        btn.style.position = 'absolute';
+        btn.style.left = `${pos.x}px`;
+        btn.style.top = `${pos.y}px`;
+        
+        btn.addEventListener('click', () => {
+            this.clearRow(row);
+        });
+        
+        return btn;
+    }
+
+    addColumnButtons(leftKeyboard, rightKeyboard) {
+        // Añadir botones de columnas para el teclado izquierdo (columnas 1-6)
+        for (let col = 1; col <= 6; col++) {
+            const btn = this.createColumnButton(col);
+            leftKeyboard.appendChild(btn);
+        }
+        
+        // Añadir botones de columnas para el teclado derecho (columnas 7-12)
+        for (let col = 7; col <= 12; col++) {
+            const btn = this.createColumnButton(col);
+            rightKeyboard.appendChild(btn);
+        }
+    }
+
+    createColumnButton(col) {
+        const btn = document.createElement('button');
+        btn.className = 'column-btn';
+        btn.dataset.col = col;
+        btn.innerHTML = '×<br>↓'; // Icono de borrado con flecha hacia abajo
+        
+        // Posicionar el botón alineado con la columna
+        const colPositions = [
+            { x: 0, y: -60 },   // Columna 1
+            { x: 60, y: -60 },  // Columna 2
+            { x: 120, y: -60 }, // Columna 3
+            { x: 180, y: -60 }, // Columna 4
+            { x: 240, y: -60 }, // Columna 5
+            { x: 300, y: -60 }, // Columna 6
+            { x: 0, y: -60 },   // Columna 7 (relativo al teclado derecho)
+            { x: 60, y: -60 },  // Columna 8
+            { x: 120, y: -60 }, // Columna 9
+            { x: 180, y: -60 }, // Columna 10
+            { x: 240, y: -60 }, // Columna 11
+            { x: 300, y: -60 }  // Columna 12
+        ];
+        const pos = colPositions[col - 1];
+        btn.style.position = 'absolute';
+        btn.style.left = `${pos.x}px`;
+        btn.style.top = `${pos.y}px`;
+        
+        btn.addEventListener('click', () => {
+            this.clearColumn(col);
+        });
+        
+        return btn;
     }
 
     createKeyElement(index, side) {
@@ -964,139 +1046,9 @@ class KeymapEditor {
     }
 
     initializeSliders() {
-        const columnSliderLeft = document.getElementById('columnSliderLeft');
-        const columnSliderRight = document.getElementById('columnSliderRight');
-        const rowSlider = document.getElementById('rowSlider');
-        const columnHandleLeft = columnSliderLeft.querySelector('.slider-handle');
-        const columnHandleRight = columnSliderRight.querySelector('.slider-handle');
-        const rowHandle = rowSlider.querySelector('.slider-handle');
-        
-        let selectedColumn = 1;
-        let selectedRow = 1;
-        let isDragging = null;
-        
-        // Función para actualizar la posición del slider de columnas
-        const updateColumnSlider = (column) => {
-            selectedColumn = column;
-            
-            // Determinar qué slider usar y qué posición
-            const isLeftSlider = column <= 6;
-            const slider = isLeftSlider ? columnSliderLeft : columnSliderRight;
-            const handle = isLeftSlider ? columnHandleLeft : columnHandleRight;
-            const localColumn = isLeftSlider ? column : column - 6;
-            
-            // Resetear ambos sliders
-            columnSliderLeft.classList.remove('active');
-            columnSliderRight.classList.remove('active');
-            slider.classList.add('active');
-            
-            // Actualizar posición en el slider correspondiente
-            const percentage = ((localColumn - 1) / 5) * 100;
-            handle.style.left = `${percentage}%`;
-            
-            // Actualizar indicadores visuales - cada slider maneja sus propios indicadores
-            const leftIndicators = columnSliderLeft.querySelectorAll('.col-indicator');
-            const rightIndicators = columnSliderRight.querySelectorAll('.col-indicator');
-            
-            // Actualizar indicadores del slider izquierdo (columnas 1-6)
-            leftIndicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === localColumn - 1);
-            });
-            
-            // Actualizar indicadores del slider derecho (columnas 7-12)
-            rightIndicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === localColumn - 1);
-            });
-        };
-        
-        // Función para actualizar la posición del slider de filas
-        const updateRowSlider = (row) => {
-            selectedRow = row;
-            const percentage = ((row - 1) / 4) * 100;
-            rowHandle.style.top = `${percentage}%`;
-            
-            // Actualizar indicadores visuales
-            document.querySelectorAll('.row-indicator').forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === row - 1);
-            });
-        };
-        
-        // Eventos para los sliders de columnas
-        [columnSliderLeft, columnSliderRight].forEach((slider, index) => {
-            const isLeft = index === 0;
-            const handle = isLeft ? columnHandleLeft : columnHandleRight;
-            
-            slider.addEventListener('click', (e) => {
-                const rect = slider.getBoundingClientRect();
-                const percentage = ((e.clientX - rect.left) / rect.width) * 100;
-                const localColumn = Math.round((percentage / 100) * 5) + 1;
-                const globalColumn = isLeft ? localColumn : localColumn + 6;
-                updateColumnSlider(Math.max(1, Math.min(12, globalColumn)));
-            });
-            
-            handle.addEventListener('mousedown', (e) => {
-                isDragging = `column-${isLeft ? 'left' : 'right'}`;
-                handle.style.cursor = 'grabbing';
-                e.preventDefault();
-            });
-            
-            handle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.clearColumn(selectedColumn);
-            });
-        });
-        
-        // Eventos para el slider de filas
-        rowSlider.addEventListener('click', (e) => {
-            const rect = rowSlider.getBoundingClientRect();
-            const percentage = ((e.clientY - rect.top) / rect.height) * 100;
-            const row = Math.round((percentage / 100) * 4) + 1;
-            updateRowSlider(Math.max(1, Math.min(5, row)));
-        });
-        
-        // Drag and drop para filas
-        rowHandle.addEventListener('mousedown', (e) => {
-            isDragging = 'row';
-            rowHandle.style.cursor = 'grabbing';
-            e.preventDefault();
-        });
-        
-        rowHandle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.clearRow(selectedRow);
-        });
-        
-        // Eventos de mouse move
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging && isDragging.startsWith('column')) {
-                const isLeft = isDragging === 'column-left';
-                const slider = isLeft ? columnSliderLeft : columnSliderRight;
-                const rect = slider.getBoundingClientRect();
-                const percentage = ((e.clientX - rect.left) / rect.width) * 100;
-                const localColumn = Math.round((percentage / 100) * 5) + 1;
-                const globalColumn = isLeft ? localColumn : localColumn + 6;
-                updateColumnSlider(Math.max(1, Math.min(12, globalColumn)));
-            } else if (isDragging === 'row') {
-                const rect = rowSlider.getBoundingClientRect();
-                const percentage = ((e.clientY - rect.top) / rect.height) * 100;
-                const row = Math.round((percentage / 100) * 4) + 1;
-                updateRowSlider(Math.max(1, Math.min(5, row)));
-            }
-        });
-        
-        // Eventos de mouse up
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                columnHandleLeft.style.cursor = 'grab';
-                columnHandleRight.style.cursor = 'grab';
-                rowHandle.style.cursor = 'grab';
-            }
-        });
-        
-        // Inicializar posiciones
-        updateColumnSlider(1);
-        updateRowSlider(1);
+        // Los botones ahora se crean dinámicamente en renderKeyboard()
+        // Esta función ya no necesita inicializar eventos manualmente
+        console.log('Botones de borrado integrados en el teclado');
     }
     
     clearRow(row) {
@@ -1106,9 +1058,11 @@ class KeymapEditor {
         const rowIndex = row - 1;
         
         if (confirm(`¿Estás seguro de que quieres limpiar la Fila ${row} de ${layerName}?\n\nEsto asignará &none a las teclas ${startIndices[rowIndex]}-${endIndices[rowIndex]}.`)) {
-            // Animación visual
-            const rowSlider = document.getElementById('rowSlider');
-            rowSlider.classList.add('active');
+            // Animación visual del botón
+            const rowBtn = document.querySelector(`.row-btn[data-row="${row}"]`);
+            if (rowBtn) {
+                rowBtn.classList.add('active');
+            }
             
             for (let i = startIndices[rowIndex]; i <= endIndices[rowIndex]; i++) {
                 this.keymap[this.currentLayer][i] = '&none';
@@ -1118,7 +1072,9 @@ class KeymapEditor {
             this.updateKeyInfo();
             
             setTimeout(() => {
-                rowSlider.classList.remove('active');
+                if (rowBtn) {
+                    rowBtn.classList.remove('active');
+                }
             }, 300);
             
             // Mostrar mensaje de confirmación
@@ -1147,9 +1103,11 @@ class KeymapEditor {
         const indices = columnIndices[colIndex];
         
         if (confirm(`¿Estás seguro de que quieres limpiar la Columna ${column} de ${layerName}?\n\nEsto asignará &none a las teclas: ${indices.join(', ')}.`)) {
-            // Animación visual
-            const columnSlider = document.getElementById('columnSlider');
-            columnSlider.classList.add('active');
+            // Animación visual del botón
+            const columnBtn = document.querySelector(`.column-btn[data-col="${column}"]`);
+            if (columnBtn) {
+                columnBtn.classList.add('active');
+            }
             
             indices.forEach(index => {
                 this.keymap[this.currentLayer][index] = '&none';
@@ -1159,7 +1117,9 @@ class KeymapEditor {
             this.updateKeyInfo();
             
             setTimeout(() => {
-                columnSlider.classList.remove('active');
+                if (columnBtn) {
+                    columnBtn.classList.remove('active');
+                }
             }, 300);
             
             // Mostrar mensaje de confirmación
