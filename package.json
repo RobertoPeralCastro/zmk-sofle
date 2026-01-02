@@ -1,1 +1,0 @@
-{\"name\": \"zmk-sofle-editor\", \"version\": \"1.0.0\", \"description\": \"ZMK Sofle keyboard keymap editor\", \"scripts\": {\"build\": \"echo Building static site...\"}, \"devDependencies\": {}, \"keywords\": [\"zmk\", \"keyboard\", \"sofle\", \"keymap\", \"editor\"], \"author\": \"\", \"license\": \"MIT\"}
