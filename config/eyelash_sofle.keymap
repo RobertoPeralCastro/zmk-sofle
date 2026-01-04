@@ -10,20 +10,9 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
 
-&mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
-&msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
-
 &msc {
     compatible = "zmk,input-mouse-scroller";
     scroll-movement = 16;
-};
-
-&zip_xy_scaler {
-    scale = <2 1>;
-};
-
-&zip_scroll_scaler {
-    scale = <2 1>;
 };
 
 &inc_dec_kp {
