@@ -44,11 +44,6 @@
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
-        
-        dyn_kp: dyn_kp {
-            compatible = "zmk,behavior-dyn-kp";
-            #binding-cells = <1>;
-        };
     };
 };
 
