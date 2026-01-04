@@ -1,0 +1,14 @@
+# Copyright (c) 2023 ZMK Project Contributors
+# SPDX-License-Identifier: MIT
+
+description: Dynamic Keymap Behavior
+
+compatible: "zmk,behavior-dyn-kp"
+
+include: zmk,behavior.yaml
+
+properties:
+  label:
+    type: string
+    required: true
+    description: "Human readable label for the behavior"
