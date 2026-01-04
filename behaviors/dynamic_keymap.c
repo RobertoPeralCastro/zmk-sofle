@@ -2,6 +2,11 @@
 #include <zmk/keymap.h>
 #include <zmk/settings.h>
 #include <zmk/hid.h>
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
+
+LOG_MODULE_REGISTER(dyn_kp, 4);
 
 // Dynamic keymap behavior with default keycodes
 static uint32_t dynamic_keys[128] = {
@@ -31,6 +36,7 @@ static int dynamic_key_settings_set(const char *name, size_t len, settings_read_
             uint32_t keycode;
             if (read_cb(cb_arg, &keycode, sizeof(keycode)) == sizeof(keycode)) {
                 dynamic_keys[key_index] = keycode;
+                LOG_DBG("Updated dynamic key %ld to 0x%04X", key_index, keycode);
                 return 0;
             }
         }
@@ -47,6 +53,7 @@ static struct settings_handler dynamic_key_settings_handler = {
 // Dynamic key behavior
 static int behavior_dyn_kp_init(const struct device *dev) {
     settings_register(&dynamic_key_settings_handler);
+    LOG_INF("Dynamic keymap behavior initialized");
     return 0;
 }
 
@@ -58,6 +65,7 @@ static int behavior_dyn_kp_keymap_binding_binding_pressed(struct zmk_behavior_bi
     uint32_t key_index = binding->param1;
     
     if (key_index >= 128) {
+        LOG_WRN("Invalid key index: %u", key_index);
         return -EINVAL;
     }
     
@@ -66,8 +74,11 @@ static int behavior_dyn_kp_keymap_binding_binding_pressed(struct zmk_behavior_bi
     
     if (keycode == 0) {
         // No keycode set, do nothing
+        LOG_DBG("No keycode set for key %u", key_index);
         return ZMK_BEHAVIOR_OPAQUE;
     }
+    
+    LOG_DBG("Pressing key %u with keycode 0x%04X", key_index, keycode);
     
     // Convert keycode to HID usage and press
     struct zmk_keycode_event keycode_event = {
@@ -87,6 +98,7 @@ static int behavior_dyn_kp_keymap_binding_binding_released(struct zmk_behavior_b
     uint32_t key_index = binding->param1;
     
     if (key_index >= 128) {
+        LOG_WRN("Invalid key index: %u", key_index);
         return -EINVAL;
     }
     
@@ -95,8 +107,11 @@ static int behavior_dyn_kp_keymap_binding_binding_released(struct zmk_behavior_b
     
     if (keycode == 0) {
         // No keycode set, do nothing
+        LOG_DBG("No keycode set for key %u", key_index);
         return ZMK_BEHAVIOR_OPAQUE;
     }
+    
+    LOG_DBG("Releasing key %u with keycode 0x%04X", key_index, keycode);
     
     // Convert keycode to HID usage and release
     struct zmk_keycode_event keycode_event = {
