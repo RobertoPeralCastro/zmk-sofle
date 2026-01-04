@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: MIT
+
+description: Dynamic keypress behavior
+
+compatible: "zmk,behavior-dyn-kp"
+
+include: one_param.yaml
+
+properties:
+  label:
+    type: string
+    required: false
