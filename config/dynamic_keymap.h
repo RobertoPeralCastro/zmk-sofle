@@ -1,4 +1,4 @@
-#include <zmk/behavior.h>
+#pragma once
 
 #define ZMK_BEHAVIOR_DYN_KP_LABEL "dyn_kp"
 
