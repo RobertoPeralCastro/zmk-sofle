@@ -47,6 +47,7 @@
         dyn_kp: dyn_kp {
             compatible = "zmk,behavior-dyn-kp";
             #binding-cells = <1>;
+            #sensor-binding-cells = <1>;
         };
     };
 
