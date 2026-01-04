@@ -29,13 +29,6 @@
 &soft_off { hold-time-ms = <2000>; };
 
 / {
-    // NOTA: Esta exportación incluye todas las secciones necesarias:
-    // - Configuración de pointing y soft_off
-    // - Scroll encoder behaviors
-    // - Combos (softoff)
-    // - Macros (SHIFT_MCLK)
-    // - Controles RGB manuales en Layer 1
-    // NO eliminar ninguna sección al importar/exportar
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
@@ -46,10 +39,10 @@
     behaviors {
         ht: ht { 
             compatible = "zmk,behavior-hold-tap"; 
-            #binding-cells = <2>; // TAP y HOLD como parámetros 
+            #binding-cells = <2>;
             tapping-term-ms = <200>; 
-            flavor = "tap-preferred"; // Priorizar tap sobre hold
-            bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
         };
         
         dyn_kp: dyn_kp {
@@ -57,44 +50,21 @@
             #binding-cells = <1>;
         };
     };
+};
 
-    combos {
-        compatible = "zmk,combos";
-        softoff {
-            bindings = <&soft_off>;
-            key-positions = <14 28 40>;
-        };
-    };
-
-    macros {
-        SHIFT_MCLK: SHIFT_MCLK {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&macro_press>,
-                <&kp LEFT_SHIFT>,
-                <&macro_press>,
-                <&mkp MB3>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&kp LEFT_SHIFT &mkp MB3>;
-            label = "SHIFT_MCLK";
-        };
-    };
-
+& {
     keymap {
         compatible = "zmk,keymap";
 
-        // Default layer - now uses dynamic keymap
         layer0 {
             bindings = <
-                &dyn_kp 0   &dyn_kp 1   &dyn_kp 2   &dyn_kp 3   &dyn_kp 4   &dyn_kp 5   &dyn_kp 6   &dyn_kp 7   &dyn_kp 8   &dyn_kp 9   &dyn_kp 10  &dyn_kp 11  &dyn_kp 12
-                &dyn_kp 13  &dyn_kp 14  &dyn_kp 15  &dyn_kp 16  &dyn_kp 17  &dyn_kp 18  &dyn_kp 19  &dyn_kp 20  &dyn_kp 21  &dyn_kp 22  &dyn_kp 23  &dyn_kp 24  &dyn_kp 25
-                &dyn_kp 26  &dyn_kp 27  &dyn_kp 28  &dyn_kp 29  &dyn_kp 30  &dyn_kp 31  &dyn_kp 32  &dyn_kp 33  &dyn_kp 34  &dyn_kp 35  &dyn_kp 36  &dyn_kp 37  &dyn_kp 38
-                &dyn_kp 39  &dyn_kp 40  &dyn_kp 41  &dyn_kp 42  &dyn_kp 43  &dyn_kp 44  &dyn_kp 45  &dyn_kp 46  &dyn_kp 47  &dyn_kp 48  &dyn_kp 49  &dyn_kp 50  &dyn_kp 51
-                &dyn_kp 52  &dyn_kp 53  &dyn_kp 54  &dyn_kp 55  &dyn_kp 56  &dyn_kp 57  &dyn_kp 58  &dyn_kp 59  &dyn_kp 60  &dyn_kp 61  &dyn_kp 62  &dyn_kp 63
+                &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp LBKT  &kp RBKT
+                &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp QUOT  &kp RET
+                &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp COMMA  &kp DOT  &kp SLASH  &kp RSFT  &kp RALT
+                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
-            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>; // Encoder bindings
+            sensor-bindings = <&scroll_encoder>;
         };
 
         layer_1 {
@@ -106,19 +76,17 @@
                 &none  &kp C_MUTE  &trans  &trans  &trans  &trans  &none  &trans  &mkp LCLK  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
         layer_2 {
             bindings = <
-                &kp TILDE  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
-                &trans  &bt BT_CLR  &bt BT_CLR_ALL  &trans  &trans  &trans  &trans  &trans  &trans  &kp F11  &kp F12  &kp UNDER  &kp PLUS
-                &trans  &out OUT_USB  &out OUT_BLE  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp LBRC  &kp RBRC
-                &trans  &sys_reset  &trans  &bootloader  &trans  &trans  &trans  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
-                &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &mkp LCLK  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
         layer_3 {
@@ -130,32 +98,17 @@
                 &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
-        layer_4 {
+        layer_dynamic {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp LBKT  &kp RBKT
+                &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp QUOT  &kp RET
+                &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp COMMA  &kp DOT  &kp SLASH  &kp RSFT  &kp RALT
                 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
                 &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
-
-        // Dynamic layer - all keys read from settings
-        layer_dynamic {
-            bindings = <
-                &dyn_kp 0   &dyn_kp 1   &dyn_kp 2   &dyn_kp 3   &dyn_kp 4   &dyn_kp 5   &dyn_kp 6   &dyn_kp 7   &dyn_kp 8   &dyn_kp 9   &dyn_kp 10  &dyn_kp 11  &dyn_kp 12
-                &dyn_kp 13  &dyn_kp 14  &dyn_kp 15  &dyn_kp 16  &dyn_kp 17  &dyn_kp 18  &dyn_kp 19  &dyn_kp 20  &dyn_kp 21  &dyn_kp 22  &dyn_kp 23  &dyn_kp 24  &dyn_kp 25
-                &dyn_kp 26  &dyn_kp 27  &dyn_kp 28  &dyn_kp 29  &dyn_kp 30  &dyn_kp 31  &dyn_kp 32  &dyn_kp 33  &dyn_kp 34  &dyn_kp 35  &dyn_kp 36  &dyn_kp 37  &dyn_kp 38
-                &dyn_kp 39  &dyn_kp 40  &dyn_kp 41  &dyn_kp 42  &dyn_kp 43  &dyn_kp 44  &dyn_kp 45  &dyn_kp 46  &dyn_kp 47  &dyn_kp 48  &dyn_kp 49  &dyn_kp 50  &dyn_kp 51
-                &dyn_kp 52  &dyn_kp 53  &dyn_kp 54  &dyn_kp 55  &dyn_kp 56  &dyn_kp 57  &dyn_kp 58  &dyn_kp 59  &dyn_kp 60  &dyn_kp 61  &dyn_kp 62  &dyn_kp 63
-            >;
-            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>; // Encoder bindings
-        };
-
     };
 };
