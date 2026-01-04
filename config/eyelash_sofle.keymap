@@ -47,7 +47,8 @@
             compatible = "zmk,behavior-hold-tap"; 
             #binding-cells = <2>; // TAP y HOLD como parámetros 
             tapping-term-ms = <200>; 
-            flavor = "hold-preferred"; 
+            flavor = "hold-preferred"; // bindings por defecto obligatorios 
+            bindings = <&none>, <&none>; 
         };
     };
 
