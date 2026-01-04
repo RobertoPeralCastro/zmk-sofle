@@ -7,3 +7,6 @@
         .behavior_dev = ZMK_BEHAVIOR_DYN_KP_LABEL, \
         .param1 = (_index), \
     }
+
+// Dynamic keymap behavior definitions
+// Fixed header syntax - no trailing backslash
