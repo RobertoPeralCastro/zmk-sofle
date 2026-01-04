@@ -1,13 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-# Dynamic Keymap Configuration
-
-# Enable dynamic keymap behavior
-CONFIG_ZMK_BEHAVIOR_DYN_KP=y
-
-# Settings runtime for dynamic keymap
-CONFIG_SETTINGS_RUNTIME=y
-
-# Enable logging for debugging
-CONFIG_LOG=y
-CONFIG_LOG_DEFAULT_LEVEL=3
+# Basic configuration - temporarily minimal for testing
