@@ -44,7 +44,11 @@
 
     behaviors {
         dual_role: dual_role { 
-            compatible = "zmk,behavior-hold-tap"; #binding-cells = <2>; // TAP y HOLD como parámetros tapping-term-ms = <200>; flavor = "hold-preferred"; };
+            compatible = "zmk,behavior-hold-tap"; 
+            #binding-cells = <2>; // TAP y HOLD como parámetros 
+            tapping-term-ms = <200>; 
+            flavor = "hold-preferred"; 
+        };
     };
 
     combos {
