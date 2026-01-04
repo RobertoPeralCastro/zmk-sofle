@@ -10,3 +10,6 @@ properties:
   label:
     type: string
     required: false
+
+sensor-binding-cells:
+  - param1
