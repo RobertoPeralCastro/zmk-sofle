@@ -103,10 +103,10 @@
     behaviors {
         ht: ht { 
             compatible = "zmk,behavior-hold-tap"; 
-            #binding-cells = <2>; // TAP y HOLD como parámetros 
+            #binding-cells = <2>;
             tapping-term-ms = <200>; 
-            flavor = "tap-preferred"; // Priorizar tap sobre hold
-            bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
         };
         
         dyn_kp: dyn_kp {
@@ -120,7 +120,6 @@
     keymap {
         compatible = "zmk,keymap";
 
-        // Default layer - now uses dynamic keymap
         layer0 {
             bindings = <
                 &dyn_kp 0   &dyn_kp 1   &dyn_kp 2   &dyn_kp 3   &dyn_kp 4   &dyn_kp 5   &dyn_kp 6   &dyn_kp 7   &dyn_kp 8   &dyn_kp 9   &dyn_kp 10  &dyn_kp 11  &dyn_kp 12
@@ -129,7 +128,7 @@
                 &dyn_kp 39  &dyn_kp 40  &dyn_kp 41  &dyn_kp 42  &dyn_kp 43  &dyn_kp 44  &dyn_kp 45  &dyn_kp 46  &dyn_kp 47  &dyn_kp 48  &dyn_kp 49  &dyn_kp 50  &dyn_kp 51
                 &dyn_kp 52  &dyn_kp 53  &dyn_kp 54  &dyn_kp 55  &dyn_kp 56  &dyn_kp 57  &dyn_kp 58  &dyn_kp 59  &dyn_kp 60  &dyn_kp 61  &dyn_kp 62  &dyn_kp 63
             >;
-            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>; // Encoder bindings
+            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>;
         };
 
         layer_1 {
@@ -141,7 +140,6 @@
                 &none  &kp C_MUTE  &trans  &trans  &trans  &trans  &none  &trans  &mkp LCLK  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
         layer_2 {
@@ -153,7 +151,6 @@
                 &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
         layer_3 {
@@ -165,10 +162,8 @@
                 &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
-            // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
         };
 
-        // Dynamic layer - all keys read from settings
         layer_dynamic {
             bindings = <
                 &dyn_kp 0   &dyn_kp 1   &dyn_kp 2   &dyn_kp 3   &dyn_kp 4   &dyn_kp 5   &dyn_kp 6   &dyn_kp 7   &dyn_kp 8   &dyn_kp 9   &dyn_kp 10  &dyn_kp 11  &dyn_kp 12
@@ -177,7 +172,7 @@
                 &dyn_kp 39  &dyn_kp 40  &dyn_kp 41  &dyn_kp 42  &dyn_kp 43  &dyn_kp 44  &dyn_kp 45  &dyn_kp 46  &dyn_kp 47  &dyn_kp 48  &dyn_kp 49  &dyn_kp 50  &dyn_kp 51
                 &dyn_kp 52  &dyn_kp 53  &dyn_kp 54  &dyn_kp 55  &dyn_kp 56  &dyn_kp 57  &dyn_kp 58  &dyn_kp 59  &dyn_kp 60  &dyn_kp 61  &dyn_kp 62  &dyn_kp 63
             >;
-            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>; // Encoder bindings
+            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>;
         };
     };
 };
