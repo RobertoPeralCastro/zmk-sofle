@@ -52,6 +52,7 @@
             hold-trigger-key-positions = <0>;
             hold-trigger-on-release;
             flavor = "hold-preferred";
+            bindings = <&kp>, <&kp>;
         };
         
         triple_role: triple_role {
