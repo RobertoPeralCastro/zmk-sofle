@@ -4,6 +4,7 @@
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
+#include "behaviors/dynamic_keymap.h"
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
@@ -49,6 +50,11 @@
             tapping-term-ms = <200>; 
             flavor = "tap-preferred"; // Priorizar tap sobre hold
             bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
+        };
+        
+        dyn_kp: dyn_kp {
+            compatible = "zmk,behavior-dyn-kp";
+            #binding-cells = <1>;
         };
     };
 
@@ -137,6 +143,18 @@
             >;
             sensor-bindings = <&scroll_encoder>;
             // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
+        };
+
+        // Dynamic layer - all keys read from settings
+        layer_dynamic {
+            bindings = <
+                &dyn_kp 0   &dyn_kp 1   &dyn_kp 2   &dyn_kp 3   &dyn_kp 4   &dyn_kp 5   &dyn_kp 6   &dyn_kp 7   &dyn_kp 8   &dyn_kp 9   &dyn_kp 10  &dyn_kp 11  &dyn_kp 12
+                &dyn_kp 13  &dyn_kp 14  &dyn_kp 15  &dyn_kp 16  &dyn_kp 17  &dyn_kp 18  &dyn_kp 19  &dyn_kp 20  &dyn_kp 21  &dyn_kp 22  &dyn_kp 23  &dyn_kp 24  &dyn_kp 25
+                &dyn_kp 26  &dyn_kp 27  &dyn_kp 28  &dyn_kp 29  &dyn_kp 30  &dyn_kp 31  &dyn_kp 32  &dyn_kp 33  &dyn_kp 34  &dyn_kp 35  &dyn_kp 36  &dyn_kp 37  &dyn_kp 38
+                &dyn_kp 39  &dyn_kp 40  &dyn_kp 41  &dyn_kp 42  &dyn_kp 43  &dyn_kp 44  &dyn_kp 45  &dyn_kp 46  &dyn_kp 47  &dyn_kp 48  &dyn_kp 49  &dyn_kp 50  &dyn_kp 51
+                &dyn_kp 52  &dyn_kp 53  &dyn_kp 54  &dyn_kp 55  &dyn_kp 56  &dyn_kp 57  &dyn_kp 58  &dyn_kp 59  &dyn_kp 60  &dyn_kp 61  &dyn_kp 62  &dyn_kp 63
+            >;
+            sensor-bindings = <&dyn_kp 64 &dyn_kp 65>; // Encoder bindings
         };
 
     };
