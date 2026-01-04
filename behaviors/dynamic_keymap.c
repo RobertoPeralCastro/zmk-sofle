@@ -6,7 +6,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
-LOG_MODULE_REGISTER(dyn_kp, 4);
+LOG_MODULE_REGISTER(dyn_kp, 3);  // Increased from 4 to 3 for more verbose logging
 
 // Dynamic keymap behavior with default keycodes
 static uint32_t dynamic_keys[128] = {
@@ -46,7 +46,7 @@ static int dynamic_key_settings_set(const char *name, size_t len, settings_read_
 }
 
 static struct settings_handler dynamic_key_settings_handler = {
-    .name = "dynamic_keymap",
+    .name = "dyn_kp",  // Changed to match the behavior name
     .h_set = dynamic_key_settings_set,
 };
 
@@ -64,6 +64,8 @@ static int behavior_dyn_kp_keymap_binding_binding_pressed(struct zmk_behavior_bi
     // Get the parameter (key index)
     uint32_t key_index = binding->param1;
     
+    LOG_INF("dyn_kp pressed: key_index=%u", key_index);
+    
     if (key_index >= 128) {
         LOG_WRN("Invalid key index: %u", key_index);
         return -EINVAL;
@@ -71,6 +73,8 @@ static int behavior_dyn_kp_keymap_binding_binding_pressed(struct zmk_behavior_bi
     
     // Get the dynamic keycode
     uint32_t keycode = dynamic_keys[key_index];
+    
+    LOG_INF("dyn_kp key %u: keycode=0x%04X", key_index, keycode);
     
     if (keycode == 0) {
         // No keycode set, do nothing
@@ -87,7 +91,9 @@ static int behavior_dyn_kp_keymap_binding_binding_pressed(struct zmk_behavior_bi
         .timestamp = k_uptime_get(),
     };
     
-    return zmk_keymap_send_keycode_event(&keycode_event);
+    int result = zmk_keymap_send_keycode_event(&keycode_event);
+    LOG_INF("dyn_kp send result: %d", result);
+    return result;
 }
 
 static int behavior_dyn_kp_keymap_binding_binding_released(struct zmk_behavior_binding *binding,
