@@ -5,10 +5,4 @@ description: Dynamic Keymap Behavior
 
 compatible: "zmk,behavior-dyn-kp"
 
-include: zmk,behavior.yaml
-
-properties:
-  label:
-    type: string
-    required: true
-    description: "Human readable label for the behavior"
+include: one_param.yaml
