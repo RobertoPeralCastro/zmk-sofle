@@ -13,6 +13,68 @@ LOG_MODULE_REGISTER(dyn_kp, 3);  // Increased from 4 to 3 for more verbose loggi
 
 // Helper function to convert key name to HID usage
 static uint32_t key_name_to_hid_usage(const char *key_name) {
+    // Handle KC_ format (from editor)
+    if (strncmp(key_name, "KC_", 3) == 0) {
+        const char *key = key_name + 3; // Skip "KC_"
+        
+        // Letters
+        if (strcmp(key, "A") == 0) return 0x04;
+        if (strcmp(key, "B") == 0) return 0x05;
+        if (strcmp(key, "C") == 0) return 0x06;
+        if (strcmp(key, "D") == 0) return 0x07;
+        if (strcmp(key, "E") == 0) return 0x08;
+        if (strcmp(key, "F") == 0) return 0x09;
+        if (strcmp(key, "G") == 0) return 0x0A;
+        if (strcmp(key, "H") == 0) return 0x0B;
+        if (strcmp(key, "I") == 0) return 0x0C;
+        if (strcmp(key, "J") == 0) return 0x0D;
+        if (strcmp(key, "K") == 0) return 0x0E;
+        if (strcmp(key, "L") == 0) return 0x0F;
+        if (strcmp(key, "M") == 0) return 0x10;
+        if (strcmp(key, "N") == 0) return 0x11;
+        if (strcmp(key, "O") == 0) return 0x12;
+        if (strcmp(key, "P") == 0) return 0x13;
+        if (strcmp(key, "Q") == 0) return 0x14;
+        if (strcmp(key, "R") == 0) return 0x15;
+        if (strcmp(key, "S") == 0) return 0x16;
+        if (strcmp(key, "T") == 0) return 0x17;
+        if (strcmp(key, "U") == 0) return 0x18;
+        if (strcmp(key, "V") == 0) return 0x19;
+        if (strcmp(key, "W") == 0) return 0x1A;
+        if (strcmp(key, "X") == 0) return 0x1B;
+        if (strcmp(key, "Y") == 0) return 0x1C;
+        if (strcmp(key, "Z") == 0) return 0x1D;
+        
+        // Numbers
+        if (strcmp(key, "N1") == 0) return 0x1E;
+        if (strcmp(key, "N2") == 0) return 0x1F;
+        if (strcmp(key, "N3") == 0) return 0x20;
+        if (strcmp(key, "N4") == 0) return 0x21;
+        if (strcmp(key, "N5") == 0) return 0x22;
+        if (strcmp(key, "N6") == 0) return 0x23;
+        if (strcmp(key, "N7") == 0) return 0x24;
+        if (strcmp(key, "N8") == 0) return 0x25;
+        if (strcmp(key, "N9") == 0) return 0x26;
+        if (strcmp(key, "N0") == 0) return 0x27;
+        
+        // Special keys
+        if (strcmp(key, "ENTER") == 0) return 0x28;
+        if (strcmp(key, "ESC") == 0) return 0x29;
+        if (strcmp(key, "BSPC") == 0) return 0x2A;
+        if (strcmp(key, "TAB") == 0) return 0x2B;
+        if (strcmp(key, "SPACE") == 0) return 0x2C;
+        if (strcmp(key, "CAPS") == 0) return 0x39;
+        if (strcmp(key, "LSHFT") == 0) return 0xE1;
+        if (strcmp(key, "LCTRL") == 0) return 0xE0;
+        if (strcmp(key, "LALT") == 0) return 0xE2;
+        if (strcmp(key, "LGUI") == 0) return 0xE3;
+        if (strcmp(key, "RSHFT") == 0) return 0xE5;
+        if (strcmp(key, "RCTRL") == 0) return 0xE4;
+        if (strcmp(key, "RALT") == 0) return 0xE6;
+        if (strcmp(key, "RGUI") == 0) return 0xE7;
+    }
+    
+    // Handle direct key names (without KC_ prefix)
     // Map common key names to HID usage values
     if (strcmp(key_name, "A") == 0) return 0x04;
     if (strcmp(key_name, "B") == 0) return 0x05;
@@ -139,7 +201,7 @@ static int dynamic_key_settings_set(const char *name, size_t len, settings_read_
 }
 
 static struct settings_handler dynamic_key_settings_handler = {
-    .name = "dyn_kp",  // Changed to match the behavior name
+    .name = "dynamic_keymap",  // Changed to match the editor's path
     .h_set = dynamic_key_settings_set,
 };
 
