@@ -54,7 +54,7 @@
         // Unicode behavior alias
         uc: unicode {
             compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
+            #binding-cells = <1>;
         };
     };
 
