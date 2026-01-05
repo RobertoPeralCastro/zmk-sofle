@@ -1,7 +1,5 @@
 compatible: "zmk,behavior-unicode"
 
-include: [behavior.yaml]
-
 properties:
   unicode:
     type: int
