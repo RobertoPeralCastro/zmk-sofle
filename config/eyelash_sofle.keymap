@@ -10,24 +10,6 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
 
-// Unicode support for Spanish characters
-#define UNICODE_SEMI 0x003B  // ;
-#define UNICODE_APOS 0x0027  // '
-#define UNICODE_N_TILDE 0x00F1  // ñ
-#define UNICODE_N_TILDE_UPPER 0x00D1  // Ñ
-#define UNICODE_ACENT_A 0x00E1  // á
-#define UNICODE_ACENT_E 0x00E9  // é
-#define UNICODE_ACENT_I 0x00ED  // í
-#define UNICODE_ACENT_O 0x00F3  // ó
-#define UNICODE_ACENT_U 0x00FA  // ú
-#define UNICODE_ACENT_A_UPPER 0x00C1  // Á
-#define UNICODE_ACENT_E_UPPER 0x00C9  // É
-#define UNICODE_ACENT_I_UPPER 0x00CD  // Í
-#define UNICODE_ACENT_O_UPPER 0x00D3  // Ó
-#define UNICODE_ACENT_U_UPPER 0x00DA  // Ú
-#define UNICODE_EXCLAM_INV 0x00A1  // ¡
-#define UNICODE_QUESTION_INV 0x00BF  // ¿
-
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
@@ -69,71 +51,17 @@
             bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
         };
         
-        // Unicode behaviors for Spanish characters
-        uni_semi: uni_semi {
-            compatible = "zmk,behavior-unicode";
+        // Macro behaviors for Spanish characters
+        semi_colon: semi_colon {
+            compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            unicode = <UNICODE_SEMI>;
+            bindings = <&kp LS(COMMA)>;
         };
         
-        uni_apos: uni_apos {
-            compatible = "zmk,behavior-unicode";
+        apostrophe: apostrophe {
+            compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            unicode = <UNICODE_APOS>;
-        };
-        
-        uni_ntilde: uni_ntilde {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_N_TILDE>;
-        };
-        
-        uni_ntilde_upper: uni_ntilde_upper {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_N_TILDE_UPPER>;
-        };
-        
-        uni_acent_a: uni_acent_a {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_ACENT_A>;
-        };
-        
-        uni_acent_e: uni_acent_e {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_ACENT_E>;
-        };
-        
-        uni_acent_i: uni_acent_i {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_ACENT_I>;
-        };
-        
-        uni_acent_o: uni_acent_o {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_ACENT_O>;
-        };
-        
-        uni_acent_u: uni_acent_u {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_ACENT_U>;
-        };
-        
-        uni_exclam_inv: uni_exclam_inv {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_EXCLAM_INV>;
-        };
-        
-        uni_question_inv: uni_question_inv {
-            compatible = "zmk,behavior-unicode";
-            #binding-cells = <0>;
-            unicode = <UNICODE_QUESTION_INV>;
+            bindings = <&kp LS(N7)>;
         };
     };
 
@@ -168,7 +96,7 @@
             bindings = <
                 &kp ESC  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp UP  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &kp LS(RBKT)
                 &kp TAB  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp DOWN  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp MINUS
-                &kp BSPC  &kp A  &kp S  &kp D  &kp F  &kp G  &kp LEFT  &kp H  &kp J  &kp K  &kp L  &uni_semi  &uni_apos
+                &kp BSPC  &kp A  &kp S  &kp D  &kp F  &kp G  &kp LEFT  &kp H  &kp J  &kp K  &kp L  &semi_colon  &apostrophe
                 &kp LBKT  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp RIGHT  &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ENTER
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &kp RA(APOS)  &kp RA(LBKT)  &kp LS(N8)
             >;
