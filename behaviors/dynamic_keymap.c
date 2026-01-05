@@ -2,11 +2,97 @@
 #include <zmk/keymap.h>
 #include <zmk/settings.h>
 #include <zmk/hid.h>
+#include <zmk/keys.h>
 #include <zephyr/device.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+#include <string.h>
+#include <stdlib.h>
 
 LOG_MODULE_REGISTER(dyn_kp, 3);  // Increased from 4 to 3 for more verbose logging
+
+// Helper function to convert key name to HID usage
+static uint32_t key_name_to_hid_usage(const char *key_name) {
+    // Map common key names to HID usage values
+    if (strcmp(key_name, "A") == 0) return 0x04;
+    if (strcmp(key_name, "B") == 0) return 0x05;
+    if (strcmp(key_name, "C") == 0) return 0x06;
+    if (strcmp(key_name, "D") == 0) return 0x07;
+    if (strcmp(key_name, "E") == 0) return 0x08;
+    if (strcmp(key_name, "F") == 0) return 0x09;
+    if (strcmp(key_name, "G") == 0) return 0x0A;
+    if (strcmp(key_name, "H") == 0) return 0x0B;
+    if (strcmp(key_name, "I") == 0) return 0x0C;
+    if (strcmp(key_name, "J") == 0) return 0x0D;
+    if (strcmp(key_name, "K") == 0) return 0x0E;
+    if (strcmp(key_name, "L") == 0) return 0x0F;
+    if (strcmp(key_name, "M") == 0) return 0x10;
+    if (strcmp(key_name, "N") == 0) return 0x11;
+    if (strcmp(key_name, "O") == 0) return 0x12;
+    if (strcmp(key_name, "P") == 0) return 0x13;
+    if (strcmp(key_name, "Q") == 0) return 0x14;
+    if (strcmp(key_name, "R") == 0) return 0x15;
+    if (strcmp(key_name, "S") == 0) return 0x16;
+    if (strcmp(key_name, "T") == 0) return 0x17;
+    if (strcmp(key_name, "U") == 0) return 0x18;
+    if (strcmp(key_name, "V") == 0) return 0x19;
+    if (strcmp(key_name, "W") == 0) return 0x1A;
+    if (strcmp(key_name, "X") == 0) return 0x1B;
+    if (strcmp(key_name, "Y") == 0) return 0x1C;
+    if (strcmp(key_name, "Z") == 0) return 0x1D;
+    
+    // Numbers
+    if (strcmp(key_name, "N1") == 0) return 0x1E;
+    if (strcmp(key_name, "N2") == 0) return 0x1F;
+    if (strcmp(key_name, "N3") == 0) return 0x20;
+    if (strcmp(key_name, "N4") == 0) return 0x21;
+    if (strcmp(key_name, "N5") == 0) return 0x22;
+    if (strcmp(key_name, "N6") == 0) return 0x23;
+    if (strcmp(key_name, "N7") == 0) return 0x24;
+    if (strcmp(key_name, "N8") == 0) return 0x25;
+    if (strcmp(key_name, "N9") == 0) return 0x26;
+    if (strcmp(key_name, "N0") == 0) return 0x27;
+    
+    // Special keys
+    if (strcmp(key_name, "ENTER") == 0) return 0x28;
+    if (strcmp(key_name, "ESC") == 0) return 0x29;
+    if (strcmp(key_name, "BSPC") == 0) return 0x2A;
+    if (strcmp(key_name, "TAB") == 0) return 0x2B;
+    if (strcmp(key_name, "SPACE") == 0) return 0x2C;
+    if (strcmp(key_name, "CAPS") == 0) return 0x39;
+    if (strcmp(key_name, "LSHFT") == 0) return 0xE1;
+    if (strcmp(key_name, "LCTRL") == 0) return 0xE0;
+    if (strcmp(key_name, "LALT") == 0) return 0xE2;
+    if (strcmp(key_name, "LGUI") == 0) return 0xE3;
+    if (strcmp(key_name, "RSHFT") == 0) return 0xE5;
+    if (strcmp(key_name, "RCTRL") == 0) return 0xE4;
+    if (strcmp(key_name, "RALT") == 0) return 0xE6;
+    if (strcmp(key_name, "RGUI") == 0) return 0xE7;
+    
+    return 0; // Unknown key
+}
+
+// Helper function to parse &kp format
+static uint32_t parse_keycode_value(const char *value_str) {
+    // Check if it's a hex value (direct HID usage)
+    if (strncmp(value_str, "0x", 2) == 0) {
+        return (uint32_t)strtol(value_str, NULL, 16);
+    }
+    
+    // Check if it's a decimal number
+    if (value_str[0] >= '0' && value_str[0] <= '9') {
+        return (uint32_t)strtol(value_str, NULL, 10);
+    }
+    
+    // Check if it's &kp format
+    if (strncmp(value_str, "&kp ", 4) == 0) {
+        const char *key_name = value_str + 4; // Skip "&kp "
+        return key_name_to_hid_usage(key_name);
+    }
+    
+    // Check if it's just a key name
+    return key_name_to_hid_usage(value_str);
+}
 
 // Dynamic keymap behavior with default keycodes
 static uint32_t dynamic_keys[128] = {
@@ -32,11 +118,18 @@ static int dynamic_key_settings_set(const char *name, size_t len, settings_read_
         long key_index = strtol(next, &endptr, 10);
         
         if (*endptr == '\0' && key_index >= 0 && key_index < 128) {
-            // Read the keycode value
-            uint32_t keycode;
-            if (read_cb(cb_arg, &keycode, sizeof(keycode)) == sizeof(keycode)) {
+            // Read the keycode value as string
+            char value_str[32];
+            ssize_t value_len = read_cb(cb_arg, value_str, sizeof(value_str) - 1);
+            
+            if (value_len > 0) {
+                value_str[value_len] = '\0'; // Null terminate
+                
+                // Parse the keycode value (supports &kp format, hex, decimal, and key names)
+                uint32_t keycode = parse_keycode_value(value_str);
+                
                 dynamic_keys[key_index] = keycode;
-                LOG_DBG("Updated dynamic key %ld to 0x%04X", key_index, keycode);
+                LOG_INF("Updated dynamic key %ld from '%s' to 0x%04X", key_index, value_str, keycode);
                 return 0;
             }
         }
