@@ -50,6 +50,12 @@
             flavor = "tap-preferred"; // Priorizar tap sobre hold
             bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
         };
+        
+        // Unicode behavior alias
+        uc: unicode {
+            compatible = "zmk,behavior-unicode";
+            #binding-cells = <0>;
+        };
     };
 
     combos {
