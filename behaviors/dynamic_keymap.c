@@ -152,6 +152,25 @@ static uint32_t parse_keycode_value(const char *value_str) {
         return key_name_to_hid_usage(key_name);
     }
     
+    // Check if it's &ht format (hold-tap)
+    if (strncmp(value_str, "&ht ", 4) == 0) {
+        // Parse &ht TAP_KEY HOLD_KEY format
+        const char *params = value_str + 4; // Skip "&ht "
+        
+        // Find space separator between tap and hold keys
+        char *space_pos = strchr(params, ' ');
+        if (space_pos) {
+            // Extract tap key (first parameter)
+            size_t tap_key_len = space_pos - params;
+            char tap_key[16];
+            strncpy(tap_key, params, tap_key_len);
+            tap_key[tap_key_len] = '\0';
+            
+            LOG_INF("Parsed &ht: tap_key='%s'", tap_key);
+            return key_name_to_hid_usage(tap_key);
+        }
+    }
+    
     // Check if it's just a key name
     return key_name_to_hid_usage(value_str);
 }
