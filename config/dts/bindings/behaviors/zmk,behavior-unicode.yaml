@@ -1,0 +1,9 @@
+compatible: "zmk,behavior-unicode"
+
+include: [behavior.yaml]
+
+properties:
+  unicode:
+    type: int
+    required: true
+    description: Unicode code point to emit
