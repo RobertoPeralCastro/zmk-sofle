@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: MIT
+
+description: ZMK Sofle Dynamic Keymap Module
+
+# ZMK module configuration
+build:
+  cmake: .
+  kconfig: .
+
+# Module dependencies
+depends:
+  - zmk
+
+# Module metadata
+name: zmk-sofle
+version: 1.0.0

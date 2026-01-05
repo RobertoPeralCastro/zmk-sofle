@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: MIT
+
+# Zephyr module configuration for zmk-sofle
+
+# Enable Zephyr module support
+CONFIG_ZMK_BEHAVIOR_DYN_KP=y
+
+# Settings runtime
+CONFIG_SETTINGS_RUNTIME=y
+
+# Logging
+CONFIG_LOG=y
+CONFIG_LOG_DEFAULT_LEVEL=3

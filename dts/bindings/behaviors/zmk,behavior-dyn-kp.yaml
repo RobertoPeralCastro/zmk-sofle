@@ -1,0 +1,8 @@
+# Copyright (c) 2023 ZMK Project Contributors
+# SPDX-License-Identifier: MIT
+
+description: Dynamic Keymap Behavior
+
+compatible: "zmk,behavior-dyn-kp"
+
+include: one_param.yaml
