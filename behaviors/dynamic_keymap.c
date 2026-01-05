@@ -193,27 +193,43 @@ static uint32_t dynamic_keys[128] = {
 static int dynamic_key_settings_set(const char *name, size_t len, settings_read_cb read_cb, void *cb_arg) {
     const char *next;
     
+    LOG_INF("Settings handler called: name='%s', len=%zu", name, len);
+    
     if (settings_name_steq(name, "key_", &next) && next) {
         // Parse key index from name (e.g., "key_15" -> 15)
         char *endptr;
         long key_index = strtol(next, &endptr, 10);
+        
+        LOG_INF("Parsed key_index=%ld from '%s'", key_index, next);
         
         if (*endptr == '\0' && key_index >= 0 && key_index < 128) {
             // Read the keycode value as string
             char value_str[32];
             ssize_t value_len = read_cb(cb_arg, value_str, sizeof(value_str) - 1);
             
+            LOG_INF("Read value_len=%zd", value_len);
+            
             if (value_len > 0) {
                 value_str[value_len] = '\0'; // Null terminate
+                
+                LOG_INF("Raw value_str='%s'", value_str);
                 
                 // Parse the keycode value (supports &kp format, hex, decimal, and key names)
                 uint32_t keycode = parse_keycode_value(value_str);
                 
+                LOG_INF("Parsed keycode=0x%04X from '%s'", keycode, value_str);
+                
                 dynamic_keys[key_index] = keycode;
                 LOG_INF("Updated dynamic key %ld from '%s' to 0x%04X", key_index, value_str, keycode);
                 return 0;
+            } else {
+                LOG_ERR("Failed to read value, value_len=%zd", value_len);
             }
+        } else {
+            LOG_ERR("Invalid key_index=%ld or endptr='%s'", key_index, endptr);
         }
+    } else {
+        LOG_ERR("Settings name doesn't start with 'key_': name='%s'", name);
     }
     
     return -ENOENT;
