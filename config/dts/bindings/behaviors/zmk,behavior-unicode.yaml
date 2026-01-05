@@ -1,3 +1,5 @@
+description: ZMK Unicode behavior
+
 compatible: "zmk,behavior-unicode"
 
 properties:
