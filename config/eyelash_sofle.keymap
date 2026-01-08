@@ -79,7 +79,7 @@
         n_tilde_upper: n_tilde_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(N))>; // Shift + AltGr + N = Ñ
+            bindings = <&kp LS(LALT(N))>; // Shift + AltGr + N = Ñ
         };
         
         a_accent: a_accent {
@@ -115,31 +115,31 @@
         a_accent_upper: a_accent_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(A))>; // Shift + AltGr + A = Á
+            bindings = <&kp LS(LALT(A))>; // Shift + AltGr + A = Á
         };
         
         e_accent_upper: e_accent_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(E))>; // Shift + AltGr + E = É
+            bindings = <&kp LS(LALT(E))>; // Shift + AltGr + E = É
         };
         
         i_accent_upper: i_accent_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(I))>; // Shift + AltGr + I = Í
+            bindings = <&kp LS(LALT(I))>; // Shift + AltGr + I = Í
         };
         
         o_accent_upper: o_accent_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(O))>; // Shift + AltGr + O = Ó
+            bindings = <&kp LS(LALT(O))>; // Shift + AltGr + O = Ó
         };
         
         u_accent_upper: u_accent_upper {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(RALT(U))>; // Shift + AltGr + U = Ú
+            bindings = <&kp LS(LALT(U))>; // Shift + AltGr + U = Ú
         };
         
         exclam_inv: exclam_inv {
