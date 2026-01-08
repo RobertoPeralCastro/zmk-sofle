@@ -67,13 +67,7 @@
         acute_accent: acute_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = <
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0 &kp KP_N0 &kp KP_B &kp KP_N4>,
-                <&macro_release &kp LALT>
-            >;      // ´ tilde aguda española (Unicode U+00B4)
+            bindings = <&kp LBKT>;      // ´ tilde aguda española
         };
         
         n_tilde: n_tilde {
