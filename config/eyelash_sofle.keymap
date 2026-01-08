@@ -51,114 +51,17 @@
             bindings = <&kp>, <&kp>; // Permite cualquier tecla como parámetro
         };
         
-        // Spanish character macros with correct modifiers
+        // Simple macros for Spanish characters
         semi_colon: semi_colon {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(COMMA)>;  // Shift + , = ;
+            bindings = <&kp LS(COMMA)>;
         };
         
         apostrophe: apostrophe {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LS(N7)>;     // Shift + 7 = '
-        };
-        
-        n_tilde: n_tilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(N)>;    // AltGr + N = ñ
-        };
-        
-        n_tilde_upper: n_tilde_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(N))>; // Shift + AltGr + N = Ñ
-        };
-        
-        a_accent: a_accent {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(A)>;    // AltGr + A = á
-        };
-        
-        e_accent: e_accent {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(E)>;    // AltGr + E = é
-        };
-        
-        i_accent: i_accent {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(I)>;    // AltGr + I = í
-        };
-        
-        o_accent: o_accent {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(O)>;    // AltGr + O = ó
-        };
-        
-        u_accent: u_accent {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(U)>;    // AltGr + U = ú
-        };
-        
-        a_accent_upper: a_accent_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(A))>; // Shift + AltGr + A = Á
-        };
-        
-        e_accent_upper: e_accent_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(E))>; // Shift + AltGr + E = É
-        };
-        
-        i_accent_upper: i_accent_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(I))>; // Shift + AltGr + I = Í
-        };
-        
-        o_accent_upper: o_accent_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(O))>; // Shift + AltGr + O = Ó
-        };
-        
-        u_accent_upper: u_accent_upper {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RALT(U))>; // Shift + AltGr + U = Ú
-        };
-        
-        exclam_inv: exclam_inv {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(1)>;     // AltGr + 1 = ¡
-        };
-        
-        question_inv: question_inv {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(SLASH)>; // AltGr + / = ¿
-        };
-        
-        // Additional Spanish symbols
-        euro: euro {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(E)>;    // AltGr + E = € (en algunos layouts)
-        };
-        
-        degree: degree {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp RALT(O)>;    // AltGr + O = ° (en algunos layouts)
+            bindings = <&kp LS(N7)>;
         };
     };
 
