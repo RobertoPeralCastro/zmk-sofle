@@ -75,7 +75,7 @@
                 <&macro_tap &kp KP_N0>,
                 <&macro_tap &kp KP_N1>,
                 <&macro_tap &kp KP_N8>,
-                <&macro_tap &kp KP_N4>,
+                <&macro_tap &kp KP_N0>,
                 <&macro_release &kp LALT>
             ;
         };
