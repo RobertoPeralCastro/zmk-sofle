@@ -63,6 +63,12 @@
             #binding-cells = <0>;
             bindings = <&kp LS(N7)>;
         };
+        
+        acute_accent: acute_accent {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc 0x00B4>;
+        };
     };
 
     combos {
