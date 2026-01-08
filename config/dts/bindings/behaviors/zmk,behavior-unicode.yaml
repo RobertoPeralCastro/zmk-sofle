@@ -2,8 +2,6 @@ description: ZMK Unicode behavior
 
 compatible: "zmk,behavior-unicode"
 
-#binding-cells: <0>
-
 properties:
   unicode:
     type: int
