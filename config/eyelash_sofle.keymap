@@ -73,11 +73,10 @@
                 <&macro_press &kp LALT>,
                 <&macro_tap &kp KP_N0>,
                 <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N8>,
+                <&macro_tap &kp KP_B>,
                 <&macro_tap &kp KP_N4>,
                 <&macro_release &kp LALT>
-            ;      // ´ tilde aguda española (Unicode U+00B4 = 0184 decimal)
+            ;      // ´ tilde aguda española (Unicode U+00B4)
         };
         
         n_tilde: n_tilde {
