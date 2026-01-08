@@ -67,7 +67,17 @@
         acute_accent: acute_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&uc 0x00B4>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp KP_N1>,
+                <&macro_tap &kp KP_N8>,
+                <&macro_tap &kp KP_N4>,
+                <&macro_release &kp LALT>
+            ;
         };
     };
 
