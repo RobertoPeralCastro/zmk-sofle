@@ -2,10 +2,12 @@ description: ZMK Unicode behavior
 
 compatible: "zmk,behavior-unicode"
 
-#binding-cells: <0>
+include: [behavior.yaml]
 
 properties:
   unicode:
     type: int
     required: true
     description: Unicode code point to emit
+
+binding-cells: []
