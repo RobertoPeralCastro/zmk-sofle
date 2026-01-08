@@ -64,6 +64,12 @@
             bindings = <&kp LS(N7)>;     // Shift + 7 = '
         };
         
+        acute_accent: acute_accent {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LBKT>;      // ´ tilde aguda española
+        };
+        
         n_tilde: n_tilde {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
