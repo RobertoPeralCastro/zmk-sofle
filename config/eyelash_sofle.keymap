@@ -76,6 +76,12 @@
             bindings = <&kp RALT(N)>;    // AltGr + N = ñ
         };
         
+        n_tilde_upper: n_tilde_upper {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(LS(N))>; // Shift + AltGr + N = Ñ
+        };
+        
         a_accent: a_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
