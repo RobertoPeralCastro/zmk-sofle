@@ -67,53 +67,43 @@
         acute_accent: acute_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N8>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_release &kp LALT>
-            ;
+            bindings = <&uc 0x00B4>;
         };
         
         a_accent: a_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(A)>;
+            bindings = <&uc 0x00E1>;
         };
         
         e_accent: e_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(E)>;
+            bindings = <&uc 0x00E9>;
         };
         
         i_accent: i_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(I)>;
+            bindings = <&uc 0x00ED>;
         };
         
         o_accent: o_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(O)>;
+            bindings = <&uc 0x00F3>;
         };
         
         u_accent: u_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(U)>;
+            bindings = <&uc 0x00FA>;
         };
         
         n_tilde: n_tilde {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp RALT(N)>;
+            bindings = <&uc 0x00F1>;
         };
     };
 
