@@ -601,6 +601,45 @@
                 <&macro_release &kp LALT>
             ;
         };
+        
+        es_lt: es_lt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N6>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_gt: es_gt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N6>,
+                <&macro_tap &kp KP_N2>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_caret: es_caret {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N9>,
+                <&macro_tap &kp KP_N4>,
+                <&macro_release &kp LALT>
+            ;
+        };
     };
 
     combos {
