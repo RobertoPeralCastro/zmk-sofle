@@ -527,7 +527,7 @@
         layer0 {
             bindings = <
                 &kp ESC  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp UP  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &hyphen
-                &kp TAB  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp DOWN  &kp Y  &kp U  &kp I  &kp O  &kp P  &plus_sign
+                &es_bslh  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp DOWN  &kp Y  &kp U  &kp I  &kp O  &kp P  &plus_sign
                 &kp BSPC  &kp A  &kp S  &kp D  &kp F  &kp G  &kp LEFT  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp DEL
                 &apostrophe  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp RIGHT  &kp N  &kp M  &kp COMMA  &kp DOT  &kp LS(COMMA)  &apostrophe
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &kp RA(APOS)  &kp RA(LBKT)  &question_mark
@@ -539,10 +539,10 @@
         layer_1 {
             bindings = <
                 &kp GRAVE  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &es_under
-                &none  &none  &kp LGUI  &e_accent  &none  &none  &trans  &none  &u_accent  &i_accent  &o_accent  &none  &kp F12
+                &es_pipe  &none  &kp LGUI  &e_accent  &none  &none  &trans  &none  &u_accent  &i_accent  &o_accent  &none  &kp F12
                 &none  &a_accent  &none  &none  &none  &none  &trans  &none  &none  &none  &none  &none  &kp PG_UP
-                &none  &none  &none  &none  &none  &mo 3  &trans  &kp HOME  &kp UP  &kp END  &none  &none  &kp PG_DN
-                &none  &trans  &trans  &trans  &trans  &trans  &none  &kp RALT  &kp LEFT  &kp DOWN  &kp RIGHT  &none
+                &es_dquot  &none  &none  &none  &none  &mo 3  &trans  &kp HOME  &kp UP  &kp END  &none  &none  &kp PG_DN
+                &none  &trans  &trans  &trans  &trans  &trans  &none  &kp RALT  &kp TAB  &kp DOWN  &kp RIGHT  &none
             >;
             sensor-bindings = <&scroll_encoder>;
             // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
