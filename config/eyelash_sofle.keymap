@@ -100,284 +100,6 @@
             ;
         };
         
-        // Símbolos españoles con Alt sequences
-        es_slash: es_slash {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_tap &kp KP_N7>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_lpar: es_lpar {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_rpar: es_rpar {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_equal: es_equal {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N6>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_excl: es_excl {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_dquot: es_dquot {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_hash: es_hash {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N5>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_dllr: es_dllr {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N6>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_prcnt: es_prcnt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N7>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_amps: es_amps {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_tap &kp KP_N8>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_under: es_under {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N9>,
-                <&macro_tap &kp KP_N5>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_lbrc: es_lbrc {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_rbrc: es_rbrc {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_tap &kp KP_N5>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_lbkt: es_lbkt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N9>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_rbkt: es_rbkt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N9>,
-                <&macro_tap &kp KP_N3>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_pipe: es_pipe {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_at: es_at {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N6>,
-                <&macro_tap &kp KP_N4>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_bslh: es_bslh {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N9>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_tilde: es_tilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_tap &kp KP_N6>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
-        es_euro: es_euro {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <40>;
-            tap-ms = <40>;
-            bindings = 
-                <&macro_press &kp LALT>,
-                <&macro_tap &kp KP_N0>,
-                <&macro_tap &kp KP_N1>,
-                <&macro_tap &kp KP_N2>,
-                <&macro_tap &kp KP_N8>,
-                <&macro_release &kp LALT>
-            ;
-        };
-        
         acute_accent: acute_accent {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -483,6 +205,284 @@
                 <&macro_release &kp LALT>
             ;
         };
+        
+        // Símbolos españoles con Alt sequences
+        es_slash: es_slash {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_4>,
+                <&macro_tap &kp NP_7>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_lpar: es_lpar {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_4>,
+                <&macro_tap &kp NP_0>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_rpar: es_rpar {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_4>,
+                <&macro_tap &kp NP_1>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_equal: es_equal {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_6>,
+                <&macro_tap &kp NP_1>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_excl: es_excl {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_3>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_dquot: es_dquot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_4>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_hash: es_hash {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_5>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_dllr: es_dllr {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_6>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_prcnt: es_prcnt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_7>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_amps: es_amps {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_3>,
+                <&macro_tap &kp NP_8>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_under: es_under {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_9>,
+                <&macro_tap &kp NP_5>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_lbrc: es_lbrc {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N1>,
+                <&macro_tap &kp NP_2>,
+                <&macro_tap &kp NP_3>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_rbrc: es_rbrc {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N1>,
+                <&macro_tap &kp NP_2>,
+                <&macro_tap &kp NP_5>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_lbkt: es_lbkt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp NP_9>,
+                <&macro_tap &kp NP_1>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_rbkt: es_rbkt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp NP_9>,
+                <&macro_tap &kp NP_3>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_pipe: es_pipe {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N1>,
+                <&macro_tap &kp NP_2>,
+                <&macro_tap &kp NP_4>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_at: es_at {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp NP_6>,
+                <&macro_tap &kp NP_4>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_bslh: es_bslh {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp NP_9>,
+                <&macro_tap &kp NP_2>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_tilde: es_tilde {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N1>,
+                <&macro_tap &kp NP_2>,
+                <&macro_tap &kp NP_6>,
+                <&macro_release &kp LALT>
+            ;
+        };
+        
+        es_euro: es_euro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N0>,
+                <&macro_tap &kp NP_1>,
+                <&macro_tap &kp NP_2>,
+                <&macro_tap &kp NP_8>,
+                <&macro_release &kp LALT>
+            ;
+        };
     };
 
     combos {
@@ -515,7 +515,7 @@
         layer0 {
             bindings = <
                 &kp ESC  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp UP  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &kp MINUS
-                &kp TAB  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp DOWN  &kp Y  &kp U  &kp I  &kp O  &kp P  &hyphen
+                &kp TAB  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp DOWN  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp PLUS
                 &kp BSPC  &kp A  &kp S  &kp D  &kp F  &kp G  &kp LEFT  &kp H  &kp J  &kp K  &kp L  &kp SEMI  &kp DEL
                 &apostrophe  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp RIGHT  &kp N  &kp M  &kp COMMA  &kp DOT  &kp LS(COMMA)  &apostrophe
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &kp RA(APOS)  &kp RA(LBKT)  &question_mark
@@ -526,7 +526,7 @@
 
         layer_1 {
             bindings = <
-                &kp GRAVE  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11
+                &kp GRAVE  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &es_under
                 &none  &none  &kp LGUI  &e_accent  &none  &none  &trans  &none  &u_accent  &i_accent  &o_accent  &none  &kp F12
                 &none  &a_accent  &none  &none  &none  &none  &trans  &none  &none  &none  &none  &none  &kp PG_UP
                 &none  &none  &none  &none  &none  &mo 3  &trans  &kp HOME  &kp UP  &kp END  &none  &none  &kp PG_DN
