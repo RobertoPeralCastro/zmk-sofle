@@ -666,6 +666,19 @@
                 <&macro_release &kp LALT>
             ;
         };
+        
+        es_colon: es_colon {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N5>,
+                <&macro_tap &kp KP_N8>,
+                <&macro_release &kp LALT>
+            ;
+        };
     };
 
     combos {
