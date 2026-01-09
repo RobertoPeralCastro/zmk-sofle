@@ -171,7 +171,7 @@
             ;
         };
         
-        es_dquot: es_dquot {
+        es_dquote: es_dquote {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <40>;
