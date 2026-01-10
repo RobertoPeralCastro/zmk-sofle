@@ -649,7 +649,7 @@
                 &apostrophe  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp RIGHT  &kp N  &kp M  &kp COMMA  &kp DOT  &semi_colon  &apostrophe
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &es_lbrc  &es_rbrc  &question_mark
             >;
-            sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
+            sensor-bindings = <&inc_dec_kp RIGHT LEFT>;
             // Joystick: UP=&kp UP_ARROW DOWN=&kp DOWN_ARROW LEFT=&kp LEFT_ARROW RIGHT=&kp RIGHT_ARROW CLICK=&rgb_ug RGB_TOG
         };
 
