@@ -636,17 +636,17 @@
                 &apostrophe  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp RIGHT  &kp N  &kp M  &kp COMMA  &kp DOT  &semi_colon  &apostrophe
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &es_lbrc  &es_rbrc  &question_mark
             >;
-            sensor-bindings = <&inc_dec_kp RIGHT LEFT>;
-            // Joystick: UP=&kp UP_ARROW DOWN=&kp DOWN_ARROW LEFT=&kp LEFT_ARROW RIGHT=&kp RIGHT_ARROW CLICK=&mkp LCLK
+            sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
+            // Joystick: UP=&kp UP_ARROW DOWN=&kp DOWN_ARROW LEFT=&kp LEFT_ARROW RIGHT=&kp RIGHT_ARROW CLICK=&kp LGUI
         };
 
         layer_1 {
             bindings = <
-                &kp GRAVE  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &trans  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans
-                &trans  &kp GRAVE  &mkp LCLK  &mkp MCLK  &mkp RCLK  &mkp MB4  &trans  &kp PG_UP  &kp END  &kp UP  &kp HOME  &kp MINUS  &kp EQUAL
-                &trans  &kp TILDE  &trans  &trans  &trans  &mkp MB5  &trans  &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LBKT  &kp RBKT
-                &trans  &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI  &trans  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11  &kp F12  &trans
-                &none  &kp C_MUTE  &trans  &trans  &trans  &trans  &none  &trans  &mkp LCLK  &trans  &trans  &trans
+                &es_grave  &es_excl  &es_at  &es_hash  &es_dllr  &es_prcnt  &trans  &kp F6  &es_amps  &es_star  &es_lpar  &es_rpar  &es_under
+                &es_pipe  &none  &kp LGUI  &e_accent  &none  &none  &trans  &none  &u_accent  &i_accent  &o_accent  &none  &es_plus
+                &none  &a_accent  &none  &none  &none  &none  &trans  &none  &none  &none  &none  &none  &kp PG_UP
+                &es_dquot  &none  &none  &none  &none  &mo 3  &trans  &kp HOME  &kp UP  &es_lt  &es_gt  &none  &kp PG_DN
+                &none  &trans  &trans  &kp RALT  &trans  &trans  &none  &kp RALT  &kp TAB  &es_lbkt  &es_rbkt  &question_mark
             >;
             sensor-bindings = <&scroll_encoder>;
             // Joystick: UP=&mmv MOVE_UP DOWN=&mmv MOVE_DOWN LEFT=&mmv MOVE_LEFT RIGHT=&mmv MOVE_RIGHT CLICK=&mkp LCLK
@@ -666,10 +666,10 @@
 
         layer_3 {
             bindings = <
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &rgb_ug RGB_TOG  &rgb_ug RGB_COLOR_HSV(0, 0, 100)  &rgb_ug RGB_COLOR_HSV(180, 100, 100)  &rgb_ug RGB_COLOR_HSV(300, 100, 100)  &rgb_ug RGB_COLOR_HSV(60, 100, 100)  &rgb_ug RGB_COLOR_HSV(240, 100, 100)  &trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6
+                &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans  &trans  &trans  &trans  &trans  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+                &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &trans  &trans  &trans  &trans  &trans  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp N6
+                &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &trans  &trans  &trans  &trans  &trans  &kp N7  &kp N8  &kp N9  &kp N0  &trans  &trans
                 &none  &trans  &trans  &trans  &trans  &trans  &none  &trans  &trans  &trans  &trans  &trans
             >;
             sensor-bindings = <&scroll_encoder>;
