@@ -599,6 +599,19 @@
                 <&macro_release &kp LALT>
             ;
         };
+        
+        es_grave: es_grave {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <40>;
+            tap-ms = <40>;
+            bindings = 
+                <&macro_press &kp LALT>,
+                <&macro_tap &kp KP_N9>,
+                <&macro_tap &kp KP_N6>,
+                <&macro_release &kp LALT>
+            ;
+        };
     };
 
     combos {
@@ -637,7 +650,7 @@
                 &none  &kp LCTRL  &kp LSHFT  &kp LALT  &mo 1  &mo 2  &none  &kp ENTER  &kp SPACE  &es_lbrc  &es_rbrc  &question_mark
             >;
             sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
-            // Joystick: UP=&kp UP_ARROW DOWN=&kp DOWN_ARROW LEFT=&kp LEFT_ARROW RIGHT=&kp RIGHT_ARROW CLICK=&kp LGUI
+            // Joystick: UP=&kp UP_ARROW DOWN=&kp DOWN_ARROW LEFT=&kp LEFT_ARROW RIGHT=&kp RIGHT_ARROW CLICK=&rgb_ug RGB_TOG
         };
 
         layer_1 {
